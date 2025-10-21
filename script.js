@@ -154,7 +154,8 @@ const mageDialogues = [
     "I master the art of debugging... which is just shouting: WHY?!",
     "Favourite animal: dogs!",
     "I play a lot of videogames, like A LOT!",
-    "Do or do not. There is no try."
+    "Do or do not. There is no try.",
+    "Try clicking my selfie 5 times!"
 ];
 
 let lastDialogueIndex = -1;
@@ -187,7 +188,6 @@ function showMageDialogue() {
         i++;
 
         if (i < fullText.length) {
-            // Random delay between 30ms and 80ms
             const randomSpeed = Math.floor(Math.random() * 75) + 30;
             mageTypingInterval = setTimeout(typeNextLetter, randomSpeed);
         } else {
@@ -220,4 +220,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.hidden-mage').style.display = 'none';
+});
+
+// === EASTER EGG: SHOW CONTROLLER AFTER 4 CLICKS ON PORTRAIT ===
+document.addEventListener('DOMContentLoaded', () => {
+    const portrait = document.querySelector('.portrait-sprite');
+    console.log('Portrait:', portrait);
+
+    let clickCount = 0;
+    const controller = document.getElementById('controllerOverlay');
+
+    if (portrait && controller) {
+        portrait.addEventListener('click', () => {
+            clickCount++;
+            console.log('Clicked!', clickCount);
+            if (clickCount >= 4) {
+                controller.classList.remove('hidden');
+                playSound('menu');
+            }
+            setTimeout(() => (clickCount = 0), 1500);
+        });
+    }
+});
+
+
+// === CONTROLLER INTERACTIVITY ===
+function pressButton(key) {
+    const btn = document.querySelector(`.btn[data-key="${key}"]`);
+    if (!btn) return;
+    btn.classList.add('pressed');
+    playSound('menu');
+    setTimeout(() => btn.classList.remove('pressed'), 150);
+}
+
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-key');
+        pressButton(key);
+    });
+});
+
+document.addEventListener('keydown', e => {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyA', 'KeyB'].includes(e.code)) {
+        pressButton(e.code);
+    }
+});
+
+// === KONAMI CODE EASTER EGG ===
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+let konamiIndex = 0;
+let konamiActivated = false;
+
+function checkKonamiCode(key) {
+    if (key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        console.log(`Konami progress: ${konamiIndex}/${konamiCode.length}`);
+
+        if (konamiIndex === konamiCode.length) {
+            if (!konamiActivated) {
+                konamiActivated = true;
+                triggerKonamiEasterEgg();
+            }
+            konamiIndex = 0;
+        }
+    } else {
+        konamiIndex = 0;
+    }
+}
+
+function triggerKonamiEasterEgg() {
+    console.log('🎮 KONAMI CODE ACTIVATED! 🎮');
+    console.log('Secret unlocked!');
+    playSound('start');
+    // Konami code
+}
+
+document.addEventListener('keydown', e => {
+    checkKonamiCode(e.code);
 });

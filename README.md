@@ -13,6 +13,7 @@ FEATURES
 **JavaScript-powered transitions** — Each section is its own "screen" with smooth switching.  
 **“More info here!” links** — Take you straight to the *Missions* section for related projects. 
 **Zero frameworks** — Built with 100% pure HTML, CSS, and JS — no Reacts were harmed in the making.
+**Click my portrait 5 times!** — And then let's see if you are a Konami fan.
 ---
 
 PROJECT STRUCTURE

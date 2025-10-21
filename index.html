@@ -7,7 +7,7 @@
     <title>Nil Boix - The RPG version of my CV</title>
     <meta name="description" content="Retro-style interactive portfolio of Nil Boix, ICT Systems Engineer and Software Developer.">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="icon" href="assets/jewelgreen.png" type="image/png">
 
 </head>
 
@@ -37,7 +37,7 @@
                     </div>
                     <div class="taskbar-item" onclick="switchSection('contact')">
                         <img src="assets/scrollclosedred.png" alt="scroll closed" class="taskbar-icon">
-                        <span>SEND RAVEN</span>
+                        <span>SEND PIGEON</span>
                     </div>
                 </div>
             </nav>
@@ -48,7 +48,7 @@
                     <!-- Left: Character Portrait -->
                     <div class="character-portrait">
                         <div class="portrait-frame">
-                            <img src="assets/portrait.png" alt="my portrait" class="portrait-sprite">
+                            <img src="assets/portrait16.png" alt="my portrait" class="portrait-sprite">
                         </div>
                         <h2 class="hero-name">NIL BOIX</h2>
                         <p class="hero-title">ICT SYSTEMS ENGINEER<br>SOFTWARE DEVELOPER</p>
@@ -57,9 +57,9 @@
                     <!-- Right: Stats Menu -->
                     <div class="stats-info">
                         <h2 class="menu-header">
-                            <img src="assets/swordbig.png" alt="Left Sword" class="header-icon">
-                            <span>CHARACTER STATS</span>
-                            <img src="assets/swordbig.png" alt="Right Sword" class="header-icon">
+                            <img src="assets/bookopen.png" alt="Left Book" class="header-icon">
+                            <span>MY STATS</span>
+                            <img src="assets/bookopen.png" alt="Right Book" class="header-icon">
                         </h2>
                         <span class="info-box">Education & Professional Experience</span>
 
@@ -287,10 +287,10 @@
                                     <div class="entry-subtitle">Took part in a migration process to optimize resource consumption</div>
                                     <div class="entry-date">2024</div>
                                     <div class="entry-description">
-                                        Contributed as part of the team responsible for migrating the backend of a web-based assembly line
-                                        traceability system from Java to Python. Redesigned and optimized PLC connections and industrial
-                                        interfaces, improving system reliability and maintainability, while ensuring seamless operation across
-                                        the production environment and enhancing overall performance.
+                                        Contributed as part of the team responsible for migrating the backend of a web-based assembly
+                                        line traceability system from Java to Python. Redesigned and optimized PLC connections and
+                                        industrial interfaces, improving system reliability and maintainability, while ensuring seamless
+                                        operation across the production environment and enhancing overall performance.
                                     </div>
                                     <div class="tech-list">
                                         <span class="tech-item">Java</span>
@@ -379,9 +379,7 @@
     <!-- === HIDDEN MAGE === -->
     <div class="hidden-mage">
         <div class="mage-dialogue"></div>
-        <!--div class="mage-placeholder">🧙‍♂️</div>-->
-        <!-- REMEMBER TO PUT THE MAGE HERE!!!-->
-        <img src="assets/hearts.png" alt="Hidden mage" class="mage-sprite">
+        <img src="assets/mage.png" alt="Hidden mage" class="mage-sprite">
     </div>
 
     <script src="script.js"></script>
@@ -396,6 +394,24 @@
                 <div class="loading-fill" id="loadingFill"></div>
             </div>
             <p class="loading-percent" id="loadingPercent">0%</p>
+        </div>
+    </div>
+
+
+    <!-- === EASTER EGG CONTROLLER === -->
+    <div id="controllerOverlay" class="controller-overlay hidden">
+        <div class="dpad">
+            <button class="btn up" data-key="ArrowUp">↑</button>
+            <div class="middle">
+                <button class="btn left" data-key="ArrowLeft">←</button>
+                <button class="btn down" data-key="ArrowDown">↓</button>
+                <button class="btn right" data-key="ArrowRight">→</button>
+            </div>
+        </div>
+
+        <div class="ab-buttons">
+            <button class="btn a" data-key="KeyA">A</button>
+            <button class="btn b" data-key="KeyB">B</button>
         </div>
     </div>
 
