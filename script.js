@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.hidden-mage').style.display = 'none';
 });
 
-// === EASTER EGG: SHOW CONTROLLER AFTER 4 CLICKS ON PORTRAIT ===
+// === EASTER EGG ===
 document.addEventListener('DOMContentLoaded', () => {
     const portrait = document.querySelector('.portrait-sprite');
     console.log('Portrait:', portrait);
@@ -279,7 +279,7 @@ function checkKonamiCode(key) {
         if (konamiIndex === konamiCode.length) {
             if (!konamiActivated) {
                 konamiActivated = true;
-                triggerKonamiEasterEgg();
+                activateKonamiEasterEgg();
             }
             konamiIndex = 0;
         }
@@ -288,11 +288,75 @@ function checkKonamiCode(key) {
     }
 }
 
-function triggerKonamiEasterEgg() {
-    console.log('🎮 KONAMI CODE ACTIVATED! 🎮');
-    console.log('Secret unlocked!');
+function activateKonamiEasterEgg() {
     playSound('start');
-    // Konami code
+    console.log('🎉 KONAMI CODE ACTIVATED! 🎉');
+    console.log('Secret hero mode unlocked!');
+
+    createConfetti();
+}
+
+function createConfetti() {
+    const colors = ['#ffd700', '#87ceeb', '#ff69b4', '#00ff00', '#ff6347', '#9370db'];
+    const confettiCount = 150;
+    const confettiContainer = document.createElement('div');
+    confettiContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 99999;
+        overflow: hidden;
+    `;
+    document.body.appendChild(confettiContainer);
+
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        const size = Math.random() * 10 + 5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const startX = Math.random() * window.innerWidth;
+        const endX = startX + (Math.random() - 0.5) * 200;
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 0.5;
+        const rotation = Math.random() * 360;
+        const rotationSpeed = Math.random() * 720 - 360;
+
+        confetti.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${color};
+            top: -20px;
+            left: ${startX}px;
+            opacity: 1;
+            transform: rotate(${rotation}deg);
+            animation: confettiFall${i} ${duration}s ease-in ${delay}s forwards;
+        `;
+
+        const keyframes = `
+            @keyframes confettiFall${i} {
+                0% {
+                    transform: translateY(0) translateX(0) rotate(${rotation}deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(${window.innerHeight + 20}px) translateX(${endX - startX}px) rotate(${rotation + rotationSpeed}deg);
+                    opacity: 0;
+                }
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = keyframes;
+        document.head.appendChild(style);
+
+        confettiContainer.appendChild(confetti);
+    }
+    setTimeout(() => {
+        confettiContainer.remove();
+    }, 6000);
 }
 
 document.addEventListener('keydown', e => {
