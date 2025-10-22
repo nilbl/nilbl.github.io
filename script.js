@@ -410,11 +410,11 @@ const themes = {
         },
     ],
     skies: [{
-            src: 'assets/skies/sky_sky.png',
+            src: 'assets/skies/Sky_sky.png',
             speed: 0.01
         },
         {
-            src: 'assets/skies/sky_back_mountain.png',
+            src: 'assets/skies/Sky_back_mountain.png',
             speed: 0.03
         },
         {
@@ -434,7 +434,7 @@ const themes = {
             speed: 0.12
         },
         {
-            src: 'assets/skies/sky_cloud_single.png',
+            src: 'assets/skies/Sky_cloud_single.png',
             speed: 0.15
         },
         {
@@ -442,7 +442,7 @@ const themes = {
             speed: 0.22
         },
         {
-            src: 'assets/skies/sky_front_cloud.png',
+            src: 'assets/skies/Sky_front_cloud.png',
             speed: 0.3
         },
     ],
