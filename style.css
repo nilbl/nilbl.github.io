@@ -774,7 +774,80 @@ body {
     will-change: transform;
 }
 
+.parallax {
+    transition: opacity 0.4s ease;
+}
 
+/* === THEME SELECTOR === */
+.theme-selector {
+    margin-top: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: #eee;
+}
+
+.theme-selector select {
+    background: #111;
+    border: 2px solid #555;
+    color: #eee;
+    font-family: inherit;
+    padding: 2px 4px;
+    cursor: pointer;
+}
+
+/* === WORLD SELECTOR (VISIBLE FLOATING UI) === */
+.world-selector {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #5effb2;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+    color: #5effb2;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(94, 255, 178, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.world-selector label {
+    margin-right: 6px;
+    color: #5effb2;
+}
+
+.world-selector select {
+    background: #111;
+    color: #fff;
+    border: 2px solid #5effb2;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.6rem;
+    padding: 2px 4px;
+    cursor: pointer;
+}
+
+.world-selector select:hover {
+    background: #222;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.world-selector {
+    animation: slideIn 0.6s ease-out;
+}
 
 @keyframes fadeIn {
     from {

@@ -360,7 +360,7 @@ function createConfetti() {
 }
 
 // === PARALLAX SCROLL EFFECT ===
-const layers = document.querySelectorAll('.parallax .layer');
+let layers = document.querySelectorAll('.parallax .layer');
 
 let lastScroll = 0;
 
@@ -373,6 +373,173 @@ function animateParallax() {
     requestAnimationFrame(animateParallax);
 }
 animateParallax();
+
+
+// === MULTI-THEME PARALLAX SELECTOR ===
+const parallaxContainer = document.querySelector('.parallax');
+const themeSelector = document.getElementById('themeSelector');
+
+// Define available themes and their image layers
+const themes = {
+    forest: [{
+            src: 'assets/forest/forest_sky.png',
+            speed: 0.02
+        },
+        {
+            src: 'assets/forest/forest_moon.png',
+            speed: 0.03
+        },
+        {
+            src: 'assets/forest/forest_mountain.png',
+            speed: 0.06
+        },
+        {
+            src: 'assets/forest/forest_back.png',
+            speed: 0.12
+        },
+        {
+            src: 'assets/forest/forest_mid.png',
+            speed: 0.2
+        },
+        {
+            src: 'assets/forest/forest_short.png',
+            speed: 0.3
+        },
+        {
+            src: 'assets/forest/forest_long.png',
+            speed: 0.45
+        },
+    ],
+    skies: [{
+            src: 'assets/skies/sky_sky.png',
+            speed: 0.01
+        },
+        {
+            src: 'assets/skies/sky_back_mountain.png',
+            speed: 0.03
+        },
+        {
+            src: 'assets/skies/sky_moon.png',
+            speed: 0.04
+        },
+        {
+            src: 'assets/skies/sky_clouds.png',
+            speed: 0.06
+        },
+        {
+            src: 'assets/skies/sky_cloud_floor_2.png',
+            speed: 0.09
+        },
+        {
+            src: 'assets/skies/sky_cloud_floor.png',
+            speed: 0.12
+        },
+        {
+            src: 'assets/skies/sky_cloud_single.png',
+            speed: 0.15
+        },
+        {
+            src: 'assets/skies/sky_front_mountain.png',
+            speed: 0.22
+        },
+        {
+            src: 'assets/skies/sky_front_cloud.png',
+            speed: 0.3
+        },
+    ],
+    moon: [{
+            src: 'assets/moon/moon_sky.png',
+            speed: 0.01
+        },
+        {
+            src: 'assets/moon/moon_earth.png',
+            speed: 0.03
+        },
+        {
+            src: 'assets/moon/moon_back.png',
+            speed: 0.06
+        },
+        {
+            src: 'assets/moon/moon_mid.png',
+            speed: 0.12
+        },
+        {
+            src: 'assets/moon/moon_floor.png',
+            speed: 0.22
+        },
+        {
+            src: 'assets/moon/moon_front.png',
+            speed: 0.32
+        },
+    ],
+    desert: [{
+            src: 'assets/desert/desert_sky.png',
+            speed: 0.01
+        },
+        {
+            src: 'assets/desert/desert_mountain.png',
+            speed: 0.04
+        },
+        {
+            src: 'assets/desert/desert_moon.png',
+            speed: 0.05
+        },
+        {
+            src: 'assets/desert/desert_cloud.png',
+            speed: 0.08
+        },
+        {
+            src: 'assets/desert/desert_dunemid.png',
+            speed: 0.18
+        },
+        {
+            src: 'assets/desert/desert_dunefront.png',
+            speed: 0.28
+        },
+    ]
+};
+
+// Function to set the current parallax theme
+function setParallaxTheme(themeName) {
+    const theme = themes[themeName];
+    if (!theme) return;
+
+    // Fade out current background
+    parallaxContainer.style.opacity = 0;
+
+    setTimeout(() => {
+        parallaxContainer.innerHTML = ''; // Clear current layers
+
+        // Recreate layers for the selected theme
+        theme.forEach(layer => {
+            const img = document.createElement('img');
+            img.src = layer.src;
+            img.classList.add('layer');
+            img.dataset.speed = layer.speed;
+            img.alt = themeName + ' layer';
+            parallaxContainer.appendChild(img);
+        });
+
+        // Re-link layers for the animation loop
+        layers = document.querySelectorAll('.parallax .layer');
+
+        // Fade in
+        parallaxContainer.style.opacity = 1;
+        localStorage.setItem('selectedTheme', themeName);
+    }, 400);
+}
+
+// Load previously selected theme or default to 'forest'
+const savedTheme = localStorage.getItem('selectedTheme') || 'forest';
+setParallaxTheme(savedTheme);
+if (themeSelector) themeSelector.value = savedTheme;
+
+// Handle selector changes
+if (themeSelector) {
+    themeSelector.addEventListener('change', e => {
+        setParallaxTheme(e.target.value);
+    });
+}
 
 
 document.addEventListener('keydown', e => {
