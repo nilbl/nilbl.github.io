@@ -379,7 +379,6 @@ animateParallax();
 const parallaxContainer = document.querySelector('.parallax');
 const themeSelector = document.getElementById('themeSelector');
 
-// Define available themes and their image layers
 const themes = {
     forest: [{
             src: 'assets/forest/forest_sky.png',
@@ -499,18 +498,15 @@ const themes = {
     ]
 };
 
-// Function to set the current parallax theme
 function setParallaxTheme(themeName) {
     const theme = themes[themeName];
     if (!theme) return;
 
-    // Fade out current background
     parallaxContainer.style.opacity = 0;
 
     setTimeout(() => {
-        parallaxContainer.innerHTML = ''; // Clear current layers
+        parallaxContainer.innerHTML = '';
 
-        // Recreate layers for the selected theme
         theme.forEach(layer => {
             const img = document.createElement('img');
             img.src = layer.src;
@@ -520,21 +516,18 @@ function setParallaxTheme(themeName) {
             parallaxContainer.appendChild(img);
         });
 
-        // Re-link layers for the animation loop
         layers = document.querySelectorAll('.parallax .layer');
 
-        // Fade in
         parallaxContainer.style.opacity = 1;
         localStorage.setItem('selectedTheme', themeName);
     }, 400);
 }
 
-// Load previously selected theme or default to 'forest'
+
 const savedTheme = localStorage.getItem('selectedTheme') || 'forest';
 setParallaxTheme(savedTheme);
 if (themeSelector) themeSelector.value = savedTheme;
 
-// Handle selector changes
 if (themeSelector) {
     themeSelector.addEventListener('change', e => {
         setParallaxTheme(e.target.value);
