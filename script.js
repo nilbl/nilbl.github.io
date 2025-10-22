@@ -359,6 +359,22 @@ function createConfetti() {
     }, 6000);
 }
 
+// === PARALLAX SCROLL EFFECT ===
+const layers = document.querySelectorAll('.parallax .layer');
+
+let lastScroll = 0;
+
+function animateParallax() {
+    lastScroll += (window.scrollY - lastScroll) * 0.1;
+    layers.forEach(layer => {
+        const speed = parseFloat(layer.dataset.speed);
+        layer.style.transform = `translateY(${lastScroll * speed}px)`;
+    });
+    requestAnimationFrame(animateParallax);
+}
+animateParallax();
+
+
 document.addEventListener('keydown', e => {
     checkKonamiCode(e.code);
 });

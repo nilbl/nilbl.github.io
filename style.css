@@ -741,7 +741,6 @@ body {
     transition: transform 0.1s;
     box-shadow: 2px 2px 0 #000;
     border-radius: 0;
-    /* sharp retro pixels */
 }
 
 .btn:active,
@@ -750,6 +749,29 @@ body {
     background: #fff;
     color: #222;
     box-shadow: inset 0 0 4px #000;
+}
+
+/* === PARALLAX BACKGROUND === */
+.parallax {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.parallax .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translateY(0);
+    will-change: transform;
 }
 
 
