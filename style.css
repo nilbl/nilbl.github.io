@@ -1,5 +1,78 @@
-/* === FONTS === */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+/* === CSS CUSTOM PROPERTIES (Design System) === */
+:root {
+    /* === COLOR PALETTE === */
+    --color-primary: #ffd700;
+    --color-primary-dark: #8b4513;
+    --color-secondary: #87ceeb;
+    --color-accent-purple: #8a2be2;
+    --color-accent-green: #5effb2;
+
+    --color-bg-darkest: #000;
+    --color-bg-darker: #0f0f1e;
+    --color-bg-dark: #1a1a2e;
+    --color-bg-medium: #1a1a3e;
+    --color-bg-panel: rgba(0, 0, 0, 0.8);
+    --color-bg-overlay: rgba(0, 0, 0, 0.9);
+
+    --color-text: #fff;
+    --color-text-light: #eee;
+    --color-text-muted: #ccc;
+    --color-text-dim: #999;
+    --color-text-dimmer: #888;
+    --color-border: #444;
+
+    /* === SPACING SCALE === */
+    --space-xs: 0.3rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+
+    /* === TYPOGRAPHY === */
+    --font-base: 'Press Start 2P', 'Courier New', monospace, system-ui;
+    --font-size-xs: clamp(0.5rem, 1.5vw, 0.6rem);
+    --font-size-sm: clamp(0.6rem, 1.8vw, 0.8rem);
+    --font-size-md: clamp(0.8rem, 2.5vw, 1rem);
+    --font-size-lg: clamp(1.1rem, 3vw, 1.5rem);
+    --font-size-xl: clamp(1.4rem, 4vw, 2rem);
+    --font-size-2xl: clamp(2rem, 6vw, 3.5rem);
+
+    /* === Z-INDEX SCALE === */
+    --z-parallax: -1;
+    --z-base: 1;
+    --z-world-selector: 50;
+    --z-dropdown: 100;
+    --z-sticky: 1000;
+    --z-mage: 1001;
+    --z-controller: 2000;
+    --z-modal: 5000;
+    --z-loading: 9999;
+    --z-skip-link: 100000;
+
+    /* === ANIMATION === */
+    --duration-fast: 0.2s;
+    --duration-normal: 0.3s;
+    --duration-slow: 0.4s;
+    --duration-slower: 0.6s;
+    --easing-default: ease;
+
+    /* === BORDERS & RADIUS === */
+    --border-thin: 2px;
+    --border-medium: 3px;
+    --border-thick: 4px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+
+    /* === SHADOWS === */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 0 15px rgba(255, 215, 0, 0.5);
+    --shadow-lg: 0 0 30px #000;
+    --shadow-glow-primary: 0 0 20px rgba(255, 215, 0, 0.8);
+    --shadow-glow-purple: 0 0 20px rgba(138, 43, 226, 0.8);
+    --shadow-inset: inset 0 0 8px #fff;
+}
 
 /* === GLOBAL RESET === */
 * {
@@ -9,13 +82,113 @@
 }
 
 body {
-    font-family: 'Press Start 2P', cursive;
-    background: #1a1a2e;
-    color: #fff;
+    font-family: var(--font-base);
+    background: var(--color-bg-dark);
+    color: var(--color-text);
     overflow-x: hidden;
     image-rendering: pixelated;
     word-wrap: break-word;
     overflow-wrap: anywhere;
+    -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
+}
+
+/* === ACCESSIBILITY === */
+
+/* Skip link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-bg-darkest);
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: var(--z-skip-link);
+    font-size: 0.8rem;
+    border: var(--border-medium) solid var(--color-primary-dark);
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Visually hidden but accessible to screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus styles */
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+.taskbar-item:focus-visible,
+.menu-item:focus-visible,
+.press-start:focus-visible {
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.5);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+a:focus-visible {
+    background: rgba(255, 215, 0, 0.2);
+    outline: 2px solid var(--color-primary);
+    text-decoration: underline;
+}
+
+/* Contact link styling */
+.contact-link {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color var(--duration-fast), transform var(--duration-fast);
+    display: inline-block;
+}
+
+.contact-link:hover {
+    color: var(--color-primary);
+    transform: translateX(5px);
+}
+
+.contact-link:focus-visible {
+    color: var(--color-primary);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Disable parallax */
+    .parallax .layer {
+        transform: none !important;
+    }
+
+    /* Disable animations */
+    .portrait-sprite,
+    .game-title {
+        animation: none !important;
+    }
 }
 
 /* === CONTAINER === */
@@ -112,6 +285,11 @@ body {
     transform: scale(1.1);
 }
 
+.press-start:active {
+    transform: scale(0.95);
+    background: rgba(255, 215, 0, 0.5);
+}
+
 @keyframes blink {
 
     0%,
@@ -175,6 +353,11 @@ body {
     background: rgba(255, 215, 0, 0.2);
     transform: translateY(-3px);
     box-shadow: 0 0 0 2px #ffd700;
+}
+
+.taskbar-item:active {
+    transform: translateY(-1px);
+    background: rgba(255, 215, 0, 0.4);
 }
 
 .taskbar-item.active {
@@ -308,6 +491,10 @@ body {
     background: rgba(255, 215, 0, 0.2);
 }
 
+.menu-item:active .menu-item-header {
+    background: rgba(255, 215, 0, 0.35);
+}
+
 .menu-item.active .menu-item-header {
     background: rgba(255, 215, 0, 0.3);
     border-bottom: 2px solid #ffd700;
@@ -362,6 +549,9 @@ body {
     color: #ffd700;
     font-size: 1em;
     margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
 .entry-subtitle {
@@ -447,6 +637,11 @@ body {
     background: rgba(255, 215, 0, 0.3);
     transform: scale(1.1);
     box-shadow: 0 0 8px #ffd700;
+}
+
+.tech-item:active {
+    transform: scale(1.05);
+    background: rgba(255, 215, 0, 0.4);
 }
 
 
@@ -573,15 +768,6 @@ body {
 }
 
 /* === ENTRY ICONS === */
-.entry-title {
-    color: #ffd700;
-    font-size: 1em;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
 .entry-icon {
     width: 20px;
     height: 20px;
@@ -690,6 +876,11 @@ body {
     transform: scale(1.05);
 }
 
+.more-info-link:active {
+    transform: scale(1);
+    color: #87ceeb;
+}
+
 /* === CONTROLLER OVERLAY (EASTER EGG) === */
 .controller-overlay {
     position: fixed;
@@ -699,7 +890,6 @@ body {
     gap: 2rem;
     z-index: 2000;
     font-family: 'Press Start 2P', cursive;
-    animation: fadeIn 0.4s ease;
     background: #222 url('assets/grey.png') repeat;
     border: 4px solid #fff;
     padding: 1rem;
@@ -833,6 +1023,11 @@ body {
     background: #222;
 }
 
+.world-selector select:active {
+    background: #333;
+    transform: scale(0.98);
+}
+
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -859,4 +1054,8 @@ body {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+.controller-overlay {
+    animation: fadeIn 0.4s ease;
 }
