@@ -52,15 +52,30 @@
                 <div class="taskbar-container">
                     <div class="taskbar-item active" data-section="stats" role="button" tabindex="0">
                         <img src="assets/sword.png" alt="sword" class="taskbar-icon">
-                        <span>MY STATS</span>
+                        <span data-i18n="statsTab">MY STATS</span>
+                    </div>
+                    <div class="taskbar-item" data-section="timeline" role="button" tabindex="0">
+                        <img src="assets/scrollclosedblue.png" alt="timeline" class="taskbar-icon">
+                        <span data-i18n="timelineTab">TIMELINE</span>
                     </div>
                     <div class="taskbar-item" data-section="missions" role="button" tabindex="0">
                         <img src="assets/scrollopen.png" alt="scroll open" class="taskbar-icon">
-                        <span>MISSIONS ACCOMPLISHED</span>
+                        <span data-i18n="missionsTab">MISSIONS ACCOMPLISHED</span>
                     </div>
                     <div class="taskbar-item" data-section="contact" role="button" tabindex="0">
                         <img src="assets/scrollclosedred.png" alt="scroll closed" class="taskbar-icon">
-                        <span>SEND PIGEON</span>
+                        <span data-i18n="contactTab">SEND PIGEON</span>
+                    </div>
+                    <div class="language-selector">
+                        <button type="button" class="lang-dropdown-btn" id="langDropdownBtn" title="Language">
+                            <img src="assets/scrollclosedred.png" alt="language" class="lang-icon">
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <div class="lang-dropdown-menu" id="langDropdownMenu">
+                            <button type="button" class="lang-option active" data-lang="en">English (EN)</button>
+                            <button type="button" class="lang-option" data-lang="es">Español (ES)</button>
+                            <button type="button" class="lang-option" data-lang="ca">Català (CA)</button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -240,6 +255,22 @@
                 </div>
             </section>
 
+            <!-- === TIMELINE SECTION === -->
+            <section class="content-section" id="timelineSection">
+                <div class="timeline-full-container">
+                    <h2 class="timeline-main-header">
+                        <img src="assets/scrollclosedblue.png" alt="Left Scroll" class="header-icon">
+                        <span data-i18n="timelineHeader">TIMELINE</span>
+                        <img src="assets/scrollclosedblue.png" alt="Right Scroll" class="header-icon">
+                    </h2>
+                    <span class="timeline-subtitle" data-i18n="timelineInfo">My Journey</span>
+
+                    <div class="timeline-container" id="timelineContainer">
+                        <!-- Timeline entries will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+
             <!-- === MISSIONS SECTION === -->
             <section class="content-section" id="missionsSection">
                 <div class="menu-container">
@@ -394,7 +425,11 @@
             <!-- === FOOTER === -->
             <footer class="footer-info">
                 © 2025 NIL BOIX - Software Engineer<br>
-                Made with love and lots of pixels
+                <span data-i18n="footerText">Made with love and lots of pixels</span>
+                <div class="visit-counter">
+                    <span data-i18n="visitCounter">Adventurers who visited:</span>
+                    <span class="visit-count" id="visitCount">Loading...</span>
+                </div>
             </footer>
         </div>
     </main>

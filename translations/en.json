@@ -1,0 +1,193 @@
+{
+  "language": "English",
+  "code": "en",
+
+  "startScreen": {
+    "title": "NIL BOIX",
+    "subtitle": "The RPG version of my CV",
+    "startButton": "▶ SELECT CHARACTER ◀"
+  },
+
+  "navigation": {
+    "stats": "MY STATS",
+    "timeline": "TIMELINE",
+    "missions": "MISSIONS ACCOMPLISHED",
+    "contact": "SEND PIGEON"
+  },
+
+  "stats": {
+    "header": "MY STATS",
+    "info": "Education & Professional Experience",
+    "education": {
+      "title": "EDUCATION",
+      "degree": "ICT ENGINEERING DEGREE",
+      "school": "Universitat Politècnica de Catalunya (UPC)",
+      "date": "2020 - 2025",
+      "description": "Information and Communication Technologies Engineering. Specialized in software development, electronics, and communication systems."
+    },
+    "experience": {
+      "title": "EXPERIENCE",
+      "job1": {
+        "title": "SOFTWARE ENGINEER",
+        "company": "Airtificial Intelligent Robots S.L.",
+        "date": "2024 - PRESENT",
+        "tasks": [
+          "Developed full-stack features for internal assembly line traceability system",
+          "Participated in backend migration from Java to Python",
+          "Contributing to PLC monitoring application using C# and Windows Forms",
+          "Built internal data cleaning and NLP automation tool using NLTK",
+          "Worked with LabVIEW for graphical programming and machine data acquisition"
+        ]
+      },
+      "moreInfo": "More info here!"
+    },
+    "otherExperience": {
+      "title": "OTHER EXPERIENCE",
+      "job1": {
+        "title": "ENGLISH FCE TEACHER",
+        "company": "MoMa New School",
+        "date": "2020 - 2025",
+        "description": "Training students for Cambridge First Certificate (B2) exam, with emphasis on practical communication, fluency, and exam readiness."
+      },
+      "job2": {
+        "title": "ENGLISH INTERPRETER",
+        "company": "Món Sant Benet (Michelin Star Restaurant)",
+        "date": "2020 - Present",
+        "description": "Provided real-time English interpretation during workshops at a Michelin-starred restaurant, helping international guests understand high-level culinary instruction."
+      }
+    },
+    "skills": {
+      "title": "SKILLS & TOOLS",
+      "categories": {
+        "programming": "PROGRAMMING LANGUAGES",
+        "frameworks": "FRAMEWORKS & LIBRARIES",
+        "web": "WEB TECHNOLOGIES",
+        "databases": "DATABASES",
+        "tools": "TOOLS & SYSTEMS"
+      }
+    }
+  },
+
+  "timeline": {
+    "header": "TIMELINE",
+    "info": "My Journey",
+    "entries": [
+      {
+        "year": 2020,
+        "type": "education",
+        "yearStart": 2020,
+        "yearEnd": 2025,
+        "title": "ICT Engineering Degree",
+        "subtitle": "Universitat Politècnica de Catalunya (UPC)",
+        "description": "Information and Communication Technologies Engineering. Specialized in software development, electronics, and communication systems."
+      },
+      {
+        "year": 2020,
+        "type": "work",
+        "yearStart": 2020,
+        "yearEnd": 2025,
+        "title": "English FCE Teacher",
+        "subtitle": "MoMa New School",
+        "description": "Training students for Cambridge First Certificate (B2) exam, with emphasis on practical communication, fluency, and exam readiness."
+      },
+      {
+        "year": 2020,
+        "type": "work",
+        "yearStart": 2020,
+        "yearEnd": null,
+        "title": "English Interpreter",
+        "subtitle": "Món Sant Benet (Michelin Star Restaurant)",
+        "description": "Providing real-time English interpretation during workshops at a Michelin-starred restaurant, helping international guests understand high-level culinary instruction."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Software Engineer",
+        "subtitle": "Airtificial Intelligent Robots S.L.",
+        "description": "Developed full-stack features for internal assembly line traceability system. Participated in backend migration and contributed to PLC monitoring applications."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Backend Migration (Java to Python)",
+        "subtitle": "Airtificial - Optimization Project",
+        "description": "Contributed as part of the team responsible for migrating the backend of a web-based assembly line traceability system from Java to Python, improving system reliability and maintainability."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": 2025,
+        "title": "NLP Automation Tool",
+        "subtitle": "Airtificial - Internal Project",
+        "description": "Developed an internal tool to automate sheet entries for an automotive production line, reducing the process from 2 days to 30 seconds. Made the process 5760 times faster and error-free."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Traceability System Development",
+        "subtitle": "Airtificial - Core Project",
+        "description": "Full-stack development for industrial assembly line traceability system. Working with Spring Boot, PostgreSQL, and industrial PLC connections."
+      },
+      {
+        "year": 2025,
+        "type": "work",
+        "yearStart": 2025,
+        "yearEnd": null,
+        "title": "RPG Portfolio Website",
+        "subtitle": "Personal Project",
+        "description": "Created my own portfolio inspired by Retro RPGs, teaching myself web development along the way. Aimed for that authentic 16-bit charm while keeping things functional."
+      }
+    ]
+  },
+
+  "missions": {
+    "header": "PROJECTS",
+    "info": "Projects & Achievements",
+    "projects": {
+      "project1": {
+        "title": "Internal Excel & NLP Automation Tool",
+        "subtitle": "Made a process 5760 times faster and error-free",
+        "date": "2024",
+        "description": "Developed an internal tool to automate sheet entries for an automotive production line, reducing the process from 2 days to 30 seconds. The tool eliminated previous human errors, making the process fully reliable and error-free."
+      },
+      "project2": {
+        "title": "Portfolio Website (RPG videogame inspired)",
+        "subtitle": "My first try on web development",
+        "date": "2025",
+        "description": "Created my own portfolio inspired by the Retro RPGs I love, teaching myself web development along the way. Aimed for that authentic 16-bit charm while keeping things functional and not a chaotic pixel dungeon."
+      },
+      "project3": {
+        "title": "BACKEND MIGRATION (JAVA TO PYTHON)",
+        "subtitle": "Took part in a migration process to optimize resource consumption",
+        "date": "2024",
+        "description": "Contributed as part of the team responsible for migrating the backend of a web-based assembly line traceability system from Java to Python. Redesigned and optimized PLC connections and industrial interfaces, improving system reliability and maintainability, while ensuring seamless operation across the production environment and enhancing overall performance."
+      }
+    }
+  },
+
+  "contact": {
+    "header": "CONTACT",
+    "info": "Contact Details",
+    "title": "SEND CARRIER PIGEON",
+    "subtitle": "SUMMON THE HERO<br>TO YOUR QUEST",
+    "fields": {
+      "email": "EMAIL",
+      "linkedin": "LINKEDIN",
+      "github": "GITHUB",
+      "portfolio": "WEB PORTFOLIO"
+    }
+  },
+
+  "footer": {
+    "copyright": "© 2025 NIL BOIX - Software Engineer",
+    "text": "Made with love and lots of pixels",
+    "visitCounter": "Adventurers who visited:"
+  }
+}

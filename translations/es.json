@@ -1,0 +1,193 @@
+{
+  "language": "Español",
+  "code": "es",
+
+  "startScreen": {
+    "title": "NIL BOIX",
+    "subtitle": "La versión RPG de mi CV",
+    "startButton": "▶ SELECCIONAR PERSONAJE ◀"
+  },
+
+  "navigation": {
+    "stats": "MIS STATS",
+    "timeline": "LÍNEA TEMPORAL",
+    "missions": "MISIONES COMPLETADAS",
+    "contact": "ENVIAR PALOMA"
+  },
+
+  "stats": {
+    "header": "MIS STATS",
+    "info": "Educación y Experiencia Profesional",
+    "education": {
+      "title": "EDUCACIÓN",
+      "degree": "GRADO EN INGENIERÍA TIC",
+      "school": "Universitat Politècnica de Catalunya (UPC)",
+      "date": "2020 - 2025",
+      "description": "Ingeniería de Tecnologías de la Información y Comunicaciones. Especializado en desarrollo de software, electrónica y sistemas de comunicación."
+    },
+    "experience": {
+      "title": "EXPERIENCIA",
+      "job1": {
+        "title": "INGENIERO DE SOFTWARE",
+        "company": "Airtificial Intelligent Robots S.L.",
+        "date": "2024 - PRESENTE",
+        "tasks": [
+          "Desarrollé funcionalidades full-stack para sistema interno de trazabilidad de línea de montaje",
+          "Participé en migración de backend de Java a Python",
+          "Contribuyendo a aplicación de monitoreo PLC usando C# y Windows Forms",
+          "Construí herramienta interna de limpieza de datos y automatización NLP usando NLTK",
+          "Trabajé con LabVIEW para programación gráfica y adquisición de datos de máquinas"
+        ]
+      },
+      "moreInfo": "¡Más información aquí!"
+    },
+    "otherExperience": {
+      "title": "OTRA EXPERIENCIA",
+      "job1": {
+        "title": "PROFESOR DE INGLÉS FCE",
+        "company": "MoMa New School",
+        "date": "2020 - 2025",
+        "description": "Preparando estudiantes para el examen Cambridge First Certificate (B2), con énfasis en comunicación práctica, fluidez y preparación para el examen."
+      },
+      "job2": {
+        "title": "INTÉRPRETE DE INGLÉS",
+        "company": "Món Sant Benet (Restaurante Estrella Michelin)",
+        "date": "2020 - Presente",
+        "description": "Proporcioné interpretación de inglés en tiempo real durante talleres en un restaurante con estrella Michelin, ayudando a invitados internacionales a comprender instrucciones culinarias de alto nivel."
+      }
+    },
+    "skills": {
+      "title": "HABILIDADES Y HERRAMIENTAS",
+      "categories": {
+        "programming": "LENGUAJES DE PROGRAMACIÓN",
+        "frameworks": "FRAMEWORKS Y LIBRERÍAS",
+        "web": "TECNOLOGÍAS WEB",
+        "databases": "BASES DE DATOS",
+        "tools": "HERRAMIENTAS Y SISTEMAS"
+      }
+    }
+  },
+
+  "timeline": {
+    "header": "LÍNEA TEMPORAL",
+    "info": "Mi Trayectoria",
+    "entries": [
+      {
+        "year": 2020,
+        "type": "education",
+        "yearStart": 2020,
+        "yearEnd": 2025,
+        "title": "Grado en Ingeniería TIC",
+        "subtitle": "Universitat Politècnica de Catalunya (UPC)",
+        "description": "Ingeniería de Tecnologías de la Información y Comunicaciones. Especializado en desarrollo de software, electrónica y sistemas de comunicación."
+      },
+      {
+        "year": 2020,
+        "type": "work",
+        "yearStart": 2020,
+        "yearEnd": 2025,
+        "title": "Profesor de Inglés FCE",
+        "subtitle": "MoMa New School",
+        "description": "Preparando estudiantes para el examen Cambridge First Certificate (B2), con énfasis en comunicación práctica, fluidez y preparación para el examen."
+      },
+      {
+        "year": 2020,
+        "type": "work",
+        "yearStart": 2020,
+        "yearEnd": null,
+        "title": "Intérprete de Inglés",
+        "subtitle": "Món Sant Benet (Restaurante Estrella Michelin)",
+        "description": "Proporcionando interpretación de inglés en tiempo real durante talleres en un restaurante con estrella Michelin, ayudando a invitados internacionales a comprender instrucciones culinarias de alto nivel."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Ingeniero de Software",
+        "subtitle": "Airtificial Intelligent Robots S.L.",
+        "description": "Desarrollé funcionalidades full-stack para sistema interno de trazabilidad de línea de montaje. Participé en migración de backend y contribuí a aplicaciones de monitoreo PLC."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Migración de Backend (Java a Python)",
+        "subtitle": "Airtificial - Proyecto de Optimización",
+        "description": "Contribuí como parte del equipo responsable de migrar el backend de un sistema de trazabilidad de línea de montaje basado en web de Java a Python, mejorando la confiabilidad y mantenibilidad del sistema."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": 2025,
+        "title": "Herramienta de Automatización NLP",
+        "subtitle": "Airtificial - Proyecto Interno",
+        "description": "Desarrollé una herramienta interna para automatizar entradas de hojas para una línea de producción automotriz, reduciendo el proceso de 2 días a 30 segundos. Hice el proceso 5760 veces más rápido y sin errores."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Desarrollo de Sistema de Trazabilidad",
+        "subtitle": "Airtificial - Proyecto Principal",
+        "description": "Desarrollo full-stack para sistema de trazabilidad de línea de montaje industrial. Trabajando con Spring Boot, PostgreSQL y conexiones PLC industriales."
+      },
+      {
+        "year": 2025,
+        "type": "work",
+        "yearStart": 2025,
+        "yearEnd": null,
+        "title": "Sitio Web Portfolio RPG",
+        "subtitle": "Proyecto Personal",
+        "description": "Creé mi propio portfolio inspirado en RPGs Retro, aprendiendo desarrollo web por mi cuenta. Apuntando a ese encanto auténtico de 16 bits mientras mantengo las cosas funcionales."
+      }
+    ]
+  },
+
+  "missions": {
+    "header": "PROYECTOS",
+    "info": "Proyectos y Logros",
+    "projects": {
+      "project1": {
+        "title": "Herramienta de Automatización Excel y NLP",
+        "subtitle": "Hice un proceso 5760 veces más rápido y sin errores",
+        "date": "2024",
+        "description": "Desarrollé una herramienta interna para automatizar entradas de hojas para una línea de producción automotriz, reduciendo el proceso de 2 días a 30 segundos. La herramienta eliminó errores humanos previos, haciendo el proceso completamente confiable y sin errores."
+      },
+      "project2": {
+        "title": "Sitio Web Portfolio (inspirado en videojuegos RPG)",
+        "subtitle": "Mi primer intento en desarrollo web",
+        "date": "2025",
+        "description": "Creé mi propio portfolio inspirado en los RPGs Retro que amo, aprendiendo desarrollo web por mi cuenta. Apuntando a ese encanto auténtico de 16 bits mientras mantengo las cosas funcionales y no un caos de píxeles."
+      },
+      "project3": {
+        "title": "MIGRACIÓN DE BACKEND (JAVA A PYTHON)",
+        "subtitle": "Participé en un proceso de migración para optimizar el consumo de recursos",
+        "date": "2024",
+        "description": "Contribuí como parte del equipo responsable de migrar el backend de un sistema de trazabilidad de línea de montaje basado en web de Java a Python. Rediseñé y optimicé conexiones PLC e interfaces industriales, mejorando la confiabilidad y mantenibilidad del sistema, asegurando operación perfecta en el entorno de producción y mejorando el rendimiento general."
+      }
+    }
+  },
+
+  "contact": {
+    "header": "CONTACTO",
+    "info": "Detalles de Contacto",
+    "title": "ENVIAR PALOMA MENSAJERA",
+    "subtitle": "INVOCA AL HÉROE<br>A TU MISIÓN",
+    "fields": {
+      "email": "CORREO",
+      "linkedin": "LINKEDIN",
+      "github": "GITHUB",
+      "portfolio": "PORTFOLIO WEB"
+    }
+  },
+
+  "footer": {
+    "copyright": "© 2025 NIL BOIX - Ingeniero de Software",
+    "text": "Hecho con amor y muchos píxeles",
+    "visitCounter": "Aventureros que visitaron:"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "language": "Català",
+  "code": "ca",
+
+  "startScreen": {
+    "title": "NIL BOIX",
+    "subtitle": "La versió RPG del meu CV",
+    "startButton": "▶ SELECCIONAR PERSONATGE ◀"
+  },
+
+  "navigation": {
+    "stats": "LES MEVES STATS",
+    "timeline": "LÍNIA TEMPORAL",
+    "missions": "MISSIONS COMPLETADES",
+    "contact": "ENVIAR COLOM"
+  },
+
+  "stats": {
+    "header": "LES MEVES STATS",
+    "info": "Educació i Experiència Professional",
+    "education": {
+      "title": "EDUCACIÓ",
+      "degree": "GRAU EN ENGINYERIA TIC",
+      "school": "Universitat Politècnica de Catalunya (UPC)",
+      "date": "2020 - 2025",
+      "description": "Enginyeria de Tecnologies de la Informació i Comunicacions. Especialitzat en desenvolupament de programari, electrònica i sistemes de comunicació."
+    },
+    "experience": {
+      "title": "EXPERIÈNCIA",
+      "job1": {
+        "title": "ENGINYER DE PROGRAMARI",
+        "company": "Airtificial Intelligent Robots S.L.",
+        "date": "2024 - PRESENT",
+        "tasks": [
+          "Vaig desenvolupar funcionalitats full-stack per a sistema intern de traçabilitat de línia de muntatge",
+          "Vaig participar en migració de backend de Java a Python",
+          "Contribuint a aplicació de monitoratge PLC usant C# i Windows Forms",
+          "Vaig construir eina interna de neteja de dades i automatització NLP usant NLTK",
+          "Vaig treballar amb LabVIEW per a programació gràfica i adquisició de dades de màquines"
+        ]
+      },
+      "moreInfo": "Més informació aquí!"
+    },
+    "otherExperience": {
+      "title": "ALTRA EXPERIÈNCIA",
+      "job1": {
+        "title": "PROFESSOR D'ANGLÈS FCE",
+        "company": "MoMa New School",
+        "date": "2020 - 2025",
+        "description": "Preparant estudiants per a l'examen Cambridge First Certificate (B2), amb èmfasi en comunicació pràctica, fluïdesa i preparació per a l'examen."
+      },
+      "job2": {
+        "title": "INTÈRPRET D'ANGLÈS",
+        "company": "Món Sant Benet (Restaurant Estrella Michelin)",
+        "date": "2020 - Present",
+        "description": "Vaig proporcionar interpretació d'anglès en temps real durant tallers en un restaurant amb estrella Michelin, ajudant convidats internacionals a comprendre instruccions culinàries d'alt nivell."
+      }
+    },
+    "skills": {
+      "title": "HABILITATS I EINES",
+      "categories": {
+        "programming": "LLENGUATGES DE PROGRAMACIÓ",
+        "frameworks": "FRAMEWORKS I LLIBRERIES",
+        "web": "TECNOLOGIES WEB",
+        "databases": "BASES DE DADES",
+        "tools": "EINES I SISTEMES"
+      }
+    }
+  },
+
+  "timeline": {
+    "header": "LÍNIA TEMPORAL",
+    "info": "El Meu Recorregut",
+    "entries": [
+      {
+        "year": 2020,
+        "type": "education",
+        "yearStart": 2020,
+        "yearEnd": 2025,
+        "title": "Grau en Enginyeria TIC",
+        "subtitle": "Universitat Politècnica de Catalunya (UPC)",
+        "description": "Enginyeria de Tecnologies de la Informació i Comunicacions. Especialitzat en desenvolupament de programari, electrònica i sistemes de comunicació."
+      },
+      {
+        "year": 2020,
+        "type": "work",
+        "yearStart": 2020,
+        "yearEnd": 2025,
+        "title": "Professor d'Anglès FCE",
+        "subtitle": "MoMa New School",
+        "description": "Preparant estudiants per a l'examen Cambridge First Certificate (B2), amb èmfasi en comunicació pràctica, fluïdesa i preparació per a l'examen."
+      },
+      {
+        "year": 2020,
+        "type": "work",
+        "yearStart": 2020,
+        "yearEnd": null,
+        "title": "Intèrpret d'Anglès",
+        "subtitle": "Món Sant Benet (Restaurant Estrella Michelin)",
+        "description": "Proporcionant interpretació d'anglès en temps real durant tallers en un restaurant amb estrella Michelin, ajudant convidats internacionals a comprendre instruccions culinàries d'alt nivell."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Enginyer de Programari",
+        "subtitle": "Airtificial Intelligent Robots S.L.",
+        "description": "Vaig desenvolupar funcionalitats full-stack per a sistema intern de traçabilitat de línia de muntatge. Vaig participar en migració de backend i vaig contribuir a aplicacions de monitoratge PLC."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Migració de Backend (Java a Python)",
+        "subtitle": "Airtificial - Projecte d'Optimització",
+        "description": "Vaig contribuir com a part de l'equip responsable de migrar el backend d'un sistema de traçabilitat de línia de muntatge basat en web de Java a Python, millorant la fiabilitat i mantenibilitat del sistema."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": 2025,
+        "title": "Eina d'Automatització NLP",
+        "subtitle": "Airtificial - Projecte Intern",
+        "description": "Vaig desenvolupar una eina interna per automatitzar entrades de fulls per a una línia de producció automobilística, reduint el procés de 2 dies a 30 segons. Vaig fer el procés 5760 vegades més ràpid i sense errors."
+      },
+      {
+        "year": 2024,
+        "type": "work",
+        "yearStart": 2024,
+        "yearEnd": null,
+        "title": "Desenvolupament de Sistema de Traçabilitat",
+        "subtitle": "Airtificial - Projecte Principal",
+        "description": "Desenvolupament full-stack per a sistema de traçabilitat de línia de muntatge industrial. Treballant amb Spring Boot, PostgreSQL i connexions PLC industrials."
+      },
+      {
+        "year": 2025,
+        "type": "work",
+        "yearStart": 2025,
+        "yearEnd": null,
+        "title": "Lloc Web Portfolio RPG",
+        "subtitle": "Projecte Personal",
+        "description": "Vaig crear el meu propi portfolio inspirat en RPGs Retro, aprenent desenvolupament web pel meu compte. Apuntant a aquest encant autèntic de 16 bits mentre mantinc les coses funcionals."
+      }
+    ]
+  },
+
+  "missions": {
+    "header": "PROJECTES",
+    "info": "Projectes i Fites",
+    "projects": {
+      "project1": {
+        "title": "Eina d'Automatització Excel i NLP",
+        "subtitle": "Vaig fer un procés 5760 vegades més ràpid i sense errors",
+        "date": "2024",
+        "description": "Vaig desenvolupar una eina interna per automatitzar entrades de fulls per a una línia de producció automobilística, reduint el procés de 2 dies a 30 segons. L'eina va eliminar errors humans previs, fent el procés completament fiable i sense errors."
+      },
+      "project2": {
+        "title": "Lloc Web Portfolio (inspirat en videojocs RPG)",
+        "subtitle": "El meu primer intent en desenvolupament web",
+        "date": "2025",
+        "description": "Vaig crear el meu propi portfolio inspirat en els RPGs Retro que estimo, aprenent desenvolupament web pel meu compte. Apuntant a aquest encant autèntic de 16 bits mentre mantinc les coses funcionals i no un caos de píxels."
+      },
+      "project3": {
+        "title": "MIGRACIÓ DE BACKEND (JAVA A PYTHON)",
+        "subtitle": "Vaig participar en un procés de migració per optimitzar el consum de recursos",
+        "date": "2024",
+        "description": "Vaig contribuir com a part de l'equip responsable de migrar el backend d'un sistema de traçabilitat de línia de muntatge basat en web de Java a Python. Vaig redissenyar i optimitzar connexions PLC i interfícies industrials, millorant la fiabilitat i mantenibilitat del sistema, assegurant operació perfecta en l'entorn de producció i millorant el rendiment general."
+      }
+    }
+  },
+
+  "contact": {
+    "header": "CONTACTE",
+    "info": "Detalls de Contacte",
+    "title": "ENVIAR COLOM MISSATGER",
+    "subtitle": "INVOCA L'HEROI<br>A LA TEVA MISSIÓ",
+    "fields": {
+      "email": "CORREU",
+      "linkedin": "LINKEDIN",
+      "github": "GITHUB",
+      "portfolio": "PORTFOLIO WEB"
+    }
+  },
+
+  "footer": {
+    "copyright": "© 2025 NIL BOIX - Enginyer de Programari",
+    "text": "Fet amb amor i molts píxels",
+    "visitCounter": "Aventurers que han visitat:"
+  }
+}
