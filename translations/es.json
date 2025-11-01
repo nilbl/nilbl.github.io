@@ -12,10 +12,12 @@
     "stats": "MIS STATS",
     "timeline": "LÍNEA TEMPORAL",
     "missions": "MISIONES COMPLETADAS",
-    "contact": "ENVIAR PALOMA"
+    "contact": "ENVIAR PALOMA",
+    "game": "PRUEBA TU SUERTE"
   },
 
   "stats": {
+    "heroTitle": "INGENIERO DE SISTEMAS TIC<br>DESARROLLADOR DE SOFTWARE",
     "header": "MIS STATS",
     "info": "Educación y Experiencia Profesional",
     "education": {
@@ -148,6 +150,8 @@
   },
 
   "missions": {
+    "heroName": "REGISTRO DE MISIONES",
+    "heroSubtitle": "PROYECTOS COMPLETADOS<br>Y LOGROS",
     "header": "PROYECTOS",
     "info": "Proyectos y Logros",
     "projects": {
@@ -183,6 +187,61 @@
       "github": "GITHUB",
       "portfolio": "PORTFOLIO WEB"
     }
+  },
+
+  "game": {
+    "title": "DUELO DE DADOS A 21",
+    "subtitle": "¡Desafía al Mago Oculto a llegar a 21 sin pasarse!",
+    "playerLabel": "TÚ",
+    "computerLabel": "MAGO OCULTO",
+    "rollButton": "TIRAR DADOS",
+    "standButton": "PLANTARSE",
+    "resetButton": "NUEVA PARTIDA",
+    "gameStart": "¡Haz clic en \"Tirar Dados\" para desafiar al Mago!",
+    "playerRolled": "¡Sacaste {roll}! Total: {score}. ¿Volver a tirar o plantarte?",
+    "playerStands": "Te plantas en {score}. El Mago toma su turno...",
+    "playerWins21": "¡21 perfecto! ¡Has derrotado al Mago!",
+    "playerBust": "¡Te pasaste de 21! ¡El Mago reclama la victoria!",
+    "computerRolled": "¡El Mago sacó {roll}! Total: {score}...",
+    "computerStands": "El Mago se planta en {score}...",
+    "computerWins21": "¡El Mago alcanzó 21! ¡Has sido derrotado!",
+    "computerBust": "¡El Mago se pasó de 21! ¡La victoria es tuya!",
+    "playerWinsHigher": "¡Derrotaste al Mago! {playerScore} vs {computerScore}",
+    "computerWinsHigher": "¡El Mago gana! {computerScore} vs {playerScore}",
+    "tie": "¡Empate místico en {score}!",
+    "victory": "🎉 ¡VICTORIA!",
+    "defeat": "💀 DERROTA",
+    "draw": "🤝 EMPATE",
+    "mageDialogues": {
+      "roll": [
+        "This hand's about to get discarded!",
+        "No Blueprint needed to see where this is going...",
+        "Hope you're not playing on Gold Stake!",
+        "Let's see if you can scale this run...",
+        "Thinking of Brainstorm? Too late!",
+        "This isn't a Straight Flush situation...",
+        "No Ankh to save you from this brick!",
+        "Feeling like an Uncommon Joker today?",
+        "Even The Duo couldn't save this hand!",
+        "Ride the Bus time? Let's find out!"
+      ],
+      "win": [
+        "Nice! You're scaling harder than Photograph!",
+        "That's the kind of play that earns Legendary rarity!",
+        "You just hit the ante like it was nothing!",
+        "Impressive mult stacking, not gonna lie.",
+        "You're playing this like it's White Stake!"
+      ],
+      "lose": [
+        "Bricked harder than a hand with no pairs!",
+        "Should've used that Chariot before the blind!",
+        "Even Hanging Chad couldn't retrigger that loss!",
+        "Time to hit the Shop and reroll your strat!",
+        "That's a 'skip blind' moment if I ever saw one!"
+      ]
+    },
+    "gameMageName": "EL RECLUTADOR",
+    "gameMageTitle": "+X MULT POR CADA<br>DESARROLLADOR RECLUTADO"
   },
 
   "footer": {

@@ -12,10 +12,12 @@
     "stats": "MY STATS",
     "timeline": "TIMELINE",
     "missions": "MISSIONS ACCOMPLISHED",
-    "contact": "SEND PIGEON"
+    "contact": "SEND PIGEON",
+    "game": "TEST YOUR LUCK"
   },
 
   "stats": {
+    "heroTitle": "ICT SYSTEMS ENGINEER<br>SOFTWARE DEVELOPER",
     "header": "MY STATS",
     "info": "Education & Professional Experience",
     "education": {
@@ -148,6 +150,8 @@
   },
 
   "missions": {
+    "heroName": "MISSIONS LOG",
+    "heroSubtitle": "COMPLETED PROJECTS<br>& ACHIEVEMENTS",
     "header": "PROJECTS",
     "info": "Projects & Achievements",
     "projects": {
@@ -183,6 +187,61 @@
       "github": "GITHUB",
       "portfolio": "WEB PORTFOLIO"
     }
+  },
+
+  "game": {
+    "title": "DICE DUEL TO 21",
+    "subtitle": "Challenge the Hidden Mage to reach 21 without going over!",
+    "playerLabel": "YOU",
+    "computerLabel": "HIDDEN MAGE",
+    "rollButton": "ROLL DICE",
+    "standButton": "STAND",
+    "resetButton": "NEW GAME",
+    "gameStart": "Click \"Roll Dice\" to challenge the Mage!",
+    "playerRolled": "You rolled {roll}! Total: {score}. Roll again or Stand?",
+    "playerStands": "You stand at {score}. The Mage takes their turn...",
+    "playerWins21": "Perfect 21! You've defeated the Mage!",
+    "playerBust": "You went over 21! The Mage claims victory!",
+    "computerRolled": "The Mage rolled {roll}! Total: {score}...",
+    "computerStands": "The Mage stands at {score}...",
+    "computerWins21": "The Mage reached 21! You have been defeated!",
+    "computerBust": "The Mage went over 21! Victory is yours!",
+    "playerWinsHigher": "You defeated the Mage! {playerScore} vs {computerScore}",
+    "computerWinsHigher": "The Mage wins! {computerScore} vs {playerScore}",
+    "tie": "A mystical tie at {score}!",
+    "victory": "🎉 VICTORY!",
+    "defeat": "💀 DEFEAT",
+    "draw": "🤝 DRAW",
+    "mageDialogues": {
+      "roll": [
+        "This hand's about to get discarded!",
+        "No Blueprint needed to see where this is going...",
+        "Hope you're not playing on Gold Stake!",
+        "Let's see if you can scale this run...",
+        "Thinking of Brainstorm? Too late!",
+        "This isn't a Straight Flush situation...",
+        "No Ankh to save you from this brick!",
+        "Feeling like an Uncommon Joker today?",
+        "Even The Duo couldn't save this hand!",
+        "Ride the Bus time? Let's find out!"
+      ],
+      "win": [
+        "Nice! You're scaling harder than Photograph!",
+        "That's the kind of play that earns Legendary rarity!",
+        "You just hit the ante like it was nothing!",
+        "Impressive mult stacking, not gonna lie.",
+        "You're playing this like it's White Stake!"
+      ],
+      "lose": [
+        "Bricked harder than a hand with no pairs!",
+        "Should've used that Chariot before the blind!",
+        "Even Hanging Chad couldn't retrigger that loss!",
+        "Time to hit the Shop and reroll your strat!",
+        "That's a 'skip blind' moment if I ever saw one!"
+      ]
+    },
+    "gameMageName": "THE RECRUITER",
+    "gameMageTitle": "+X MULT FOR EACH<br>RECRUITED DEVELOPER"
   },
 
   "footer": {

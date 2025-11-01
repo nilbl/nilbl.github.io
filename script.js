@@ -88,7 +88,7 @@
             '#00d4ff', // Cyan
             '#ff5757', // Red
             '#b8f740', // Lime
-            '#ff0080'  // Magenta
+            '#ff0080' // Magenta
         ];
 
         // Calculate container height
@@ -289,21 +289,29 @@
             card.className = 'timeline-entry-card';
             card.setAttribute('data-entry-id', `entry-${index}`);
 
-            // Smart positioning: check if card would overflow on the right
+            // Smart positioning: check if card would overflow on the right or left
             const cardWidth = 350; // card width from CSS
-            const containerWidth = container.offsetWidth || 1400;
-            const spaceOnRight = containerWidth - branchX;
+            const timelineFullContainer = document.querySelector('.timeline-full-container');
+            const viewportWidth = timelineFullContainer ? timelineFullContainer.offsetWidth : 1400;
+            const spaceOnRight = viewportWidth - branchX;
+            const spaceOnLeft = branchX;
 
-            // Position card on left or right of marker based on available space
-            if (spaceOnRight < cardWidth + 100) {
-                // Position on the left
-                card.style.right = `${containerWidth - branchX + 70}px`;
-                card.style.left = 'auto';
-                card.classList.add('card-left');
-            } else {
-                // Position on the right (default)
+            // Determine best position for card
+            if (spaceOnRight >= cardWidth + 100) {
+                // Position on the right (default, best option)
                 card.style.left = `${branchX + 70}px`;
                 card.style.right = 'auto';
+            } else if (spaceOnLeft >= cardWidth + 100) {
+                // Position on the left (only if there's enough space)
+                const leftPosition = Math.max(20, branchX - cardWidth - 70);
+                card.style.left = `${leftPosition}px`;
+                card.style.right = 'auto';
+                card.classList.add('card-left');
+            } else {
+                // Not enough space on either side, position right but closer
+                card.style.left = `${branchX + 30}px`;
+                card.style.right = 'auto';
+                card.style.maxWidth = '280px';
             }
 
             card.style.top = `${middleY - 60}px`;
@@ -390,15 +398,23 @@
         const timelineTab = document.querySelector('[data-section="timeline"] span');
         const missionsTab = document.querySelector('[data-section="missions"] span');
         const contactTab = document.querySelector('[data-section="contact"] span');
+        const gameTab = document.querySelector('[data-section="game"] span');
 
         if (statsTab) statsTab.textContent = trans.navigation.stats;
         if (timelineTab) timelineTab.textContent = trans.navigation.timeline;
         if (missionsTab) missionsTab.textContent = trans.navigation.missions;
         if (contactTab) contactTab.textContent = trans.navigation.contact;
+        if (gameTab) gameTab.textContent = trans.navigation.game;
 
         // Update Stats Section
         const statsSection = document.getElementById('statsSection');
         if (statsSection && trans.stats) {
+            // Hero title
+            const heroTitle = statsSection.querySelector('.hero-title');
+            if (heroTitle && trans.stats.heroTitle) {
+                heroTitle.innerHTML = trans.stats.heroTitle;
+            }
+
             // Header
             const statsHeader = statsSection.querySelector('.menu-header span');
             const statsInfo = statsSection.querySelector('.info-box');
@@ -456,8 +472,8 @@
         // Update Timeline Section
         const timelineSection = document.getElementById('timelineSection');
         if (timelineSection && trans.timeline) {
-            const timelineHeader = timelineSection.querySelector('.menu-header span');
-            const timelineInfo = timelineSection.querySelector('.info-box');
+            const timelineHeader = timelineSection.querySelector('.timeline-main-header span');
+            const timelineInfo = timelineSection.querySelector('.timeline-subtitle');
             if (timelineHeader) timelineHeader.textContent = trans.timeline.header;
             if (timelineInfo) timelineInfo.textContent = trans.timeline.info;
 
@@ -468,20 +484,47 @@
         // Update Missions Section
         const missionsSection = document.getElementById('missionsSection');
         if (missionsSection && trans.missions) {
+            // Update hero titles
+            const missionsHeroName = missionsSection.querySelector('.hero-name');
+            const missionsHeroTitle = missionsSection.querySelector('.character-portrait .hero-title');
+            if (missionsHeroName && trans.missions.heroName) {
+                missionsHeroName.textContent = trans.missions.heroName;
+            }
+            if (missionsHeroTitle && trans.missions.heroSubtitle) {
+                missionsHeroTitle.innerHTML = trans.missions.heroSubtitle;
+            }
+
+            // Update header and info
             const missionsHeader = missionsSection.querySelector('.menu-header span');
             const missionsInfo = missionsSection.querySelector('.info-box');
             if (missionsHeader) missionsHeader.textContent = trans.missions.header;
             if (missionsInfo) missionsInfo.textContent = trans.missions.info;
 
-            const projectCards = missionsSection.querySelectorAll('.project-card');
+            // Update project entries
+            const projectEntries = missionsSection.querySelectorAll('.content-entry');
             const projectKeys = ['project1', 'project2', 'project3'];
-            projectCards.forEach((card, i) => {
+            projectEntries.forEach((entry, i) => {
                 const data = trans.missions.projects[projectKeys[i]];
                 if (data) {
-                    card.querySelector('.project-title').textContent = data.title;
-                    card.querySelector('.project-subtitle').textContent = data.subtitle;
-                    card.querySelector('.project-date').textContent = data.date;
-                    card.querySelector('.project-description').textContent = data.description;
+                    const title = entry.querySelector('.entry-title');
+                    const subtitle = entry.querySelector('.entry-subtitle');
+                    const date = entry.querySelector('.entry-date');
+                    const description = entry.querySelector('.entry-description');
+
+                    // Update title (preserve icon)
+                    if (title) {
+                        const icon = title.querySelector('img');
+                        if (icon) {
+                            title.innerHTML = '';
+                            title.appendChild(icon);
+                            title.appendChild(document.createTextNode(data.title));
+                        } else {
+                            title.textContent = data.title;
+                        }
+                    }
+                    if (subtitle) subtitle.textContent = data.subtitle;
+                    if (date) date.textContent = data.date;
+                    if (description) description.textContent = data.description;
                 }
             });
         }
@@ -504,6 +547,28 @@
             if (contactLabels[1]) contactLabels[1].textContent = trans.contact.fields.linkedin;
             if (contactLabels[2]) contactLabels[2].textContent = trans.contact.fields.github;
             if (contactLabels[3]) contactLabels[3].textContent = trans.contact.fields.portfolio;
+        }
+
+        // Update Game Section
+        const gameSection = document.getElementById('gameSection');
+        if (gameSection && trans.game) {
+            const gameTitle = gameSection.querySelector('.game-title span');
+            const gameSubtitle = gameSection.querySelector('.game-subtitle');
+            const playerLabel = gameSection.querySelector('.player-score h3');
+            const computerLabel = gameSection.querySelector('.computer-score h3');
+            const gameStart = gameSection.querySelector('.game-message');
+            const rollButton = gameSection.querySelector('#rollBtn');
+            const standButton = gameSection.querySelector('#standBtn');
+            const resetButton = gameSection.querySelector('#resetBtn');
+
+            if (gameTitle) gameTitle.textContent = trans.game.title;
+            if (gameSubtitle) gameSubtitle.textContent = trans.game.subtitle;
+            if (playerLabel) playerLabel.textContent = trans.game.playerLabel;
+            if (computerLabel) computerLabel.textContent = trans.game.computerLabel;
+            if (gameStart) gameStart.textContent = trans.game.gameStart;
+            if (rollButton) rollButton.textContent = '🎲 ' + trans.game.rollButton;
+            if (standButton) standButton.textContent = '✋ ' + trans.game.standButton;
+            if (resetButton) resetButton.textContent = '🔄 ' + trans.game.resetButton;
         }
 
         // Update Footer
@@ -572,9 +637,10 @@
             "READY!"
         ];
 
-        // Show loading screen and hide mage
+        // Show loading screen and hide global mage
         loadingScreen.classList.add('active');
-        document.querySelector('.hidden-mage').style.display = 'none';
+        const globalMage = document.querySelector('.hidden-mage:not(#gameMage)');
+        if (globalMage) globalMage.style.display = 'none';
 
         let progress = 0;
         let nextMessageIndex = 0;
@@ -600,7 +666,25 @@
                     titleScreen.style.opacity = '0';
                     setTimeout(() => {
                         titleScreen.style.display = 'none';
-                        document.querySelector('.hidden-mage').style.display = 'block'; // show mage only now
+                        // Show global mage only (not game mage)
+                        const globalMage = document.querySelector('.hidden-mage:not(#gameMage)');
+                        if (globalMage) globalMage.style.display = 'block';
+
+                        // Show taskbar when entering character menu
+                        const taskbar = document.querySelector('.taskbar');
+                        if (taskbar) taskbar.classList.add('visible');
+
+                        // Hide title screen world selector and show footer one
+                        const titleSelector = document.querySelector('.world-selector-title');
+                        const footerSelector = document.querySelector('.world-selector-footer');
+                        if (titleSelector) {
+                            titleSelector.style.opacity = '0';
+                            titleSelector.style.pointerEvents = 'none';
+                        }
+                        if (footerSelector) {
+                            footerSelector.style.display = 'block';
+                        }
+
                         characterMenu.classList.add('active');
                         characterMenu.style.opacity = '0';
                         setTimeout(() => {
@@ -615,7 +699,7 @@
 
 
     function toggleMenu(element) {
-        playSound('menu');
+        // Sound is played in the click handler
 
         if (!cachedElements.allMenuItems) {
             cachedElements.allMenuItems = document.querySelectorAll('.menu-item');
@@ -638,6 +722,28 @@
         }
         if (!cachedElements.taskbarItems) {
             cachedElements.taskbarItems = document.querySelectorAll('.taskbar-item');
+        }
+
+        // Get current section before switching
+        const currentSection = document.querySelector('.content-section.active');
+        const currentIsGame = currentSection && currentSection.id === 'gameSection';
+        const nextIsGame = section === 'game';
+        const hiddenMage = document.querySelector('.hidden-mage:not(#gameMage)');
+
+        // Handle mage exit from game section
+        if (currentIsGame && !nextIsGame) {
+            const gameMage = document.getElementById('gameMage');
+            if (gameMage && gameMage.classList.contains('visible')) {
+                animateSmoke(gameMage, () => {
+                    gameMage.classList.remove('visible');
+                });
+            }
+            // Show hidden mage when leaving game section
+            if (hiddenMage) {
+                setTimeout(() => {
+                    hiddenMage.style.display = 'block';
+                }, 600); // After game mage smoke clears
+            }
         }
 
         cachedElements.contentSections.forEach(sec => {
@@ -664,12 +770,34 @@
             'contact': {
                 element: document.getElementById('contactSection'),
                 index: 3
+            },
+            'game': {
+                element: document.getElementById('gameSection'),
+                index: 4
             }
         };
 
         if (sectionMap[section]) {
             sectionMap[section].element.classList.add('active');
             cachedElements.taskbarItems[sectionMap[section].index].classList.add('active');
+
+            // Handle mage entry to game section
+            if (nextIsGame && !currentIsGame) {
+                // Hide hidden mage when entering game section
+                if (hiddenMage) {
+                    hiddenMage.style.display = 'none';
+                }
+
+                // Show game mage
+                const gameMage = document.getElementById('gameMage');
+                if (gameMage) {
+                    setTimeout(() => {
+                        animateSmoke(gameMage, () => {
+                            gameMage.classList.add('visible');
+                        });
+                    }, 300); // Slight delay after section appears
+                }
+            }
         }
 
         window.scrollTo({
@@ -784,14 +912,54 @@
         "Try clicking my selfie 5 times!"
     ];
 
+    // Game-specific mage dialogues
+    const mageGameDialogues = {
+        roll: [
+            "Feeling lucky, are we?",
+            "Let's see if fortune favors you...",
+            "The dice whisper secrets to me...",
+            "Bold move! Or foolish?",
+            "My magic senses trouble ahead...",
+            "Interesting choice, mortal...",
+            "The fates are watching...",
+            "Roll wisely, young apprentice!",
+            "I've seen this before... it never ends well.",
+            "Your confidence amuses me!"
+        ],
+        win: [
+            "Impressive! But can you do it again?",
+            "You've bested me... this time.",
+            "Lucky roll! My turn next time.",
+            "Beginner's luck, surely!",
+            "The mystical forces smiled upon you today."
+        ],
+        lose: [
+            "As I predicted! The dice never lie.",
+            "Better luck next time, apprentice!",
+            "The mystic arts triumph again!",
+            "Perhaps more practice is needed?",
+            "The mage always wins in the end!"
+        ]
+    };
+
     let lastDialogueIndex = -1;
+    let lastGameDialogueIndex = {
+        roll: -1,
+        win: -1,
+        lose: -1
+    };
     let mageTypingInterval = null;
     let hideTimeout = null;
 
     function showMageDialogue() {
-        playSound('menu');
+        playSound('success'); // Mystical discovery sound
 
-        const dialogue = document.querySelector('.mage-dialogue');
+        // Get hidden mage (not game mage) dialogue box
+        const hiddenMage = document.querySelector('.hidden-mage:not(#gameMage)');
+        if (!hiddenMage) return;
+
+        const dialogue = hiddenMage.querySelector('.mage-dialogue');
+        if (!dialogue) return;
 
         if (mageTypingInterval) clearTimeout(mageTypingInterval); // changed to clearTimeout
         if (hideTimeout) clearTimeout(hideTimeout);
@@ -828,23 +996,225 @@
         typeNextLetter();
     }
 
+    // Game sound system
+    let consecutiveRolls = 0; // Track consecutive rolls without game ending
+
+    function playGameSound(soundFile, pitchScale = false) {
+        const audio = new Audio(`assets/sounds/${soundFile}`);
+        audio.volume = 0.6;
+
+        if (pitchScale) {
+            // Increase pitch much more aggressively: 0.2 per consecutive roll (max 3.0)
+            // Start at 1.0 for first roll, then increase
+            const pitchRate = Math.min(1.0 + (consecutiveRolls * 0.2), 3.0);
+            audio.playbackRate = pitchRate;
+        }
+
+        audio.play().catch(err => {
+            if (DEV_MODE) console.log('Game sound play error:', err);
+        });
+    }
+
+    function resetPitch() {
+        consecutiveRolls = 0;
+    }
+
+    // Voice sound system for joker
+    let currentVoiceAudio = null;
+    let voiceSoundInterval = null;
+    let lastVoiceNum = null;
+
+    function playRandomVoiceSound() {
+        // Stop previous voice sound if playing
+        if (currentVoiceAudio) {
+            currentVoiceAudio.pause();
+            currentVoiceAudio = null;
+        }
+
+        // Play random voice sound (1-11), avoiding repetition
+        let voiceNum;
+        do {
+            voiceNum = Math.floor(Math.random() * 11) + 1;
+        } while (voiceNum === lastVoiceNum && lastVoiceNum !== null);
+
+        lastVoiceNum = voiceNum;
+
+        currentVoiceAudio = new Audio(`assets/sounds/voice${voiceNum}.ogg`);
+        currentVoiceAudio.volume = 0.5;
+        currentVoiceAudio.playbackRate = 2.1; // Double speed
+
+        currentVoiceAudio.play().catch(err => {
+            if (DEV_MODE) console.log('Voice sound play error:', err);
+        });
+
+        // When this sound ends, play the next one
+        currentVoiceAudio.addEventListener('ended', () => {
+            if (voiceSoundInterval) {
+                playRandomVoiceSound();
+            }
+        });
+    }
+
+    function startVoiceSounds() {
+        voiceSoundInterval = true;
+        playRandomVoiceSound();
+    }
+
+    function stopVoiceSounds() {
+        voiceSoundInterval = null;
+        lastVoiceNum = null; // Reset so any voice can play next time
+        if (currentVoiceAudio) {
+            currentVoiceAudio.pause();
+            currentVoiceAudio = null;
+        }
+    }
+
+    // Show game-specific mage dialogue
+    function showGameMageDialogue(type) {
+        const gameMage = document.getElementById('gameMage');
+        if (!gameMage || !gameMage.classList.contains('visible')) return;
+
+        playSound('success');
+        const dialogue = gameMage.querySelector('.mage-dialogue');
+
+        // Get dialogues from translations, fallback to hardcoded English
+        const trans = translations[currentLanguage] ?.game ?.mageDialogues || {};
+        const dialogueArray = trans[type] || mageGameDialogues[type];
+
+        if (!dialogue || !dialogueArray) return;
+
+        // Clear any existing timeouts and stop trembling/voice sounds
+        if (mageTypingInterval) clearTimeout(mageTypingInterval);
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            gameMage.classList.remove('trembling');
+        }
+        stopVoiceSounds();
+
+        // Select random dialogue (avoid repetition)
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * dialogueArray.length);
+        } while (randomIndex === lastGameDialogueIndex[type] && dialogueArray.length > 1);
+
+        lastGameDialogueIndex[type] = randomIndex;
+        const fullText = dialogueArray[randomIndex];
+
+        dialogue.textContent = '';
+        dialogue.classList.add('active');
+
+        // Start trembling animation and voice sounds
+        gameMage.classList.add('trembling');
+        startVoiceSounds();
+
+        let i = 0;
+
+        function typeNextLetter() {
+            dialogue.textContent += fullText.charAt(i);
+            i++;
+
+            if (i < fullText.length) {
+                const randomSpeed = Math.floor(Math.random() * 75) + 30;
+                mageTypingInterval = setTimeout(typeNextLetter, randomSpeed);
+            } else {
+                // Stop trembling and voice sounds when typing finishes
+                gameMage.classList.remove('trembling');
+                stopVoiceSounds();
+                mageTypingInterval = null;
+                hideTimeout = setTimeout(() => {
+                    dialogue.classList.remove('active');
+                    hideTimeout = null;
+                }, MAGE_HIDE_DELAY);
+            }
+        }
+
+        typeNextLetter();
+    }
+
+    // === SMOKE EFFECT ANIMATION ===
+    function animateSmoke(targetElement, onComplete) {
+        if (!targetElement) {
+            if (onComplete) onComplete();
+            return;
+        }
+
+        // Create smoke overlay element
+        const smokeOverlay = document.createElement('div');
+        smokeOverlay.className = 'smoke-effect';
+
+        // Position smoke centered on target element's location
+        const rect = targetElement.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        smokeOverlay.style.left = centerX + 'px';
+        smokeOverlay.style.top = centerY + 'px';
+
+        document.body.appendChild(smokeOverlay);
+
+        // Smoke frames array
+        const smokeFrames = [
+            'assets/FX001/FX001_01.png',
+            'assets/FX001/FX001_02.png',
+            'assets/FX001/FX001_03.png',
+            'assets/FX001/FX001_04.png',
+            'assets/FX001/FX001_05.png'
+        ];
+
+        let frameIndex = 0;
+
+        // Animate through frames
+        const frameInterval = setInterval(() => {
+            if (frameIndex < smokeFrames.length) {
+                smokeOverlay.style.backgroundImage = `url('${smokeFrames[frameIndex]}')`;
+                frameIndex++;
+            } else {
+                // Animation complete
+                clearInterval(frameInterval);
+                smokeOverlay.remove();
+                if (onComplete) onComplete();
+            }
+        }, 100); // 100ms per frame (matching dice animation)
+
+        playSound('tab'); // Smoke sound effect
+    }
+
 
     // === VISIT COUNTER ===
     async function initVisitCounter() {
+        const countElement = document.getElementById('visitCount');
+        if (!countElement) return;
+
+        // Show loading state
+        countElement.textContent = '...';
+
         try {
-            const response = await fetch('https://api.countapi.xyz/hit/nilbl.github.io/visits');
-            const data = await response.json();
-            const countElement = document.getElementById('visitCount');
-            if (countElement && data.value) {
-                countElement.textContent = data.value;
+            // Use a simpler API endpoint that's more reliable
+            const response = await fetch('https://api.countapi.xyz/hit/nilbl.github.io/visits', {
+                method: 'GET',
+                mode: 'cors'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('CountAPI response:', data); // Debug log
+                if (data && typeof data.value === 'number') {
+                    countElement.textContent = data.value.toLocaleString();
+                    countElement.title = 'Global visitor count';
+                    return;
+                }
+            } else {
+                console.log('CountAPI status:', response.status);
             }
-        } catch (error) {
-            if (DEV_MODE) console.log('Visit counter error:', error);
-            const countElement = document.getElementById('visitCount');
-            if (countElement) {
-                countElement.textContent = '---';
-            }
+        } catch (e) {
+            console.log('CountAPI error:', e);
         }
+
+        // Fallback: Use localStorage for local counting (better than showing ---)
+        let localCount = parseInt(safeGetLocalStorage('local-visit-count', '0'));
+        localCount++;
+        safeSetLocalStorage('local-visit-count', localCount.toString());
+        countElement.textContent = localCount.toLocaleString() + '*';
+        countElement.title = 'Local counter (API unavailable - this counts your visits only)';
     }
 
     // === CONSOLIDATED DOM CONTENT LOADED ===
@@ -885,11 +1255,20 @@
         // Initialize visit counter
         initVisitCounter();
 
-        // Initialize hidden mage
-        const hiddenMage = document.querySelector('.hidden-mage');
+        // Initialize hidden mage (global)
+        const hiddenMage = document.querySelector('.hidden-mage:not(#gameMage)');
         if (hiddenMage) {
             hiddenMage.style.display = 'none';
             hiddenMage.addEventListener('click', showMageDialogue);
+        }
+
+        // Initialize game section mage
+        const gameMage = document.getElementById('gameMage');
+        if (gameMage) {
+            gameMage.addEventListener('click', () => {
+                // Random chance to show roll dialogue when clicked
+                showGameMageDialogue('roll');
+            });
         }
 
         // Start button event listener
@@ -928,6 +1307,7 @@
         const menuItems = document.querySelectorAll('.menu-item');
         menuItems.forEach(item => {
             item.addEventListener('click', function() {
+                playSound('open');
                 toggleMenu(this);
             });
 
@@ -935,6 +1315,7 @@
             item.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
+                    playSound('open');
                     toggleMenu(this);
                 }
             });
@@ -957,9 +1338,10 @@
         if (portrait && controller) {
             portrait.addEventListener('click', () => {
                 clickCount++;
+                playSound('hover'); // Subtle click feedback
                 if (clickCount >= PORTRAIT_CLICK_THRESHOLD) {
                     controller.classList.remove('hidden');
-                    playSound('menu');
+                    playSound('success'); // Success sound for unlocking
                     clickCount = 0;
                 }
                 setTimeout(() => (clickCount = 0), CLICK_RESET_TIMEOUT);
@@ -1154,7 +1536,7 @@
 
     // === MULTI-THEME PARALLAX SELECTOR ===
     const parallaxContainer = document.querySelector('.parallax');
-    const themeSelector = document.getElementById('themeSelector');
+    const themeSelectors = document.querySelectorAll('.theme-selector');
 
     const themes = {
         forest: [{
@@ -1280,7 +1662,7 @@
         if (!theme) return;
 
         // Add loading indicator
-        const themeSelector = document.getElementById('themeSelector');
+        const themeSelector = themeSelectors[0];
         if (themeSelector) {
             themeSelector.disabled = true;
             themeSelector.style.opacity = '0.5';
@@ -1336,17 +1718,305 @@
 
     const savedTheme = safeGetLocalStorage('selectedTheme', 'forest');
     setParallaxTheme(savedTheme);
-    if (themeSelector) themeSelector.value = savedTheme;
 
-    if (themeSelector) {
-        themeSelector.addEventListener('change', e => {
-            setParallaxTheme(e.target.value);
+    // Set initial value for all theme selectors
+    themeSelectors.forEach(selector => {
+        selector.value = savedTheme;
+    });
+
+    // Add change event to all theme selectors and sync them
+    themeSelectors.forEach(selector => {
+        selector.addEventListener('change', e => {
+            const newTheme = e.target.value;
+            setParallaxTheme(newTheme);
+
+            // Sync all other selectors
+            themeSelectors.forEach(otherSelector => {
+                if (otherSelector !== selector) {
+                    otherSelector.value = newTheme;
+                }
+            });
         });
-    }
+    });
 
 
     document.addEventListener('keydown', e => {
         checkKonamiCode(e.code);
     });
+
+    // === DICE GAME ===
+    const diceGame = {
+        playerScore: 0,
+        computerScore: 0,
+        isPlayerTurn: true,
+        gameOver: false,
+
+        init() {
+            this.rollBtn = document.getElementById('rollBtn');
+            this.standBtn = document.getElementById('standBtn');
+            this.resetBtn = document.getElementById('resetBtn');
+            this.playerScoreEl = document.getElementById('playerScore');
+            this.computerScoreEl = document.getElementById('computerScore');
+            this.gameMessageEl = document.getElementById('gameMessage');
+            this.dice1 = document.getElementById('dice1');
+            this.dice2 = document.getElementById('dice2');
+            this.historyEl = document.getElementById('gameHistory');
+
+            if (!this.rollBtn) return; // Game section not loaded yet
+
+            this.rollBtn.addEventListener('click', () => this.playerRoll());
+            this.standBtn.addEventListener('click', () => this.playerStand());
+            this.resetBtn.addEventListener('click', () => this.resetGame());
+
+            this.resetGame();
+        },
+
+        rollDice() {
+            return [
+                Math.floor(Math.random() * 6) + 1,
+                Math.floor(Math.random() * 6) + 1
+            ];
+        },
+
+        animateDice(dice1Val, dice2Val) {
+            const dice1Img = this.dice1.querySelector('.dice-img');
+            const dice2Img = this.dice2.querySelector('.dice-img');
+
+            // Add rolling class to trigger spin animation
+            this.dice1.classList.add('rolling');
+            this.dice2.classList.add('rolling');
+
+            const whiteRollFrames = [
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-9.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-10.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-11.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-12.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-13.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-14.png'
+            ];
+
+            const blackRollFrames = [
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-3.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-4.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-5.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-6.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-7.png',
+                'assets/1-6 Pip Angled Dice/Angled_And_ISO_Dice-8.png'
+            ];
+
+            let frameIndex = 0;
+            const frameInterval = setInterval(() => {
+                dice1Img.src = whiteRollFrames[frameIndex];
+                dice2Img.src = blackRollFrames[frameIndex];
+                frameIndex = (frameIndex + 1) % whiteRollFrames.length;
+            }, 100); // Change frame every 100ms (6 frames = 600ms total)
+
+            // After animation completes, show final result
+            setTimeout(() => {
+                clearInterval(frameInterval);
+                // White dice results: Dice 1-6 Light (1).png to (6).png
+                dice1Img.src = `assets/1-6 Pip Flat Dice (Stlye 1)/Dice 1-6 Light (${dice1Val}).png`;
+                // Black dice results: 1-6 Dice Dark (01).png to (06).png
+                const blackNum = dice2Val.toString().padStart(2, '0');
+                dice2Img.src = `assets/1-6 Pip Flat Dice (Stlye 1)/1-6 Dice Dark (${blackNum}).png`;
+                this.dice1.classList.remove('rolling');
+                this.dice2.classList.remove('rolling');
+            }, 600);
+        },
+
+        updateMessage(message, isError = false) {
+            this.gameMessageEl.textContent = message;
+            this.gameMessageEl.style.color = isError ? '#ff6b6b' : '#5effb2';
+        },
+
+        playerRoll() {
+            if (this.gameOver || !this.isPlayerTurn) return;
+
+            playSound('tab');
+            const [dice1, dice2] = this.rollDice();
+            const roll = dice1 + dice2;
+
+            this.animateDice(dice1, dice2);
+
+            // Play multhit2 with pitch scaling
+            consecutiveRolls++;
+            playGameSound('multhit2.ogg', true);
+
+            setTimeout(() => {
+                this.playerScore += roll;
+                this.playerScoreEl.textContent = this.playerScore;
+
+                const trans = translations[currentLanguage] ?.game || {};
+
+                if (this.playerScore === 21) {
+                    this.updateMessage(trans.playerWins21 || 'YOU WIN! Perfect 21!');
+                    this.gameOver = true;
+                    this.endGame(true);
+                    playGameSound('win.ogg');
+                    resetPitch();
+                } else if (this.playerScore > 21) {
+                    this.updateMessage(trans.playerBust || `You went over 21! (${this.playerScore}) You lose!`, true);
+                    this.gameOver = true;
+                    this.endGame(false);
+                    playGameSound('timpani.ogg');
+                    resetPitch();
+                } else {
+                    this.updateMessage(trans.playerRolled ?.replace('{roll}', roll).replace('{score}', this.playerScore) || `You rolled ${roll}! Total: ${this.playerScore}. Roll again or Stand?`);
+                    this.standBtn.disabled = false;
+
+                    // 40% chance for joker to speak, only if not already speaking
+                    if (Math.random() < 0.4 && !mageTypingInterval) {
+                        setTimeout(() => {
+                            showGameMageDialogue('roll');
+                            resetPitch(); // Reset when joker speaks
+                        }, 300);
+                    }
+                }
+            }, 650);
+        },
+
+        playerStand() {
+            if (this.gameOver || !this.isPlayerTurn) return;
+
+            playSound('open');
+            this.isPlayerTurn = false;
+            this.rollBtn.disabled = true;
+            this.standBtn.disabled = true;
+
+            const trans = translations[currentLanguage] ?.game || {};
+            this.updateMessage(trans.playerStands ?.replace('{score}', this.playerScore) || `You stand at ${this.playerScore}. Computer's turn...`);
+
+            setTimeout(() => {
+                this.computerPlay();
+            }, 1500);
+        },
+
+        computerPlay() {
+            const trans = translations[currentLanguage] ?.game || {};
+
+            // Computer AI: Roll if score < 17, or if player is ahead and computer < 21
+            if (this.computerScore < 17 || (this.computerScore < this.playerScore && this.computerScore < 21)) {
+                playSound('tab');
+                const [dice1, dice2] = this.rollDice();
+                const roll = dice1 + dice2;
+
+                this.animateDice(dice1, dice2);
+
+                // Play multhit2 with pitch scaling
+                consecutiveRolls++;
+                playGameSound('multhit2.ogg', true);
+
+                setTimeout(() => {
+                    this.computerScore += roll;
+                    this.computerScoreEl.textContent = this.computerScore;
+
+                    if (this.computerScore === 21) {
+                        this.updateMessage(trans.computerWins21 || 'Computer got 21! Computer wins!', true);
+                        this.gameOver = true;
+                        this.endGame(false);
+                        playGameSound('timpani.ogg');
+                        resetPitch();
+                    } else if (this.computerScore > 21) {
+                        this.updateMessage(trans.computerBust || `Computer went over 21! (${this.computerScore}) You win!`);
+                        this.gameOver = true;
+                        this.endGame(true);
+                        playGameSound('win.ogg');
+                        resetPitch();
+                    } else if (this.computerScore > this.playerScore) {
+                        // Computer wins immediately if it beats player's score without busting
+                        this.updateMessage(trans.computerWinsHigher ?.replace('{playerScore}', this.playerScore).replace('{computerScore}', this.computerScore) || `Computer wins! ${this.computerScore} vs ${this.playerScore}`, true);
+                        this.gameOver = true;
+                        this.endGame(false);
+                        playGameSound('timpani.ogg');
+                        resetPitch();
+                    } else {
+                        this.updateMessage(trans.computerRolled ?.replace('{roll}', roll).replace('{score}', this.computerScore) || `Computer rolled ${roll}! Total: ${this.computerScore}...`);
+                        setTimeout(() => this.computerPlay(), 1500);
+                    }
+                }, 650);
+            } else {
+                this.updateMessage(trans.computerStands ?.replace('{score}', this.computerScore) || `Computer stands at ${this.computerScore}...`);
+                setTimeout(() => this.determineWinner(), 1500);
+            }
+        },
+
+        determineWinner() {
+            const trans = translations[currentLanguage] ?.game || {};
+
+            if (this.playerScore > this.computerScore) {
+                this.updateMessage(trans.playerWinsHigher ?.replace('{playerScore}', this.playerScore).replace('{computerScore}', this.computerScore) || `You win! ${this.playerScore} vs ${this.computerScore}`);
+                playGameSound('win.ogg');
+                this.endGame(true);
+                resetPitch();
+            } else if (this.computerScore > this.playerScore) {
+                this.updateMessage(trans.computerWinsHigher ?.replace('{playerScore}', this.playerScore).replace('{computerScore}', this.computerScore) || `Computer wins! ${this.computerScore} vs ${this.playerScore}`, true);
+                playGameSound('timpani.ogg');
+                this.endGame(false);
+                resetPitch();
+            } else {
+                this.updateMessage(trans.tie ?.replace('{score}', this.playerScore) || `It's a tie at ${this.playerScore}!`);
+                playGameSound('whoosh.ogg');
+                this.endGame(null);
+                resetPitch();
+            }
+
+            this.gameOver = true;
+        },
+
+        endGame(playerWon) {
+            this.rollBtn.disabled = true;
+            this.standBtn.disabled = true;
+
+            const trans = translations[currentLanguage] ?.game || {};
+            let result = playerWon === true ? (trans.victory || 'VICTORY!') :
+                playerWon === false ? (trans.defeat || 'DEFEAT') :
+                (trans.draw || '🤝 DRAW');
+
+            this.historyEl.textContent = result;
+
+            // Mage comments on game outcome
+            if (playerWon === true) {
+                setTimeout(() => {
+                    showGameMageDialogue('win');
+                }, 800);
+            } else if (playerWon === false) {
+                setTimeout(() => {
+                    showGameMageDialogue('lose');
+                }, 800);
+            }
+        },
+
+        resetGame() {
+            playSound('hover');
+            resetPitch(); // Reset pitch for new game
+            this.playerScore = 0;
+            this.computerScore = 0;
+            this.isPlayerTurn = true;
+            this.gameOver = false;
+
+            this.playerScoreEl.textContent = '0';
+            this.computerScoreEl.textContent = '0';
+
+            // Reset dice images to initial state
+            const dice1Img = this.dice1.querySelector('.dice-img');
+            const dice2Img = this.dice2.querySelector('.dice-img');
+            if (dice1Img) dice1Img.src = 'assets/1-6 Pip Flat Dice (Stlye 1)/Dice 1-6 Light (1).png'; // White dice showing 1
+            if (dice2Img) dice2Img.src = 'assets/1-6 Pip Flat Dice (Stlye 1)/1-6 Dice Dark (01).png'; // Black dice showing 1
+
+            this.rollBtn.disabled = false;
+            this.standBtn.disabled = true;
+
+            const trans = translations[currentLanguage] ?.game || {};
+            this.updateMessage(trans.gameStart || 'Click "Roll Dice" to start!');
+            this.historyEl.textContent = '';
+        }
+    };
+
+    // Initialize game when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => diceGame.init());
+    } else {
+        diceGame.init();
+    }
 
 })();

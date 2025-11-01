@@ -24,16 +24,53 @@
         <img src="assets/forest/forest_short.png" class="layer" data-speed="0.3" alt="Short layer" loading="lazy">
         <img src="assets/forest/forest_long.png" class="layer" data-speed="0.45" alt="Long layer" loading="lazy">
     </div>
-    <!-- === WORLD SELECTOR === -->
-    <div class="world-selector">
-        <label for="themeSelector">🗺️ Select World:</label>
-        <select id="themeSelector" title="Select a world theme">
-            <option value="forest">Forest</option>
-            <option value="skies">Skies</option>
-            <option value="moon">Moon</option>
-            <option value="desert">Desert</option>
+
+    <!-- === WORLD SELECTOR (TITLE SCREEN ONLY) === -->
+    <div class="world-selector world-selector-title">
+        <select id="themeSelector1" title="Select a world theme" class="theme-selector">
+            <option value="forest">🌲 Forest</option>
+            <option value="skies">☁️ Skies</option>
+            <option value="moon">🌙 Moon</option>
+            <option value="desert">🏜️ Desert</option>
         </select>
     </div>
+
+    <!-- === TASKBAR === -->
+    <nav class="taskbar">
+        <div class="taskbar-container">
+            <div class="taskbar-item active" data-section="stats" role="button" tabindex="0">
+                <img src="assets/sword.png" alt="sword" class="taskbar-icon">
+                <span data-i18n="statsTab">MY STATS</span>
+            </div>
+            <div class="taskbar-item" data-section="timeline" role="button" tabindex="0">
+                <img src="assets/hearts.png" alt="timeline" class="taskbar-icon">
+                <span data-i18n="timelineTab">TIMELINE</span>
+            </div>
+            <div class="taskbar-item" data-section="missions" role="button" tabindex="0">
+                <img src="assets/scrollopen.png" alt="scroll open" class="taskbar-icon">
+                <span data-i18n="missionsTab">MISSIONS ACCOMPLISHED</span>
+            </div>
+            <div class="taskbar-item" data-section="contact" role="button" tabindex="0">
+                <img src="assets/scrollclosedred.png" alt="scroll closed" class="taskbar-icon">
+                <span data-i18n="contactTab">SEND PIGEON</span>
+            </div>
+            <div class="taskbar-item" data-section="game" role="button" tabindex="0">
+                <img src="assets/Kings, Queens, Jacks, Aces/Joker (1).png" alt="game joker" class="taskbar-icon">
+                <span data-i18n="gameTab">TEST YOUR LUCK</span>
+            </div>
+            <div class="language-selector">
+                <button type="button" class="lang-dropdown-btn" id="langDropdownBtn" title="Language">
+                    <img src="assets/bookclosedblue.png" alt="language" class="lang-icon">
+                    <span class="lang-text">EN</span>
+                </button>
+                <div class="lang-dropdown-menu" id="langDropdownMenu">
+                    <button type="button" class="lang-option active" data-lang="en">English (EN)</button>
+                    <button type="button" class="lang-option" data-lang="es">Español (ES)</button>
+                    <button type="button" class="lang-option" data-lang="ca">Català (CA)</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <main class="game-container">
         <!-- === TITLE SCREEN === -->
@@ -46,39 +83,6 @@
 
         <!-- === CHARACTER MENU === -->
         <div class="character-menu" id="characterMenu">
-
-            <!-- === TASKBAR === -->
-            <nav class="taskbar">
-                <div class="taskbar-container">
-                    <div class="taskbar-item active" data-section="stats" role="button" tabindex="0">
-                        <img src="assets/sword.png" alt="sword" class="taskbar-icon">
-                        <span data-i18n="statsTab">MY STATS</span>
-                    </div>
-                    <div class="taskbar-item" data-section="timeline" role="button" tabindex="0">
-                        <img src="assets/scrollclosedblue.png" alt="timeline" class="taskbar-icon">
-                        <span data-i18n="timelineTab">TIMELINE</span>
-                    </div>
-                    <div class="taskbar-item" data-section="missions" role="button" tabindex="0">
-                        <img src="assets/scrollopen.png" alt="scroll open" class="taskbar-icon">
-                        <span data-i18n="missionsTab">MISSIONS ACCOMPLISHED</span>
-                    </div>
-                    <div class="taskbar-item" data-section="contact" role="button" tabindex="0">
-                        <img src="assets/scrollclosedred.png" alt="scroll closed" class="taskbar-icon">
-                        <span data-i18n="contactTab">SEND PIGEON</span>
-                    </div>
-                    <div class="language-selector">
-                        <button type="button" class="lang-dropdown-btn" id="langDropdownBtn" title="Language">
-                            <img src="assets/scrollclosedred.png" alt="language" class="lang-icon">
-                            <span class="lang-text">EN</span>
-                        </button>
-                        <div class="lang-dropdown-menu" id="langDropdownMenu">
-                            <button type="button" class="lang-option active" data-lang="en">English (EN)</button>
-                            <button type="button" class="lang-option" data-lang="es">Español (ES)</button>
-                            <button type="button" class="lang-option" data-lang="ca">Català (CA)</button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
 
             <!-- === CHARACTER STATS SECTION === -->
             <section class="content-section active" id="statsSection">
@@ -259,9 +263,9 @@
             <section class="content-section" id="timelineSection">
                 <div class="timeline-full-container">
                     <h2 class="timeline-main-header">
-                        <img src="assets/scrollclosedblue.png" alt="Left Scroll" class="header-icon">
+                        <img src="assets/hearts.png" alt="Left Heart" class="header-icon">
                         <span data-i18n="timelineHeader">TIMELINE</span>
-                        <img src="assets/scrollclosedblue.png" alt="Right Scroll" class="header-icon">
+                        <img src="assets/hearts.png" alt="Right Heart" class="header-icon">
                     </h2>
                     <span class="timeline-subtitle" data-i18n="timelineInfo">My Journey</span>
 
@@ -421,14 +425,93 @@
                 </div>
             </section>
 
+            <!-- === GAME SECTION === -->
+            <section class="content-section" id="gameSection">
+                <div class="game-screen">
+                    <h2 class="game-title">
+                        <img src="assets/Kings, Queens, Jacks, Aces/Joker (1).png" alt="joker" class="header-icon">
+                        <span data-i18n="gameTitle">DICE DUEL TO 21</span>
+                        <img src="assets/Kings, Queens, Jacks, Aces/Joker (1).png" alt="joker" class="header-icon">
+                    </h2>
+                    <p class="game-subtitle" data-i18n="gameSubtitle">First to reach 21 without going over wins!</p>
+
+                    <div class="game-board">
+                        <!-- Scores -->
+                        <div class="score-panel">
+                            <div class="player-score">
+                                <h3 data-i18n="playerLabel">YOU</h3>
+                                <div class="score-display" id="playerScore">0</div>
+                            </div>
+                            <div class="vs-divider">VS</div>
+                            <div class="computer-score">
+                                <h3 data-i18n="computerLabel">COMPUTER</h3>
+                                <div class="score-display" id="computerScore">0</div>
+                            </div>
+                        </div>
+
+                        <!-- Dice Display -->
+                        <div class="dice-container">
+                            <div class="dice dice-white" id="dice1">
+                                <img src="assets/1-6 Pip Flat Dice (Stlye 1)/Dice 1-6 Light (1).png" alt="White Dice" class="dice-img">
+                            </div>
+                            <div class="dice dice-black" id="dice2">
+                                <img src="assets/1-6 Pip Flat Dice (Stlye 1)/1-6 Dice Dark (01).png" alt="Black Dice" class="dice-img">
+                            </div>
+                        </div>
+
+                        <!-- Game Message -->
+                        <div class="game-message" id="gameMessage" data-i18n="gameStart">Click "Roll Dice" to start!</div>
+
+                        <!-- Action Buttons -->
+                        <div class="game-buttons">
+                            <button type="button" class="game-btn game-btn-primary" id="rollBtn" data-i18n="rollButton">
+                                🎲 ROLL DICE
+                            </button>
+                            <button type="button" class="game-btn game-btn-secondary" id="standBtn" data-i18n="standButton" disabled>
+                                ✋ STAND
+                            </button>
+                            <button type="button" class="game-btn game-btn-reset" id="resetBtn" data-i18n="resetButton">
+                                🔄 NEW GAME
+                            </button>
+                        </div>
+
+                        <!-- Round History -->
+                        <div class="game-history" id="gameHistory"></div>
+                    </div>
+
+                    <!-- === GAME JOKER (Game Section) === -->
+                    <div class="game-mage-portrait" id="gameMage">
+                        <div class="mage-dialogue"></div>
+                        <div class="portrait-frame">
+                            <img src="assets/balatro.png" alt="Balatro Joker" class="portrait-sprite">
+                        </div>
+                        <h2 class="hero-name mage-name" data-i18n="gameMageName">THE RECRUITER</h2>
+                        <p class="hero-title mage-title" data-i18n="gameMageTitle">+X MULT FOR EACH<br>RECRUITED DEVELOPER</p>
+                    </div>
+                </div>
+            </section>
+
 
             <!-- === FOOTER === -->
             <footer class="footer-info">
-                © 2025 NIL BOIX - Software Engineer<br>
-                <span data-i18n="footerText">Made with love and lots of pixels</span>
-                <div class="visit-counter">
-                    <span data-i18n="visitCounter">Adventurers who visited:</span>
-                    <span class="visit-count" id="visitCount">Loading...</span>
+                <div class="footer-content">
+                    <div class="footer-text">
+                        © 2025 NIL BOIX - Software Engineer<br>
+                        <span data-i18n="footerText">Made with love and lots of pixels</span>
+                        <div class="visit-counter">
+                            <span data-i18n="visitCounter">Adventurers who visited:</span>
+                            <span class="visit-count" id="visitCount">Loading...</span>
+                        </div>
+                    </div>
+                    <!-- === WORLD SELECTOR (FOOTER) === -->
+                    <div class="world-selector world-selector-footer">
+                        <select id="themeSelector2" title="Select a world theme" class="theme-selector">
+                            <option value="forest">🌲 Forest</option>
+                            <option value="skies">☁️ Skies</option>
+                            <option value="moon">🌙 Moon</option>
+                            <option value="desert">🏜️ Desert</option>
+                        </select>
+                    </div>
                 </div>
             </footer>
         </div>

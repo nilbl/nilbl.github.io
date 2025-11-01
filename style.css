@@ -197,6 +197,7 @@ a:focus-visible {
 .game-container {
     width: clamp(300px, 90%, 1000px);
     margin: 3rem auto;
+    margin-top: calc(80px + 2rem); /* Account for fixed taskbar height + spacing */
     background-color: #111;
     border: 4px solid #ffd700;
     box-shadow: 0 0 30px #000;
@@ -206,6 +207,14 @@ a:focus-visible {
 @media (min-width: 768px) {
     .game-container {
         aspect-ratio: 16 / 9;
+    }
+}
+
+/* Wider container for large screens to accommodate single-line taskbar */
+@media (min-width: 1200px) {
+    .game-container {
+        width: clamp(300px, 92%, 1200px);
+        max-width: 1200px;
     }
 }
 
@@ -321,42 +330,272 @@ a:focus-visible {
 .character-menu.active {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 /* === TASKBAR === */
 .taskbar {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.95);
     border-bottom: 4px solid #8b4513;
-    box-shadow: 0 2px 0 #ffd700;
+    box-shadow: 0 2px 0 #ffd700, 0 4px 20px rgba(0, 0, 0, 0.5);
     padding: 1rem 0;
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9998;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Show taskbar when title screen is hidden */
+.taskbar.visible {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .taskbar-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     gap: 1rem;
     padding: 0 1rem;
-    /* Ensure symmetry even when wrapping */
     width: 100%;
 }
 
+/* Large Desktop: All 5 items + language selector in one line */
+@media (min-width: 1300px) {
+    .taskbar-container {
+        flex-wrap: nowrap;
+        gap: 0.6rem;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    .taskbar-item {
+        flex: 0 1 auto;
+        padding: 0.6rem 0.9rem;
+        font-size: clamp(0.55rem, 1.4vw, 0.68rem);
+    }
+
+    .language-selector {
+        margin-left: auto;
+        flex-shrink: 0;
+        display: flex !important; /* Force visibility on desktop */
+    }
+
+    .lang-dropdown-btn {
+        font-size: 0.6rem;
+        padding: 0.6rem 0.9rem;
+        box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+    }
+
+    .lang-dropdown-btn .lang-icon {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Medium Desktop: 3 items top, 2 items + language selector bottom */
+@media (max-width: 1299px) and (min-width: 1000px) {
+    .taskbar {
+        padding: 0.7rem 0;
+    }
+
+    .taskbar-container {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        grid-template-rows: auto auto;
+        gap: 0.7rem;
+        padding: 0 1rem;
+    }
+
+    .taskbar-item {
+        padding: 0.6rem 0.9rem;
+        font-size: 0.6rem;
+    }
+
+    .taskbar-item:nth-child(1),
+    .taskbar-item:nth-child(2),
+    .taskbar-item:nth-child(3) {
+        grid-row: 1;
+    }
+
+    .taskbar-item:nth-child(4),
+    .taskbar-item:nth-child(5) {
+        grid-row: 2;
+    }
+
+    .taskbar-item:nth-child(4) {
+        grid-column: 1;
+    }
+
+    .taskbar-item:nth-child(5) {
+        grid-column: 2;
+    }
+
+    .language-selector {
+        grid-row: 2;
+        grid-column: 3;
+        justify-self: end;
+    }
+
+    .lang-dropdown-btn {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.6rem;
+    }
+
+    .lang-dropdown-btn .lang-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .game-container {
+        margin-top: calc(120px + 2rem);
+    }
+}
+
+
+/* Tablet: 3+2 grid + language selector below */
+@media (max-width: 999px) and (min-width: 601px) {
+    .taskbar {
+        padding: 0.6rem 0;
+    }
+
+    .taskbar-container {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        gap: 0.6rem;
+        padding: 0 0.8rem;
+        justify-content: center;
+    }
+
+    .taskbar-item {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.55rem;
+    }
+
+    .taskbar-item:nth-child(1),
+    .taskbar-item:nth-child(2),
+    .taskbar-item:nth-child(3) {
+        grid-row: 1;
+    }
+
+    .taskbar-item:nth-child(4),
+    .taskbar-item:nth-child(5) {
+        grid-row: 2;
+    }
+
+    .taskbar-item:nth-child(4) {
+        grid-column: 1 / 2;
+    }
+
+    .taskbar-item:nth-child(5) {
+        grid-column: 2 / 3;
+    }
+
+    .taskbar-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .language-selector {
+        grid-row: 2;
+        grid-column: 3;
+        justify-self: center;
+    }
+
+    .lang-dropdown-btn {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.55rem;
+    }
+
+    .lang-dropdown-btn .lang-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .game-container {
+        margin-top: calc(140px + 1.5rem);
+    }
+}
+
+/* Mobile: 2-column grid for taskbar items */
+@media (max-width: 600px) {
+    .taskbar {
+        padding: 0.15rem 0;
+    }
+
+    .taskbar-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.15rem;
+        padding: 0 0.3rem;
+    }
+
+    .taskbar-item {
+        justify-content: center;
+        padding: 0.25rem 0.4rem;
+        font-size: 0.4rem;
+        border: 2px solid #8b4513;
+    }
+
+    .taskbar-item span {
+        font-size: 0.35rem;
+        line-height: 1.05;
+    }
+
+    .taskbar-icon {
+        width: 10px;
+        height: 10px;
+    }
+
+    /* Last item spans full width if odd number */
+    .taskbar-item:nth-child(5):last-of-type {
+        grid-column: 1 / -1;
+    }
+
+    .language-selector {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .lang-dropdown-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.4rem;
+        border: 2px solid #8b4513;
+    }
+
+    .lang-dropdown-btn .lang-icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .game-container {
+        margin-top: calc(70px + 0.5rem); /* Ultra compact 2-column grid */
+    }
+}
+
+
 .taskbar-item {
-    font-size: clamp(0.6rem, 2vw, 0.8rem);
+    font-size: clamp(0.55rem, 1.8vw, 0.75rem);
     color: #ffd700;
-    padding: 0.8rem 1.5rem;
+    padding: 0.7rem 1.2rem;
     border: 3px solid #8b4513;
     background: rgba(42, 42, 78, 0.6);
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+    white-space: nowrap;
 }
 
 .taskbar-item:hover {
@@ -377,13 +616,23 @@ a:focus-visible {
 }
 
 .taskbar-icon {
-    font-size: 1.3em;
+    font-size: 1.2em;
+    width: auto;
+    height: 1.2em;
+}
+
+/* Optimize icon size for large screens with all items in one line */
+@media (min-width: 1200px) {
+    .taskbar-icon {
+        font-size: 1.1em;
+        height: 1.1em;
+    }
 }
 
 /* === LANGUAGE SELECTOR === */
 .language-selector {
     position: relative;
-    margin-left: auto;
+    z-index: 10001; /* Above world selector */
 }
 
 .lang-dropdown-btn {
@@ -401,9 +650,11 @@ a:focus-visible {
 }
 
 .lang-dropdown-btn .lang-icon {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     image-rendering: pixelated;
+    filter: brightness(1.2) contrast(1.1);
+    display: inline-block;
 }
 
 .lang-dropdown-btn:hover {
@@ -426,7 +677,7 @@ a:focus-visible {
     display: none;
     flex-direction: column;
     gap: 0.3rem;
-    z-index: var(--z-dropdown);
+    z-index: 10002; /* Above language selector and world selector */
     min-width: 150px;
 }
 
@@ -526,12 +777,29 @@ a:focus-visible {
 }
 
 .menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.3rem, 1.5vw, 1rem);
     text-align: center;
-    font-size: clamp(1.4rem, 4vw, 2rem);
     color: #ffd700;
     text-shadow: 3px 3px 0px #000;
     margin-bottom: 1rem;
     position: relative;
+    width: 100%;
+}
+
+.menu-header span {
+    font-size: clamp(0.9rem, 3.5vw, 2rem);
+    white-space: nowrap;
+    flex-shrink: 1;
+}
+
+.menu-header .header-icon {
+    width: clamp(20px, 4vw, 35px);
+    height: clamp(20px, 4vw, 35px);
+    flex-shrink: 0;
+    image-rendering: pixelated;
 }
 
 .info-box {
@@ -697,6 +965,257 @@ a:focus-visible {
     font-size: 0.9em;
 }
 
+/* === DICE GAME === */
+.game-screen {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative; /* Allow absolute positioning of mage within */
+}
+
+.game-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: #ffd700;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.game-subtitle {
+    text-align: center;
+    color: #87ceeb;
+    font-size: clamp(0.6rem, 2vw, 0.8rem);
+    margin-bottom: 2rem;
+}
+
+.game-board {
+    background: rgba(0, 0, 0, 0.6);
+    border: 4px solid #8b4513;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.score-panel {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.player-score, .computer-score {
+    flex: 1;
+    text-align: center;
+}
+
+.player-score h3, .computer-score h3 {
+    color: #87ceeb;
+    font-size: clamp(0.6rem, 2vw, 0.8rem);
+    margin-bottom: 0.5rem;
+}
+
+.score-display {
+    background: rgba(255, 215, 0, 0.1);
+    border: 3px solid #ffd700;
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: #ffd700;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #000;
+    min-width: 80px;
+}
+
+.vs-divider {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #ff6b6b;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.dice-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.dice {
+    width: clamp(80px, 18vw, 120px);
+    height: clamp(80px, 18vw, 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    position: relative;
+}
+
+.dice-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    transition: transform 0.1s ease;
+}
+
+/* Idle animation - gentle bobbing */
+@keyframes diceIdle {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(2deg);
+    }
+}
+
+.dice:not(.rolling) .dice-img {
+    animation: diceIdle 3s ease-in-out infinite;
+}
+
+/* Rolling animation - cycles through animation frames */
+@keyframes diceRollFrames {
+    0% { opacity: 1; }
+    16.66% { opacity: 1; }
+    16.67% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.dice.rolling .dice-img {
+    animation: none;
+}
+
+/* Spinning effect during roll */
+@keyframes diceSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1); }
+    75% { transform: rotate(270deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.dice.rolling {
+    animation: diceSpin 0.6s ease-in-out;
+}
+
+.game-message {
+    text-align: center;
+    font-size: clamp(0.7rem, 2.5vw, 1rem);
+    color: #5effb2;
+    min-height: 60px;
+    padding: 1rem;
+    background: rgba(94, 255, 178, 0.1);
+    border: 2px solid #5effb2;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.game-btn {
+    font-family: var(--font-base);
+    font-size: clamp(0.5rem, 1.8vw, 0.7rem);
+    padding: 1rem 1.5rem;
+    border: 3px solid;
+    background: rgba(42, 42, 78, 0.8);
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 8px;
+    min-width: 140px;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.game-btn-primary {
+    border-color: #ffd700;
+    color: #ffd700;
+}
+
+.game-btn-primary:hover:not(:disabled) {
+    background: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.game-btn-secondary {
+    border-color: #87ceeb;
+    color: #87ceeb;
+}
+
+.game-btn-secondary:hover:not(:disabled) {
+    background: rgba(135, 206, 235, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(135, 206, 235, 0.6);
+}
+
+.game-btn-reset {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+.game-btn-reset:hover {
+    background: rgba(255, 107, 107, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+}
+
+.game-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.game-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.game-history {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #444;
+    font-size: clamp(0.5rem, 1.5vw, 0.65rem);
+    color: #999;
+    text-align: center;
+    min-height: 40px;
+}
+
+@media (max-width: 600px) {
+    .game-screen {
+        padding: 1rem;
+    }
+
+    .game-board {
+        padding: 1rem;
+    }
+
+    .score-panel {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .vs-divider {
+        transform: rotate(90deg);
+    }
+
+    .game-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .game-btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
 /* === FOOTER === */
 .footer-info {
     text-align: center;
@@ -704,6 +1223,46 @@ a:focus-visible {
     font-size: clamp(0.5rem, 1.5vw, 0.6rem);
     color: #888;
     line-height: 1.8;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 100%;
+    position: relative;
+}
+
+.footer-text {
+    flex: 0 1 auto;
+    text-align: center;
+}
+
+/* Position world selector to the right on desktop */
+@media (min-width: 769px) {
+    .footer-content .world-selector {
+        position: absolute;
+        right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .footer-text {
+        text-align: center;
+    }
+
+    .footer-content .world-selector {
+        position: relative;
+        right: auto;
+    }
 }
 
 /* === VISIT COUNTER === */
@@ -742,16 +1301,14 @@ a:focus-visible {
 }
 
 /* === TIMELINE === */
+/* Scroll hint indicator */
 .timeline-full-container {
     padding: 2rem;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-}
-
-/* Scroll hint indicator */
-.timeline-full-container {
+    min-height: 100%;
     --scroll-hint-opacity: 1;
 }
 
@@ -782,16 +1339,23 @@ a:focus-visible {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: clamp(0.3rem, 1.5vw, 1rem);
     color: #ffd700;
-    font-size: clamp(1rem, 3vw, 1.5rem);
     margin-bottom: 0.5rem;
     text-shadow: 2px 2px 0px #000;
+    width: 100%;
+}
+
+.timeline-main-header span {
+    font-size: clamp(0.9rem, 3.5vw, 1.5rem);
+    white-space: nowrap;
+    flex-shrink: 1;
 }
 
 .timeline-main-header .header-icon {
-    width: 30px;
-    height: 30px;
+    width: clamp(20px, 4vw, 35px);
+    height: clamp(20px, 4vw, 35px);
+    flex-shrink: 0;
     image-rendering: pixelated;
 }
 
@@ -812,6 +1376,12 @@ a:focus-visible {
     /* Custom scrollbar styling */
     scrollbar-width: thin;
     scrollbar-color: #ffd700 rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure timeline section can scroll vertically on mobile */
+#timelineSection {
+    overflow-y: visible;
+    min-height: 100%;
 }
 
 /* Webkit scrollbar styling */
@@ -1081,6 +1651,30 @@ a:focus-visible {
         max-width: calc(100vw - 100px);
     }
 
+    /* Center cards on mobile for better readability */
+    .timeline-entry-card.visible {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 1000 !important;
+        max-width: calc(100vw - 40px);
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    /* Add backdrop for mobile cards */
+    .timeline-entry-card.visible::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: -1;
+    }
+
     .timeline-marker {
         width: 40px;
         height: 40px;
@@ -1222,13 +1816,135 @@ a:focus-visible {
     width: 120px;
     height: 200px;
     cursor: pointer;
-    transition: bottom 0.5s ease-in-out;
+    transition: bottom 0.5s ease-in-out, opacity 0.3s ease-in-out;
     z-index: 1001;
     pointer-events: auto;
 }
 
 .hidden-mage:hover {
     bottom: -40px;
+}
+
+/* Game Mage Portrait Card */
+.game-mage-portrait {
+    position: absolute;
+    right: -180px;
+    top: 180px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 100;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.game-mage-portrait.visible {
+    opacity: 1;
+}
+
+.game-mage-portrait .portrait-frame {
+    width: 200px;
+    height: 200px;
+    border: 4px solid #8a2be2;
+    background: linear-gradient(135deg, #1a0033 0%, #2d0a4e 100%);
+    box-shadow:
+        0 0 20px rgba(138, 43, 226, 0.6),
+        inset 0 0 20px rgba(138, 43, 226, 0.2);
+    padding: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-mage-portrait .portrait-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(138, 43, 226, 0.1) 50%,
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+.game-mage-portrait .portrait-sprite {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.8));
+}
+
+.game-mage-portrait .mage-name,
+.game-mage-portrait .mage-title {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    text-align: right;
+}
+
+.game-mage-portrait.show-text .mage-name,
+.game-mage-portrait.show-text .mage-title {
+    opacity: 1;
+}
+
+.game-mage-portrait .mage-name {
+    font-family: 'Courier New', monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow:
+        2px 2px 0 #000,
+        0 0 10px rgba(255, 215, 0, 0.5);
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.game-mage-portrait .mage-title {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: #8a2be2;
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Balatro joker trembling animation - pivoting rotation */
+@keyframes joker-tremble {
+    0% { transform: rotate(0deg); }
+    8% { transform: rotate(-3deg); }
+    16% { transform: rotate(4deg); }
+    24% { transform: rotate(-2deg); }
+    32% { transform: rotate(5deg); }
+    40% { transform: rotate(-4deg); }
+    48% { transform: rotate(3deg); }
+    56% { transform: rotate(-5deg); }
+    64% { transform: rotate(2deg); }
+    72% { transform: rotate(-3deg); }
+    80% { transform: rotate(4deg); }
+    88% { transform: rotate(-2deg); }
+    96% { transform: rotate(1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.game-mage-portrait.trembling .portrait-sprite {
+    animation: joker-tremble 0.12s ease-in-out infinite;
+    transform-origin: center center;
+}
+
+/* Hide game mage when screen is too narrow */
+@media (max-width: 1400px) {
+    .game-mage-portrait {
+        display: none !important;
+    }
 }
 
 .mage-dialogue,
@@ -1284,6 +2000,20 @@ a:focus-visible {
     border-top-color: #8a2be2;
 }
 
+/* === SMOKE EFFECT === */
+.smoke-effect {
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 1002;
+    image-rendering: pixelated;
+    transform: translate(-50%, -50%);
+}
+
 
 .mage-placeholder {
     width: 100%;
@@ -1321,43 +2051,12 @@ a:focus-visible {
 }
 
 @media (max-width: 600px) {
-    .taskbar {
-        padding: 0.5rem 0;
-        border-bottom: 2px solid #8b4513;
-    }
-
-    .taskbar-container {
-        gap: 0.4rem;
-        padding: 0 0.5rem;
-    }
-
-    .taskbar-item {
-        flex: 1 1 100%;
-        justify-content: center;
-        padding: 0.5rem 0.8rem;
-        border: 2px solid #8b4513;
-        gap: 0.3rem;
-        font-size: 0.5rem;
-    }
-
-    .taskbar-item span {
-        font-size: 0.45rem;
-        line-height: 1.2;
-    }
-
-    .taskbar-icon {
-        width: 16px;
-        height: 16px;
-        font-size: 1em;
-    }
-
     .menu-content-inner {
         padding: 1rem;
     }
 
     .game-container {
         width: 95%;
-        margin: 1rem auto;
     }
 
     .menu-container {
@@ -1372,18 +2071,18 @@ a:focus-visible {
 /* === VERY SMALL SCREENS === */
 @media (max-width: 400px) {
     .world-selector {
-        top: 0.5rem;
-        right: 0.5rem;
         padding: 6px 8px;
         font-size: 0.45rem;
     }
 
-    .world-selector label {
-        display: none;
+    .world-selector-title {
+        top: 0.5rem;
+        right: 0.5rem;
     }
 
     .world-selector select {
         font-size: 0.5rem;
+        padding: 5px 7px;
     }
 
     .character-portrait {
@@ -1395,26 +2094,43 @@ a:focus-visible {
     }
 
     .taskbar {
-        padding: 0.4rem 0;
+        padding: 0.2rem 0;
     }
 
     .taskbar-container {
-        gap: 0.3rem;
-        padding: 0 0.4rem;
+        gap: 0.15rem;
+        padding: 0 0.3rem;
     }
 
     .taskbar-item {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.45rem;
+        padding: 0.3rem 0.4rem;
+        font-size: 0.4rem;
+        border: 2px solid #8b4513;
     }
 
     .taskbar-item span {
-        font-size: 0.4rem;
+        font-size: 0.35rem;
+        line-height: 1.05;
     }
 
     .taskbar-icon {
-        width: 14px;
-        height: 14px;
+        width: 10px;
+        height: 10px;
+    }
+
+    .lang-dropdown-btn {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.4rem;
+        border: 2px solid #8b4513;
+    }
+
+    .lang-dropdown-btn .lang-icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .game-container {
+        margin-top: calc(90px + 0.5rem) !important; /* Extra compact 2-column grid */
     }
 
     .menu-item-header {
@@ -1425,6 +2141,14 @@ a:focus-visible {
         right: 20px;
         width: 80px;
         height: 140px;
+    }
+
+    /* Game section mage responsive */
+    #gameSection .hidden-mage {
+        right: -60px;
+        top: 240px;
+        width: 70px;
+        height: 130px;
     }
 
     .mage-dialogue {
@@ -1483,8 +2207,17 @@ a:focus-visible {
         padding: 0.5rem 0;
     }
 
-    .hidden-mage {
+    /* Hide only global hidden mage on very small screens */
+    .hidden-mage:not(#gameMage) {
         display: none;
+    }
+
+    /* Keep game mage visible but smaller */
+    #gameSection .hidden-mage {
+        right: -50px;
+        top: 220px;
+        width: 60px;
+        height: 110px;
     }
 }
 
@@ -1752,16 +2485,12 @@ a:focus-visible {
     cursor: pointer;
 }
 
-/* === WORLD SELECTOR (VISIBLE FLOATING UI) === */
+/* === WORLD SELECTOR (SHARED STYLES) === */
 .world-selector {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 50;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.85);
     border: 2px solid #5effb2;
     border-radius: 10px;
-    padding: 8px 12px;
+    padding: 6px 10px;
     font-family: 'Press Start 2P', monospace;
     font-size: 0.55rem;
     color: #5effb2;
@@ -1769,30 +2498,65 @@ a:focus-visible {
     box-shadow: 0 0 10px rgba(94, 255, 178, 0.5);
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.world-selector label {
-    margin-right: 6px;
-    color: #5effb2;
+/* World selector on title screen - fixed at top-right */
+.world-selector-title {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Hide title screen selector when character menu is active */
+.character-menu.active ~ .world-selector-title {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* World selector in footer - hidden by default, shown via JS */
+.world-selector-footer {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    display: none; /* Hidden until character menu is active */
 }
 
 .world-selector select {
     background: #111;
     color: #fff;
     border: 2px solid #5effb2;
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: inherit;
     font-size: 0.6rem;
-    padding: 2px 4px;
+    padding: 5px 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+    vertical-align: middle;
 }
 
 .world-selector select:hover {
+    background: #1a1a1a;
+    border-color: #6fff8f;
+    box-shadow: 0 0 15px rgba(94, 255, 178, 0.4);
+}
+
+.world-selector select:focus {
+    outline: none;
     background: #222;
+    box-shadow: 0 0 20px rgba(94, 255, 178, 0.6);
 }
 
 .world-selector select:active {
     background: #333;
+    border-color: #5effb2;
     transform: scale(0.98);
 }
 
@@ -1810,6 +2574,24 @@ a:focus-visible {
 
 .world-selector {
     animation: slideIn 0.6s ease-out;
+}
+
+/* Responsive sizing for medium screens */
+@media (max-width: 768px) {
+    .world-selector {
+        font-size: 0.5rem;
+        padding: 6px 10px;
+    }
+
+    .world-selector select {
+        font-size: 0.55rem;
+        padding: 5px 8px;
+    }
+
+    .world-selector-title {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
 }
 
 @keyframes fadeIn {
