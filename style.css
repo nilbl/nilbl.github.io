@@ -333,6 +333,52 @@ a:focus-visible {
     overflow-y: auto;
 }
 
+/* === HAMBURGER MENU === */
+.hamburger-menu {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    background: rgba(42, 42, 78, 0.9);
+    border: 3px solid #8b4513;
+    width: 50px;
+    height: 50px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+    transform: scale(1.05);
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: #ffd700;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(9px, 9px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(9px, -9px);
+}
+
 /* === TASKBAR === */
 .taskbar {
     background: rgba(0, 0, 0, 0.95);
@@ -527,8 +573,28 @@ a:focus-visible {
 
 /* Mobile: 2-column grid for taskbar items */
 @media (max-width: 600px) {
+    /* Show hamburger menu on mobile */
+    .hamburger-menu {
+        display: flex;
+    }
+
+    /* Hide taskbar by default on mobile */
+    .taskbar.visible {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-100%);
+    }
+
+    /* Show taskbar when menu is open */
+    .taskbar.visible.menu-open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
     .taskbar {
         padding: 0.15rem 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .taskbar-container {
@@ -1825,8 +1891,8 @@ a:focus-visible {
     bottom: -40px;
 }
 
-/* Game Mage Portrait Card */
-.game-mage-portrait {
+/* Balatro Joker Portrait Card */
+.balatro-joker-portrait {
     position: absolute;
     right: -180px;
     top: 180px;
@@ -1834,7 +1900,7 @@ a:focus-visible {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.8rem;
+    gap: 0.6rem;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     z-index: 100;
@@ -1842,11 +1908,115 @@ a:focus-visible {
     cursor: pointer;
 }
 
-.game-mage-portrait.visible {
+/* Boss Info Below Portrait */
+.boss-info {
+    text-align: right;
+    margin-top: 0.5rem;
+    width: 180px;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.boss-name {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #ff6b35;
+    text-shadow:
+        2px 2px 0 #000,
+        0 0 15px rgba(255, 107, 53, 0.8);
+    letter-spacing: 1.5px;
+    margin: 0 0 0.2rem 0;
+    animation: boss-pulse 2s ease-in-out infinite;
+}
+
+.boss-title {
+    font-family: 'Courier New', monospace;
+    font-size: 0.48rem;
+    color: #ffd700;
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 0.8px;
+    margin: 0 0 0.3rem 0;
+    line-height: 1.2;
+}
+
+@keyframes boss-pulse {
+    0%, 100% {
+        text-shadow:
+            2px 2px 0 #000,
+            0 0 15px rgba(255, 107, 53, 0.8);
+    }
+    50% {
+        text-shadow:
+            2px 2px 0 #000,
+            0 0 25px rgba(255, 107, 53, 1);
+    }
+}
+
+/* HP Bar */
+.boss-hp-container {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.3rem;
+    width: 100%;
+}
+
+.boss-hp-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #ff6b35;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.boss-hp-bar {
+    flex: 1;
+    height: 12px;
+    background: #1a0033;
+    border: 2px solid #ff6b35;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow:
+        0 0 8px rgba(255, 107, 53, 0.5),
+        inset 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.boss-hp-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ff1744 0%, #ff6b35 50%, #ffa726 100%);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+    transition: width 0.5s ease-out;
+    position: relative;
+}
+
+.boss-hp-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    animation: hp-shine 2s ease-in-out infinite;
+}
+
+@keyframes hp-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.balatro-joker-portrait.visible {
     opacity: 1;
 }
 
-.game-mage-portrait .portrait-frame {
+.balatro-joker-portrait .portrait-frame {
     width: 200px;
     height: 200px;
     border: 4px solid #8a2be2;
@@ -1859,7 +2029,7 @@ a:focus-visible {
     overflow: hidden;
 }
 
-.game-mage-portrait .portrait-frame::before {
+.balatro-joker-portrait .portrait-frame::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1875,7 +2045,7 @@ a:focus-visible {
     pointer-events: none;
 }
 
-.game-mage-portrait .portrait-sprite {
+.balatro-joker-portrait .portrait-sprite {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -1883,19 +2053,19 @@ a:focus-visible {
     filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.8));
 }
 
-.game-mage-portrait .mage-name,
-.game-mage-portrait .mage-title {
+.balatro-joker-portrait .mage-name,
+.balatro-joker-portrait .mage-title {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     text-align: right;
 }
 
-.game-mage-portrait.show-text .mage-name,
-.game-mage-portrait.show-text .mage-title {
+.balatro-joker-portrait.show-text .mage-name,
+.balatro-joker-portrait.show-text .mage-title {
     opacity: 1;
 }
 
-.game-mage-portrait .mage-name {
+.balatro-joker-portrait .mage-name {
     font-family: 'Courier New', monospace;
     font-size: 1.3rem;
     font-weight: bold;
@@ -1907,7 +2077,7 @@ a:focus-visible {
     margin: 0;
 }
 
-.game-mage-portrait .mage-title {
+.balatro-joker-portrait .mage-title {
     font-family: 'Courier New', monospace;
     font-size: 0.75rem;
     color: #8a2be2;
@@ -1935,19 +2105,97 @@ a:focus-visible {
     100% { transform: rotate(0deg); }
 }
 
-.game-mage-portrait.trembling .portrait-sprite {
+.balatro-joker-portrait.trembling .portrait-sprite {
     animation: joker-tremble 0.12s ease-in-out infinite;
     transform-origin: center center;
 }
 
-/* Hide game mage when screen is too narrow */
+/* Mobile: Show boss info but hide portrait */
 @media (max-width: 1400px) {
-    .game-mage-portrait {
+    .balatro-joker-portrait {
+        opacity: 1 !important;
+        position: static;
+        width: 100%;
+        max-width: 100%;
+        margin: 0.8rem auto;
+        padding: 0 0.8rem;
+        pointer-events: none;
+        box-sizing: border-box;
+        align-items: center !important;
+    }
+
+    .balatro-joker-portrait .portrait-frame,
+    .balatro-joker-portrait .joker-dialogue {
         display: none !important;
+    }
+
+    .boss-info {
+        text-align: center !important;
+        padding-right: 0 !important;
+        max-width: 100%;
+        width: 100% !important;
+        margin-right: auto !important;
+    }
+
+    .boss-name {
+        font-size: clamp(0.7rem, 4vw, 1rem);
+        letter-spacing: 1px;
+        word-wrap: break-word;
+    }
+
+    .boss-title {
+        font-size: clamp(0.45rem, 2.5vw, 0.6rem);
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
+
+    .boss-hp-container {
+        gap: 0.3rem;
+        margin-top: 0.4rem;
+        max-width: 100%;
+    }
+
+    .boss-hp-label {
+        font-size: clamp(0.6rem, 3vw, 0.8rem);
+    }
+
+    .boss-hp-bar {
+        height: 12px;
+        max-width: 100%;
+    }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 600px) {
+    .balatro-joker-portrait {
+        padding: 0 0.5rem;
+        margin: 0.5rem auto;
+    }
+
+    .boss-name {
+        font-size: clamp(0.6rem, 3.5vw, 0.8rem);
+        letter-spacing: 0.5px;
+    }
+
+    .boss-title {
+        font-size: clamp(0.4rem, 2vw, 0.5rem);
+    }
+
+    .boss-hp-container {
+        gap: 0.2rem;
+    }
+
+    .boss-hp-label {
+        font-size: clamp(0.5rem, 2.5vw, 0.6rem);
+    }
+
+    .boss-hp-bar {
+        height: 10px;
     }
 }
 
 .mage-dialogue,
+.joker-dialogue,
 .mage-placeholder,
 .mage-sprite {
     pointer-events: none;
@@ -1962,7 +2210,8 @@ a:focus-visible {
     filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.6));
 }
 
-.mage-dialogue {
+.mage-dialogue,
+.joker-dialogue {
     position: absolute;
     bottom: 100%;
     right: 0;
@@ -1986,12 +2235,13 @@ a:focus-visible {
     z-index: 1002;
 }
 
-.mage-dialogue.active {
+.mage-dialogue.active,
+.joker-dialogue.active {
     transform: translateY(-10%) scale(1);
 }
 
-
-.mage-dialogue::after {
+.mage-dialogue::after,
+.joker-dialogue::after {
     content: '';
     position: absolute;
     top: 100%;

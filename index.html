@@ -35,8 +35,15 @@
         </select>
     </div>
 
+    <!-- === HAMBURGER MENU BUTTON === -->
+    <button type="button" class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
     <!-- === TASKBAR === -->
-    <nav class="taskbar">
+    <nav class="taskbar" id="taskbar">
         <div class="taskbar-container">
             <div class="taskbar-item active" data-section="stats" role="button" tabindex="0">
                 <img src="assets/sword.png" alt="sword" class="taskbar-icon">
@@ -479,14 +486,24 @@
                         <div class="game-history" id="gameHistory"></div>
                     </div>
 
-                    <!-- === GAME JOKER (Game Section) === -->
-                    <div class="game-mage-portrait" id="gameMage">
-                        <div class="mage-dialogue"></div>
+                    <!-- === BALATRO JOKER (Game Section) === -->
+                    <div class="balatro-joker-portrait" id="balatrOJoker">
+                        <div class="joker-dialogue"></div>
                         <div class="portrait-frame">
                             <img src="assets/balatro.png" alt="Balatro Joker" class="portrait-sprite">
                         </div>
-                        <h2 class="hero-name mage-name" data-i18n="gameMageName">THE RECRUITER</h2>
-                        <p class="hero-title mage-title" data-i18n="gameMageTitle">+X MULT FOR EACH<br>RECRUITED DEVELOPER</p>
+                        <!-- Boss Info Below Portrait -->
+                        <div class="boss-info">
+                            <h2 class="boss-name" data-i18n="balatroBossName">BALATRO BALÁTREZ</h2>
+                            <p class="boss-title" data-i18n="balatroBossTitle">THE ULTIMATE GAMBLER<br>MASTER OF PROBABILITY</p>
+                            <!-- HP Bar -->
+                            <div class="boss-hp-container">
+                                <div class="boss-hp-label">HP</div>
+                                <div class="boss-hp-bar">
+                                    <div class="boss-hp-fill" id="bossHpFill"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

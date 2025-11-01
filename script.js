@@ -639,7 +639,7 @@
 
         // Show loading screen and hide global mage
         loadingScreen.classList.add('active');
-        const globalMage = document.querySelector('.hidden-mage:not(#gameMage)');
+        const globalMage = document.querySelector('.hidden-mage:not(#balatrOJoker)');
         if (globalMage) globalMage.style.display = 'none';
 
         let progress = 0;
@@ -667,7 +667,7 @@
                     setTimeout(() => {
                         titleScreen.style.display = 'none';
                         // Show global mage only (not game mage)
-                        const globalMage = document.querySelector('.hidden-mage:not(#gameMage)');
+                        const globalMage = document.querySelector('.hidden-mage:not(#balatrOJoker)');
                         if (globalMage) globalMage.style.display = 'block';
 
                         // Show taskbar when entering character menu
@@ -728,14 +728,14 @@
         const currentSection = document.querySelector('.content-section.active');
         const currentIsGame = currentSection && currentSection.id === 'gameSection';
         const nextIsGame = section === 'game';
-        const hiddenMage = document.querySelector('.hidden-mage:not(#gameMage)');
+        const hiddenMage = document.querySelector('.hidden-mage:not(#balatrOJoker)');
 
         // Handle mage exit from game section
         if (currentIsGame && !nextIsGame) {
-            const gameMage = document.getElementById('gameMage');
-            if (gameMage && gameMage.classList.contains('visible')) {
-                animateSmoke(gameMage, () => {
-                    gameMage.classList.remove('visible');
+            const balatrOJoker = document.getElementById('balatrOJoker');
+            if (balatrOJoker && balatrOJoker.classList.contains('visible')) {
+                animateSmoke(balatrOJoker, () => {
+                    balatrOJoker.classList.remove('visible');
                 });
             }
             // Show hidden mage when leaving game section
@@ -789,11 +789,11 @@
                 }
 
                 // Show game mage
-                const gameMage = document.getElementById('gameMage');
-                if (gameMage) {
+                const balatrOJoker = document.getElementById('balatrOJoker');
+                if (balatrOJoker) {
                     setTimeout(() => {
-                        animateSmoke(gameMage, () => {
-                            gameMage.classList.add('visible');
+                        animateSmoke(balatrOJoker, () => {
+                            balatrOJoker.classList.add('visible');
                         });
                     }, 300); // Slight delay after section appears
                 }
@@ -955,7 +955,7 @@
         playSound('success'); // Mystical discovery sound
 
         // Get hidden mage (not game mage) dialogue box
-        const hiddenMage = document.querySelector('.hidden-mage:not(#gameMage)');
+        const hiddenMage = document.querySelector('.hidden-mage:not(#balatrOJoker)');
         if (!hiddenMage) return;
 
         const dialogue = hiddenMage.querySelector('.mage-dialogue');
@@ -994,6 +994,54 @@
         }
 
         typeNextLetter();
+    }
+
+    // Boss HP System
+    const MAX_BOSS_HP = 100;
+    let bossHP = parseInt(safeGetLocalStorage('bossHP', MAX_BOSS_HP));
+    let hpAnimationTimeout = null;
+
+    function getBossHP() {
+        return bossHP;
+    }
+
+    function setBossHP(newHP) {
+        bossHP = Math.max(0, Math.min(MAX_BOSS_HP, newHP));
+        safeSetLocalStorage('bossHP', bossHP);
+        animateBossHP(bossHP);
+
+        // Check if boss is defeated
+        if (bossHP <= 0) {
+            onBossDefeated();
+        }
+    }
+
+    function animateBossHP(targetHP) {
+        const hpFill = document.getElementById('bossHpFill');
+        if (!hpFill) return;
+
+        // Clear any existing animation
+        if (hpAnimationTimeout) {
+            clearTimeout(hpAnimationTimeout);
+        }
+
+        // Animate to target HP percentage
+        const targetPercent = (targetHP / MAX_BOSS_HP) * 100;
+        hpFill.style.width = `${targetPercent}%`;
+    }
+
+    function initBossHP() {
+        const hpFill = document.getElementById('bossHpFill');
+        if (hpFill) {
+            const currentPercent = (bossHP / MAX_BOSS_HP) * 100;
+            hpFill.style.width = `${currentPercent}%`;
+        }
+    }
+
+    function onBossDefeated() {
+        console.log('🎉 BOSS DEFEATED! This will trigger special events later...');
+        createConfetti();
+        // TODO: Implement special victory sequence
     }
 
     // Game sound system
@@ -1056,6 +1104,9 @@
     }
 
     function startVoiceSounds() {
+        // Don't play voice sounds on mobile (when joker is hidden)
+        if (window.innerWidth <= 1400) return;
+
         voiceSoundInterval = true;
         playRandomVoiceSound();
     }
@@ -1071,11 +1122,11 @@
 
     // Show game-specific mage dialogue
     function showGameMageDialogue(type) {
-        const gameMage = document.getElementById('gameMage');
-        if (!gameMage || !gameMage.classList.contains('visible')) return;
+        const balatrOJoker = document.getElementById('balatrOJoker');
+        if (!balatrOJoker || !balatrOJoker.classList.contains('visible')) return;
 
         playSound('success');
-        const dialogue = gameMage.querySelector('.mage-dialogue');
+        const dialogue = balatrOJoker.querySelector('.joker-dialogue');
 
         // Get dialogues from translations, fallback to hardcoded English
         const trans = translations[currentLanguage] ?.game ?.mageDialogues || {};
@@ -1087,7 +1138,7 @@
         if (mageTypingInterval) clearTimeout(mageTypingInterval);
         if (hideTimeout) {
             clearTimeout(hideTimeout);
-            gameMage.classList.remove('trembling');
+            balatrOJoker.classList.remove('trembling');
         }
         stopVoiceSounds();
 
@@ -1104,7 +1155,7 @@
         dialogue.classList.add('active');
 
         // Start trembling animation and voice sounds
-        gameMage.classList.add('trembling');
+        balatrOJoker.classList.add('trembling');
         startVoiceSounds();
 
         let i = 0;
@@ -1118,7 +1169,7 @@
                 mageTypingInterval = setTimeout(typeNextLetter, randomSpeed);
             } else {
                 // Stop trembling and voice sounds when typing finishes
-                gameMage.classList.remove('trembling');
+                balatrOJoker.classList.remove('trembling');
                 stopVoiceSounds();
                 mageTypingInterval = null;
                 hideTimeout = setTimeout(() => {
@@ -1222,6 +1273,9 @@
         // Initialize translations
         await initTranslations();
 
+        // Initialize Boss HP bar
+        initBossHP();
+
         // Language dropdown functionality
         const langDropdownBtn = document.getElementById('langDropdownBtn');
         const langDropdownMenu = document.getElementById('langDropdownMenu');
@@ -1252,20 +1306,54 @@
             });
         }
 
+        // Hamburger menu functionality
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const taskbar = document.getElementById('taskbar');
+
+        if (hamburgerMenu && taskbar) {
+            hamburgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburgerMenu.classList.toggle('active');
+                taskbar.classList.toggle('menu-open');
+                playSound('open');
+            });
+
+            // Close menu when clicking a taskbar item
+            const taskbarItems = document.querySelectorAll('.taskbar-item');
+            taskbarItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 600) {
+                        hamburgerMenu.classList.remove('active');
+                        taskbar.classList.remove('menu-open');
+                    }
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 600 &&
+                    !hamburgerMenu.contains(e.target) &&
+                    !taskbar.contains(e.target)) {
+                    hamburgerMenu.classList.remove('active');
+                    taskbar.classList.remove('menu-open');
+                }
+            });
+        }
+
         // Initialize visit counter
         initVisitCounter();
 
         // Initialize hidden mage (global)
-        const hiddenMage = document.querySelector('.hidden-mage:not(#gameMage)');
+        const hiddenMage = document.querySelector('.hidden-mage:not(#balatrOJoker)');
         if (hiddenMage) {
             hiddenMage.style.display = 'none';
             hiddenMage.addEventListener('click', showMageDialogue);
         }
 
         // Initialize game section mage
-        const gameMage = document.getElementById('gameMage');
-        if (gameMage) {
-            gameMage.addEventListener('click', () => {
+        const balatrOJoker = document.getElementById('balatrOJoker');
+        if (balatrOJoker) {
+            balatrOJoker.addEventListener('click', () => {
                 // Random chance to show roll dialogue when clicked
                 showGameMageDialogue('roll');
             });
@@ -1851,7 +1939,7 @@
                 if (this.playerScore === 21) {
                     this.updateMessage(trans.playerWins21 || 'YOU WIN! Perfect 21!');
                     this.gameOver = true;
-                    this.endGame(true);
+                    this.endGame(true, 'perfect21');
                     playGameSound('win.ogg');
                     resetPitch();
                 } else if (this.playerScore > 21) {
@@ -1864,8 +1952,8 @@
                     this.updateMessage(trans.playerRolled ?.replace('{roll}', roll).replace('{score}', this.playerScore) || `You rolled ${roll}! Total: ${this.playerScore}. Roll again or Stand?`);
                     this.standBtn.disabled = false;
 
-                    // 40% chance for joker to speak, only if not already speaking
-                    if (Math.random() < 0.4 && !mageTypingInterval) {
+                    // 40% chance for joker to speak, only if not already speaking and joker is visible (desktop)
+                    if (Math.random() < 0.4 && !mageTypingInterval && window.innerWidth > 1400) {
                         setTimeout(() => {
                             showGameMageDialogue('roll');
                             resetPitch(); // Reset when joker speaks
@@ -1913,13 +2001,13 @@
                     if (this.computerScore === 21) {
                         this.updateMessage(trans.computerWins21 || 'Computer got 21! Computer wins!', true);
                         this.gameOver = true;
-                        this.endGame(false);
+                        this.endGame(false, 'bossPerfect21');
                         playGameSound('timpani.ogg');
                         resetPitch();
                     } else if (this.computerScore > 21) {
                         this.updateMessage(trans.computerBust || `Computer went over 21! (${this.computerScore}) You win!`);
                         this.gameOver = true;
-                        this.endGame(true);
+                        this.endGame(true, 'normal');
                         playGameSound('win.ogg');
                         resetPitch();
                     } else if (this.computerScore > this.playerScore) {
@@ -1946,7 +2034,7 @@
             if (this.playerScore > this.computerScore) {
                 this.updateMessage(trans.playerWinsHigher ?.replace('{playerScore}', this.playerScore).replace('{computerScore}', this.computerScore) || `You win! ${this.playerScore} vs ${this.computerScore}`);
                 playGameSound('win.ogg');
-                this.endGame(true);
+                this.endGame(true, 'normal');
                 resetPitch();
             } else if (this.computerScore > this.playerScore) {
                 this.updateMessage(trans.computerWinsHigher ?.replace('{playerScore}', this.playerScore).replace('{computerScore}', this.computerScore) || `Computer wins! ${this.computerScore} vs ${this.playerScore}`, true);
@@ -1963,7 +2051,7 @@
             this.gameOver = true;
         },
 
-        endGame(playerWon) {
+        endGame(playerWon, winType = 'normal') {
             this.rollBtn.disabled = true;
             this.standBtn.disabled = true;
 
@@ -1974,15 +2062,37 @@
 
             this.historyEl.textContent = result;
 
-            // Mage comments on game outcome
+            // Update Boss HP based on outcome
             if (playerWon === true) {
-                setTimeout(() => {
-                    showGameMageDialogue('win');
-                }, 800);
+                if (winType === 'perfect21') {
+                    // Perfect 21: Take 50 HP
+                    setBossHP(getBossHP() - 50);
+                } else {
+                    // Normal win: Take 30 HP (increased from 20)
+                    setBossHP(getBossHP() - 30);
+                }
             } else if (playerWon === false) {
-                setTimeout(() => {
-                    showGameMageDialogue('lose');
-                }, 800);
+                if (winType === 'bossPerfect21') {
+                    // Boss perfect 21: Recover half HP (changed from full)
+                    setBossHP(getBossHP() + 50);
+                } else {
+                    // Boss wins: Recover 15 HP
+                    setBossHP(getBossHP() + 15);
+                }
+            }
+            // Draw: No HP change
+
+            // Joker comments on game outcome (only on desktop)
+            if (window.innerWidth > 1400) {
+                if (playerWon === true) {
+                    setTimeout(() => {
+                        showGameMageDialogue('win');
+                    }, 800);
+                } else if (playerWon === false) {
+                    setTimeout(() => {
+                        showGameMageDialogue('lose');
+                    }, 800);
+                }
             }
         },
 
