@@ -13,7 +13,8 @@
     "timeline": "TIMELINE",
     "missions": "MISSIONS ACCOMPLISHED",
     "contact": "SEND PIGEON",
-    "game": "TEST YOUR LUCK"
+    "game": "TEST YOUR LUCK",
+    "visitors": "VISITORS"
   },
 
   "stats": {
@@ -242,6 +243,11 @@
     },
     "balatroBossName": "BALATRO BALÁTREZ",
     "balatroBossTitle": "THE ULTIMATE GAMBLER<br>MASTER OF PROBABILITY"
+  },
+
+  "visitors": {
+    "title": "VISITORS MAP",
+    "subtitle": "See where adventurers have visited from!"
   },
 
   "footer": {

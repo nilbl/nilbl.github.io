@@ -13,7 +13,8 @@
     "timeline": "LÍNIA TEMPORAL",
     "missions": "MISSIONS COMPLETADES",
     "contact": "ENVIAR COLOM",
-    "game": "PROVA LA TEVA SORT"
+    "game": "PROVA LA TEVA SORT",
+    "visitors": "VISITANTS"
   },
 
   "stats": {
@@ -242,6 +243,11 @@
     },
     "balatroBossName": "BALATRO BALÁTREZ",
     "balatroBossTitle": "EL JUGADOR DEFINITIU<br>MESTRE DE LA PROBABILITAT"
+  },
+
+  "visitors": {
+    "title": "MAPA DE VISITANTS",
+    "subtitle": "Mira d'on han vingut els aventurers!"
   },
 
   "footer": {

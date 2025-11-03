@@ -65,6 +65,10 @@
                 <img src="assets/Kings, Queens, Jacks, Aces/Joker (1).png" alt="game joker" class="taskbar-icon">
                 <span data-i18n="gameTab">TEST YOUR LUCK</span>
             </div>
+            <div class="taskbar-item" data-section="visitors" role="button" tabindex="0">
+                <img src="assets/jewelgreen.png" alt="visitors map" class="taskbar-icon">
+                <span data-i18n="visitorsTab">VISITORS</span>
+            </div>
             <div class="language-selector">
                 <button type="button" class="lang-dropdown-btn" id="langDropdownBtn" title="Language">
                     <img src="assets/bookclosedblue.png" alt="language" class="lang-icon">
@@ -508,6 +512,30 @@
                 </div>
             </section>
 
+            <!-- === VISITORS SECTION === -->
+            <section class="content-section" id="visitorsSection">
+                <div class="visitors-container">
+                    <h2 class="section-title">
+                        <img src="assets/jewelgreen.png" alt="visitors" class="header-icon">
+                        <span data-i18n="visitorsTitle">VISITORS MAP</span>
+                        <img src="assets/jewelgreen.png" alt="visitors" class="header-icon">
+                    </h2>
+                    <p class="section-subtitle" data-i18n="visitorsSubtitle">See where adventurers have visited from!</p>
+
+                    <div class="map-container" id="mapContainer">
+                        <!-- MapMyVisitors Globe Widget -->
+                        <div id="globeWidget" style="width: 100%; max-width: 600px; height: 450px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem;">
+                            <p style="color: #ffd700; font-family: 'Courier New', monospace; text-align: center; font-size: 0.9rem;">
+                                🌍 Loading visitor globe...
+                            </p>
+                            <p style="color: #8a2be2; font-family: 'Courier New', monospace; text-align: center; font-size: 0.7rem;">
+                                (Map widget works best when site is live on GitHub Pages)
+                            </p>
+                            <script type="text/javascript" id="mmvst_globe" src="//mapmyvisitors.com/globe.js?d=ZjiVEDiZIJKPiTKa-LcCcFg3nQ78GV_NFZZesGzEJDE"></script>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- === FOOTER === -->
             <footer class="footer-info">
@@ -523,10 +551,10 @@
                     <!-- === WORLD SELECTOR (FOOTER) === -->
                     <div class="world-selector world-selector-footer">
                         <select id="themeSelector2" title="Select a world theme" class="theme-selector">
-                            <option value="forest">🌲 Forest</option>
-                            <option value="skies">☁️ Skies</option>
-                            <option value="moon">🌙 Moon</option>
-                            <option value="desert">🏜️ Desert</option>
+                            <option value="forest">Forest</option>
+                            <option value="skies">Skies</option>
+                            <option value="moon">Moon</option>
+                            <option value="desert">Desert</option>
                         </select>
                     </div>
                 </div>

@@ -399,12 +399,14 @@
         const missionsTab = document.querySelector('[data-section="missions"] span');
         const contactTab = document.querySelector('[data-section="contact"] span');
         const gameTab = document.querySelector('[data-section="game"] span');
+        const visitorsTab = document.querySelector('[data-section="visitors"] span');
 
         if (statsTab) statsTab.textContent = trans.navigation.stats;
         if (timelineTab) timelineTab.textContent = trans.navigation.timeline;
         if (missionsTab) missionsTab.textContent = trans.navigation.missions;
         if (contactTab) contactTab.textContent = trans.navigation.contact;
         if (gameTab) gameTab.textContent = trans.navigation.game;
+        if (visitorsTab) visitorsTab.textContent = trans.navigation.visitors;
 
         // Update Stats Section
         const statsSection = document.getElementById('statsSection');
@@ -569,6 +571,16 @@
             if (rollButton) rollButton.textContent = '🎲 ' + trans.game.rollButton;
             if (standButton) standButton.textContent = '✋ ' + trans.game.standButton;
             if (resetButton) resetButton.textContent = '🔄 ' + trans.game.resetButton;
+        }
+
+        // Update Visitors Section
+        const visitorsSection = document.getElementById('visitorsSection');
+        if (visitorsSection && trans.visitors) {
+            const visitorsTitle = visitorsSection.querySelector('.section-title span');
+            const visitorsSubtitle = visitorsSection.querySelector('.section-subtitle');
+
+            if (visitorsTitle) visitorsTitle.textContent = trans.visitors.title;
+            if (visitorsSubtitle) visitorsSubtitle.textContent = trans.visitors.subtitle;
         }
 
         // Update Footer
@@ -774,6 +786,10 @@
             'game': {
                 element: document.getElementById('gameSection'),
                 index: 4
+            },
+            'visitors': {
+                element: document.getElementById('visitorsSection'),
+                index: 5
             }
         };
 
@@ -797,6 +813,13 @@
                         });
                     }, 300); // Slight delay after section appears
                 }
+            }
+
+            // Handle visitors section - force widget to recalculate dimensions
+            if (section === 'visitors') {
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                }, 100);
             }
         }
 

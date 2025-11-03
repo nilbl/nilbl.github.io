@@ -13,7 +13,8 @@
     "timeline": "LÍNEA TEMPORAL",
     "missions": "MISIONES COMPLETADAS",
     "contact": "ENVIAR PALOMA",
-    "game": "PRUEBA TU SUERTE"
+    "game": "PRUEBA TU SUERTE",
+    "visitors": "VISITANTES"
   },
 
   "stats": {
@@ -242,6 +243,11 @@
     },
     "balatroBossName": "BALATRO BALÁTREZ",
     "balatroBossTitle": "EL JUGADOR DEFINITIVO<br>MAESTRO DE LA PROBABILIDAD"
+  },
+
+  "visitors": {
+    "title": "MAPA DE VISITANTES",
+    "subtitle": "¡Mira de dónde han venido los aventureros!"
   },
 
   "footer": {
