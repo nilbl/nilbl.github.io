@@ -3,85 +3,65 @@
 import { getVisitorLocation } from './geolocation.js';
 import { updateVisitorDisplay } from './mapRenderer.js';
 import { showConsentPopup } from './consentPopup.js';
-
-const VISITOR_STORAGE_KEY = 'visitor-tracking-data';
-const MAX_VISITORS = 50; // Keep last 50 visitors
+import { addVisitor, getAllVisitors } from './firebaseService.js';
 
 /**
- * Get visitor data from localStorage
- * @returns {Object} Visitor data { visitors: [], totalVisits: 0 }
- */
-export function getVisitorData() {
-    try {
-        const data = localStorage.getItem(VISITOR_STORAGE_KEY);
-        return data ? JSON.parse(data) : { visitors: [], totalVisits: 0 };
-    } catch (e) {
-        return { visitors: [], totalVisits: 0 };
-    }
-}
-
-/**
- * Save visitor data to localStorage
- * @param {Object} data - Visitor data to save
- */
-export function saveVisitorData(data) {
-    try {
-        localStorage.setItem(VISITOR_STORAGE_KEY, JSON.stringify(data));
-    } catch (e) {
-        console.log('Could not save visitor data');
-    }
-}
-
-/**
- * Initialize visitor tracking
+ * Initialize visitor tracking with Firebase
  */
 export async function initVisitorTracking() {
     const canvas = document.getElementById('visitorCanvas');
-    if (!canvas) return; // Not on visitors page
+    if (!canvas) return;
 
     // Check if user already gave consent
     const hasConsent = localStorage.getItem('visitor-tracking-consent');
 
-    // Load and display existing data first
-    const data = getVisitorData();
-    updateVisitorDisplay(data);
+    try {
+        // Load and display existing data from Firebase
+        const visitors = await getAllVisitors();
+        const data = {
+            visitors: visitors,
+            totalVisits: visitors.length
+        };
+        updateVisitorDisplay(data);
 
-    // If no consent decision yet, ask
-    let consent = hasConsent === 'true';
-    if (!hasConsent || hasConsent === 'null') {
-        consent = await showConsentPopup();
-        localStorage.setItem('visitor-tracking-consent', consent.toString());
-    }
+        // If no consent decision yet, ask
+        let consent = hasConsent === 'true';
+        if (!hasConsent || hasConsent === 'null') {
+            consent = await showConsentPopup();
+            localStorage.setItem('visitor-tracking-consent', consent.toString());
+        }
 
-    if (!consent) {
+        if (!consent) {
+            const yourLocationEl = document.getElementById('yourLocation');
+            if (yourLocationEl) {
+                yourLocationEl.textContent = 'Not shared';
+            }
+            return;
+        }
+
+        // Get current location
+        const location = await getVisitorLocation();
         const yourLocationEl = document.getElementById('yourLocation');
         if (yourLocationEl) {
-            yourLocationEl.textContent = 'Not shared';
+            yourLocationEl.textContent = `${location.city}, ${location.country}`;
         }
-        return; // Don't track if user declined
+
+        // Add current visit to Firebase
+        await addVisitor(location);
+
+        // Reload all visitors and update display
+        const updatedVisitors = await getAllVisitors();
+        const updatedData = {
+            visitors: updatedVisitors,
+            totalVisits: updatedVisitors.length
+        };
+        updateVisitorDisplay(updatedData);
+
+    } catch (error) {
+        console.error('Error initializing visitor tracking:', error);
+        // Fallback: show empty state
+        updateVisitorDisplay({ visitors: [], totalVisits: 0 });
     }
-
-    // Get current location
-    const location = await getVisitorLocation();
-    const yourLocationEl = document.getElementById('yourLocation');
-    if (yourLocationEl) {
-        yourLocationEl.textContent = `${location.city}, ${location.country}`;
-    }
-
-    // Add current visit
-    data.visitors.push(location);
-    data.totalVisits++;
-
-    // Keep only last MAX_VISITORS
-    if (data.visitors.length > MAX_VISITORS) {
-        data.visitors = data.visitors.slice(-MAX_VISITORS);
-    }
-
-    // Save data
-    saveVisitorData(data);
-
-    // Update display
-    updateVisitorDisplay(data);
 }
 
 /**
