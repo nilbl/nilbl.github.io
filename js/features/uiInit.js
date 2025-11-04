@@ -103,6 +103,11 @@ export function startGame() {
                     setTimeout(() => {
                         characterMenu.style.transition = 'opacity 0.4s ease-in';
                         characterMenu.style.opacity = '1';
+
+                        // Capture visitor location when entering main page
+                        import('../visitors/visitorTracker.js').then(module => {
+                            module.captureVisitorLocation();
+                        });
                     }, 50);
                 }, THEME_TRANSITION_DELAY);
             }, 500);

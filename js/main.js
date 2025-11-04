@@ -47,5 +47,5 @@ export { buildTimeline } from './features/timeline.js';
 export { getBossHP, setBossHP, initBossHP } from './features/bossSystem.js';
 export { diceGame } from './features/diceGame.js';
 export { showMageDialogue, showGameMageDialogue } from './features/hiddenMage.js';
-export { initVisitorTracking } from './visitors/visitorTracker.js';
+export { captureVisitorLocation } from './visitors/visitorTracker.js';
 export { startGame, initStars, initVisitCounter } from './features/uiInit.js';

@@ -5,14 +5,54 @@ import { updateVisitorDisplay } from './mapRenderer.js';
 import { showConsentPopup } from './consentPopup.js';
 import { addVisitor, getAllVisitors } from './firebaseService.js';
 
+// Track if location has been captured
+let locationCaptured = false;
+
 /**
- * Initialize visitor tracking with Firebase
+ * Capture visitor location on main page load (after character selection)
+ * This runs once when entering the main page
  */
-export async function initVisitorTracking() {
+export async function captureVisitorLocation() {
+    // Only capture once per session
+    if (locationCaptured) return;
+
+    // Check if user already gave consent
+    const hasConsent = localStorage.getItem('visitor-tracking-consent');
+
+    try {
+        // If no consent decision yet, ask
+        let consent = hasConsent === 'true';
+        if (!hasConsent || hasConsent === 'null') {
+            consent = await showConsentPopup();
+            localStorage.setItem('visitor-tracking-consent', consent.toString());
+        }
+
+        if (!consent) {
+            console.log('User declined location tracking');
+            locationCaptured = true;
+            return;
+        }
+
+        // Get current location and save to Firebase
+        const location = await getVisitorLocation();
+        await addVisitor(location);
+
+        locationCaptured = true;
+        console.log('Visitor location captured:', location.city, location.country);
+
+    } catch (error) {
+        console.error('Error capturing visitor location:', error);
+        locationCaptured = true; // Don't retry on error
+    }
+}
+
+/**
+ * Display visitors map when visiting the visitors section
+ */
+async function displayVisitorsMap() {
     const canvas = document.getElementById('visitorCanvas');
     if (!canvas) return;
 
-    // Check if user already gave consent
     const hasConsent = localStorage.getItem('visitor-tracking-consent');
 
     try {
@@ -24,42 +64,19 @@ export async function initVisitorTracking() {
         };
         updateVisitorDisplay(data);
 
-        // If no consent decision yet, ask
-        let consent = hasConsent === 'true';
-        if (!hasConsent || hasConsent === 'null') {
-            consent = await showConsentPopup();
-            localStorage.setItem('visitor-tracking-consent', consent.toString());
-        }
-
-        if (!consent) {
-            const yourLocationEl = document.getElementById('yourLocation');
-            if (yourLocationEl) {
-                yourLocationEl.textContent = 'Not shared';
-            }
-            return;
-        }
-
-        // Get current location
-        const location = await getVisitorLocation();
+        // Update "Your Location" display
         const yourLocationEl = document.getElementById('yourLocation');
         if (yourLocationEl) {
-            yourLocationEl.textContent = `${location.city}, ${location.country}`;
+            if (hasConsent === 'true') {
+                const location = await getVisitorLocation();
+                yourLocationEl.textContent = `${location.city}, ${location.country}`;
+            } else {
+                yourLocationEl.textContent = 'Not shared';
+            }
         }
 
-        // Add current visit to Firebase
-        await addVisitor(location);
-
-        // Reload all visitors and update display
-        const updatedVisitors = await getAllVisitors();
-        const updatedData = {
-            visitors: updatedVisitors,
-            totalVisits: updatedVisitors.length
-        };
-        updateVisitorDisplay(updatedData);
-
     } catch (error) {
-        console.error('Error initializing visitor tracking:', error);
-        // Fallback: show empty state
+        console.error('Error displaying visitors map:', error);
         updateVisitorDisplay({ visitors: [], totalVisits: 0 });
     }
 }
@@ -71,12 +88,12 @@ export function setupVisitorTracking() {
     // Listen for custom event when visitors section is shown
     window.addEventListener('visitorsSectionShown', () => {
         console.log('Visitors section shown event received');
-        initVisitorTracking();
+        displayVisitorsMap();
     });
 
     // Initialize when visitors section is shown on load
     const visitorSection = document.getElementById('visitorsSection');
     if (visitorSection && visitorSection.classList.contains('active')) {
-        initVisitorTracking();
+        displayVisitorsMap();
     }
 }
