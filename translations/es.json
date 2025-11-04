@@ -210,9 +210,9 @@
     "playerWinsHigher": "¡Derrotaste al Mago! {playerScore} vs {computerScore}",
     "computerWinsHigher": "¡El Mago gana! {computerScore} vs {playerScore}",
     "tie": "¡Empate místico en {score}!",
-    "victory": "🎉 ¡VICTORIA!",
-    "defeat": "💀 DERROTA",
-    "draw": "🤝 EMPATE",
+    "victory": "¡VICTORIA!",
+    "defeat": "DERROTA",
+    "draw": "EMPATE",
     "mageDialogues": {
       "roll": [
         "This hand's about to get discarded!",
@@ -247,7 +247,11 @@
 
   "visitors": {
     "title": "MAPA DE VISITANTES",
-    "subtitle": "¡Mira de dónde han venido los aventureros!"
+    "subtitle": "¡Mira de dónde han venido los aventureros!",
+    "totalVisits": "Visitas Totales",
+    "locations": "Ubicaciones",
+    "yourLocation": "Tu Ubicación",
+    "recentHeading": "Visitantes Recientes"
   },
 
   "footer": {

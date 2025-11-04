@@ -210,9 +210,9 @@
     "playerWinsHigher": "You defeated the Mage! {playerScore} vs {computerScore}",
     "computerWinsHigher": "The Mage wins! {computerScore} vs {playerScore}",
     "tie": "A mystical tie at {score}!",
-    "victory": "🎉 VICTORY!",
-    "defeat": "💀 DEFEAT",
-    "draw": "🤝 DRAW",
+    "victory": "VICTORY!",
+    "defeat": "DEFEAT",
+    "draw": "DRAW",
     "mageDialogues": {
       "roll": [
         "This hand's about to get discarded!",
@@ -247,7 +247,11 @@
 
   "visitors": {
     "title": "VISITORS MAP",
-    "subtitle": "See where adventurers have visited from!"
+    "subtitle": "See where adventurers have visited from!",
+    "totalVisits": "Total Visits",
+    "locations": "Locations",
+    "yourLocation": "Your Location",
+    "recentHeading": "Recent Visitors"
   },
 
   "footer": {

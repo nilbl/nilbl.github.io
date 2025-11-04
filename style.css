@@ -2930,6 +2930,106 @@ a:focus-visible {
     height: auto !important;
 }
 
+/* Custom Visitor Tracker Styles */
+.visitor-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 3px solid #8b4513;
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-width: 150px;
+    text-align: center;
+    box-shadow: 0 0 0 2px #ffd700;
+}
+
+.stat-number {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 2rem;
+    color: #ffd700;
+    text-shadow: 2px 2px 0 #000, 0 0 15px rgba(255, 215, 0, 0.8);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: #8a2be2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.visitor-map-display {
+    background: rgba(0, 0, 0, 0.3);
+    border: 3px solid #8b4513;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 420px;
+}
+
+#visitorCanvas {
+    max-width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+}
+
+.recent-visitors {
+    background: rgba(0, 0, 0, 0.3);
+    border: 3px solid #8b4513;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.visitors-heading {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1rem;
+    color: #ffd700;
+    text-shadow: 2px 2px 0 #000;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.visitors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.visitor-entry {
+    background: rgba(42, 42, 78, 0.6);
+    border: 2px solid #8b4513;
+    border-radius: 4px;
+    padding: 0.8rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.visitor-location {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.visitor-time {
+    color: #8a2be2;
+    font-size: 0.7rem;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
     .visitors-container {

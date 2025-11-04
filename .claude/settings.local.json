@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(python:*)",
-      "Bash(node -c:*)"
+      "Bash(node -c:*)",
+      "Bash(nul)",
+      "Bash(dir /s /b \"c:\\Users\\nboix\\Desktop\\nilbl.github.io\\assets\")",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []

@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="assets/jewelgreen.png" type="image/png">
+    <script src="https://unpkg.com/topojson-client@3"></script>
 
 </head>
 
@@ -28,10 +29,10 @@
     <!-- === WORLD SELECTOR (TITLE SCREEN ONLY) === -->
     <div class="world-selector world-selector-title">
         <select id="themeSelector1" title="Select a world theme" class="theme-selector">
-            <option value="forest">🌲 Forest</option>
-            <option value="skies">☁️ Skies</option>
-            <option value="moon">🌙 Moon</option>
-            <option value="desert">🏜️ Desert</option>
+            <option value="forest">Forest</option>
+            <option value="skies">Skies</option>
+            <option value="moon">Moon</option>
+            <option value="desert">Desert</option>
         </select>
     </div>
 
@@ -476,13 +477,13 @@
                         <!-- Action Buttons -->
                         <div class="game-buttons">
                             <button type="button" class="game-btn game-btn-primary" id="rollBtn" data-i18n="rollButton">
-                                🎲 ROLL DICE
+                                ROLL DICE
                             </button>
                             <button type="button" class="game-btn game-btn-secondary" id="standBtn" data-i18n="standButton" disabled>
-                                ✋ STAND
+                                STAND
                             </button>
                             <button type="button" class="game-btn game-btn-reset" id="resetBtn" data-i18n="resetButton">
-                                🔄 NEW GAME
+                                NEW GAME
                             </button>
                         </div>
 
@@ -523,15 +524,34 @@
                     <p class="section-subtitle" data-i18n="visitorsSubtitle">See where adventurers have visited from!</p>
 
                     <div class="map-container" id="mapContainer">
-                        <!-- MapMyVisitors Globe Widget -->
-                        <div id="globeWidget" style="width: 100%; max-width: 600px; height: 450px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem;">
-                            <p style="color: #ffd700; font-family: 'Courier New', monospace; text-align: center; font-size: 0.9rem;">
-                                🌍 Loading visitor globe...
-                            </p>
-                            <p style="color: #8a2be2; font-family: 'Courier New', monospace; text-align: center; font-size: 0.7rem;">
-                                (Map widget works best when site is live on GitHub Pages)
-                            </p>
-                            <script type="text/javascript" id="mmvst_globe" src="//mapmyvisitors.com/globe.js?d=ZjiVEDiZIJKPiTKa-LcCcFg3nQ78GV_NFZZesGzEJDE"></script>
+                        <!-- Custom Visitor Tracker -->
+                        <div id="visitorTracker" style="width: 100%; max-width: 900px;">
+                            <!-- Stats Display -->
+                            <div class="visitor-stats">
+                                <div class="stat-box">
+                                    <div class="stat-number" id="totalVisits">0</div>
+                                    <div class="stat-label" data-i18n="visitorsTotalVisits">Total Visits</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-number" id="uniqueLocations">0</div>
+                                    <div class="stat-label" data-i18n="visitorsLocations">Locations</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-number" id="yourLocation">--</div>
+                                    <div class="stat-label" data-i18n="visitorsYourLocation">Your Location</div>
+                                </div>
+                            </div>
+
+                            <!-- Map Display -->
+                            <div id="visitorMapDisplay" class="visitor-map-display">
+                                <canvas id="visitorCanvas" width="800" height="400"></canvas>
+                            </div>
+
+                            <!-- Recent Visitors List -->
+                            <div class="recent-visitors">
+                                <h3 class="visitors-heading" data-i18n="visitorsRecentHeading">Recent Visitors</h3>
+                                <div id="visitorsList" class="visitors-list"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -568,8 +588,7 @@
         <img src="assets/mage.png" alt="Hidden mage" class="mage-sprite">
     </div>
 
-    <script src="script.js"></script>
-
+    <script type="module" src="js/main.js"></script>
     <!-- === FAKE LOADING SCREEN === -->
     <div id="loadingScreen">
         <div class="loading-box">

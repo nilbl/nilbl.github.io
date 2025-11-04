@@ -210,9 +210,9 @@
     "playerWinsHigher": "Has derrotat el Mag! {playerScore} vs {computerScore}",
     "computerWinsHigher": "El Mag guanya! {computerScore} vs {playerScore}",
     "tie": "Empat místic a {score}!",
-    "victory": "🎉 VICTÒRIA!",
-    "defeat": "💀 DERROTA",
-    "draw": "🤝 EMPAT",
+    "victory": "VICTÒRIA!",
+    "defeat": "DERROTA",
+    "draw": "EMPAT",
     "mageDialogues": {
       "roll": [
         "This hand's about to get discarded!",
@@ -247,7 +247,11 @@
 
   "visitors": {
     "title": "MAPA DE VISITANTS",
-    "subtitle": "Mira d'on han vingut els aventurers!"
+    "subtitle": "Mira d'on han vingut els aventurers!",
+    "totalVisits": "Visites Totals",
+    "locations": "Ubicacions",
+    "yourLocation": "La Teva Ubicació",
+    "recentHeading": "Visitants Recents"
   },
 
   "footer": {
