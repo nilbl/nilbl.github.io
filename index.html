@@ -66,11 +66,10 @@
                 <img src="assets/Kings, Queens, Jacks, Aces/Joker (1).png" alt="game joker" class="taskbar-icon">
                 <span data-i18n="gameTab">TEST YOUR LUCK</span>
             </div>
-            <!-- Visitors tab temporarily disabled for legal compliance -->
-            <!-- <div class="taskbar-item" data-section="visitors" role="button" tabindex="0">
+            <div class="taskbar-item" data-section="visitors" role="button" tabindex="0">
                 <img src="assets/jewelgreen.png" alt="visitors map" class="taskbar-icon">
                 <span data-i18n="visitorsTab">VISITORS</span>
-            </div> -->
+            </div>
             <div class="language-selector">
                 <button type="button" class="lang-dropdown-btn" id="langDropdownBtn" title="Language">
                     <img src="assets/bookclosedblue.png" alt="language" class="lang-icon">
@@ -535,23 +534,13 @@
                                 </div>
                                 <div class="stat-box">
                                     <div class="stat-number" id="uniqueLocations">0</div>
-                                    <div class="stat-label" data-i18n="visitorsLocations">Locations</div>
-                                </div>
-                                <div class="stat-box">
-                                    <div class="stat-number" id="yourLocation">--</div>
-                                    <div class="stat-label" data-i18n="visitorsYourLocation">Your Location</div>
+                                    <div class="stat-label" data-i18n="visitorsLocations">Countries</div>
                                 </div>
                             </div>
 
                             <!-- Map Display -->
                             <div id="visitorMapDisplay" class="visitor-map-display">
                                 <canvas id="visitorCanvas" width="800" height="400"></canvas>
-                            </div>
-
-                            <!-- Recent Visitors List -->
-                            <div class="recent-visitors">
-                                <h3 class="visitors-heading" data-i18n="visitorsRecentHeading">Recent Visitors</h3>
-                                <div id="visitorsList" class="visitors-list"></div>
                             </div>
                         </div>
                     </div>

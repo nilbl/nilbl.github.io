@@ -1,32 +1,26 @@
-// === GEOLOCATION SERVICE ===
+// === GEOLOCATION SERVICE (GDPR Compliant) ===
 
 /**
- * Fetch visitor location using IP geolocation API
- * @returns {Promise<Object>} Location data
+ * Fetch visitor country using IP geolocation API
+ * Only collects country-level data for GDPR compliance
+ * @returns {Promise<Object>} Country data only (no precise location)
  */
 export async function getVisitorLocation() {
     try {
-        // Using ipapi.co - free tier, no API key needed
+        // Using ipapi.co - only requesting country data
         const response = await fetch('https://ipapi.co/json/');
         if (!response.ok) throw new Error('Geolocation failed');
         const data = await response.json();
         return {
-            city: data.city || 'Unknown',
             country: data.country_name || 'Unknown',
             countryCode: data.country_code || 'XX',
-            latitude: data.latitude || 0,
-            longitude: data.longitude || 0,
             timestamp: new Date().toISOString()
         };
     } catch (e) {
-        // Fallback: estimate from timezone
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        // Fallback: return unknown
         return {
-            city: tz.split('/')[1] || 'Unknown',
             country: 'Unknown',
             countryCode: 'XX',
-            latitude: 0,
-            longitude: 0,
             timestamp: new Date().toISOString()
         };
     }

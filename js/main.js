@@ -8,8 +8,7 @@ import { initDiceGame } from './features/diceGame.js';
 import { initHiddenMage } from './features/hiddenMage.js';
 import { initUI } from './features/uiInit.js';
 import { initEasterEggs } from './features/easterEggs.js';
-// Visitor tracking temporarily disabled for legal compliance
-// import { setupVisitorTracking } from './visitors/visitorTracker.js';
+import { setupVisitorTracking } from './visitors/visitorTracker.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('✅ Modular system initializing...');
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initDiceGame();
     initHiddenMage();
     initEasterEggs();
-    // setupVisitorTracking(); // Disabled for legal compliance
+    setupVisitorTracking();
 
     console.log('All modules loaded successfully!');
 });

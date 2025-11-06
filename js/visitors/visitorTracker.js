@@ -33,12 +33,12 @@ export async function captureVisitorLocation() {
             return;
         }
 
-        // Get current location and save to Firebase
+        // Get current country and save to Firebase
         const location = await getVisitorLocation();
         await addVisitor(location);
 
         locationCaptured = true;
-        console.log('Visitor location captured:', location.city, location.country);
+        console.log('Visitor country captured:', location.country);
 
     } catch (error) {
         console.error('Error capturing visitor location:', error);
@@ -53,8 +53,6 @@ async function displayVisitorsMap() {
     const canvas = document.getElementById('visitorCanvas');
     if (!canvas) return;
 
-    const hasConsent = localStorage.getItem('visitor-tracking-consent');
-
     try {
         // Load and display existing data from Firebase
         const visitors = await getAllVisitors();
@@ -63,17 +61,6 @@ async function displayVisitorsMap() {
             totalVisits: visitors.length
         };
         updateVisitorDisplay(data);
-
-        // Update "Your Location" display
-        const yourLocationEl = document.getElementById('yourLocation');
-        if (yourLocationEl) {
-            if (hasConsent === 'true') {
-                const location = await getVisitorLocation();
-                yourLocationEl.textContent = `${location.city}, ${location.country}`;
-            } else {
-                yourLocationEl.textContent = 'Not shared';
-            }
-        }
 
     } catch (error) {
         console.error('Error displaying visitors map:', error);

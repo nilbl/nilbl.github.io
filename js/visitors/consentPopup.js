@@ -35,11 +35,18 @@ export function showConsentPopup() {
         `;
 
         popup.innerHTML = `
-            <h3 style="font-family: 'Press Start 2P', monospace; color: #ffd700; font-size: 1rem; margin-bottom: 1rem; text-shadow: 2px 2px 0 #000;">
-                🌍 Add Your Location?
+            <h3 style="font-family: 'Press Start 2P', monospace; color: #ffd700; font-size: 0.9rem; margin-bottom: 1rem; text-shadow: 2px 2px 0 #000;">
+                🌍 Anonymous Visitor Stats
             </h3>
-            <p style="font-family: 'Courier New', monospace; color: #fff; font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                Would you like to add your location to the visitor map? Only your city and country will be displayed.
+            <p style="font-family: 'Courier New', monospace; color: #fff; font-size: 0.8rem; line-height: 1.8; margin-bottom: 1rem; text-align: left;">
+                <strong style="color: #ffd700;">What we collect:</strong><br>
+                • Your country name only (e.g., "Spain")<br>
+                • No precise location, no IP address<br>
+                • No personal data<br><br>
+                <strong style="color: #ffd700;">Why?</strong><br>
+                To display an anonymous visitor map showing which countries visitors are from.<br><br>
+                <strong style="color: #ffd700;">GDPR Compliant:</strong><br>
+                You can decline with no impact on site functionality.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
                 <button id="consentYes" style="
@@ -48,22 +55,22 @@ export function showConsentPopup() {
                     color: #ffd700;
                     border: 3px solid #8b4513;
                     padding: 0.8rem 1.5rem;
-                    font-size: 0.7rem;
+                    font-size: 0.65rem;
                     cursor: pointer;
                     border-radius: 4px;
                     transition: all 0.3s ease;
-                ">YES</button>
+                ">ALLOW</button>
                 <button id="consentNo" style="
                     font-family: 'Press Start 2P', monospace;
                     background: rgba(0, 0, 0, 0.5);
                     color: #8a2be2;
                     border: 3px solid #8b4513;
                     padding: 0.8rem 1.5rem;
-                    font-size: 0.7rem;
+                    font-size: 0.65rem;
                     cursor: pointer;
                     border-radius: 4px;
                     transition: all 0.3s ease;
-                ">NO</button>
+                ">DECLINE</button>
             </div>
         `;
 

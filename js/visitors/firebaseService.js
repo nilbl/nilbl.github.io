@@ -3,19 +3,17 @@ import { db, collection, addDoc, getDocs, query, orderBy, limit } from './fireba
 const COLLECTION_NAME = 'visitors';
 
 /**
- * Add a new visitor to Firestore
+ * Add a new visitor to Firestore (GDPR Compliant)
+ * Only stores country-level data, no precise location
  */
 export async function addVisitor(location) {
     try {
         const docRef = await addDoc(collection(db, COLLECTION_NAME), {
-            city: location.city,
             country: location.country,
             countryCode: location.countryCode,
-            latitude: location.latitude,
-            longitude: location.longitude,
             timestamp: new Date().toISOString()
         });
-        console.log('Visitor added to Firestore with ID:', docRef.id);
+        console.log('Visitor country added to Firestore:', location.country);
         return docRef.id;
     } catch (error) {
         console.error('Error adding visitor to Firestore:', error);

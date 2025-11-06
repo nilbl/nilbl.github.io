@@ -104,10 +104,10 @@ export function startGame() {
                         characterMenu.style.transition = 'opacity 0.4s ease-in';
                         characterMenu.style.opacity = '1';
 
-                        // Visitor tracking temporarily disabled for legal compliance
-                        // import('../visitors/visitorTracker.js').then(module => {
-                        //     module.captureVisitorLocation();
-                        // });
+                        // Capture visitor country when entering main page (GDPR compliant)
+                        import('../visitors/visitorTracker.js').then(module => {
+                            module.captureVisitorLocation();
+                        });
                     }, 50);
                 }, THEME_TRANSITION_DELAY);
             }, 500);

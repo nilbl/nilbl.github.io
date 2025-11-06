@@ -9,8 +9,62 @@ let canvasElement = null;
 
 // Constants
 const MIN_SCALE = 1;
-const MAX_SCALE = 3; // Reduced from 5 to prevent map disappearing
+const MAX_SCALE = 3;
 const HOVER_RADIUS = 15;
+
+// Country center coordinates (approximate)
+const COUNTRY_COORDS = {
+    'Spain': { lat: 40.4, lon: -3.7 },
+    'France': { lat: 46.2, lon: 2.2 },
+    'Germany': { lat: 51.2, lon: 10.4 },
+    'Italy': { lat: 41.9, lon: 12.6 },
+    'United Kingdom': { lat: 55.4, lon: -3.4 },
+    'Portugal': { lat: 39.4, lon: -8.2 },
+    'Netherlands': { lat: 52.1, lon: 5.3 },
+    'Belgium': { lat: 50.5, lon: 4.5 },
+    'Switzerland': { lat: 46.8, lon: 8.2 },
+    'Austria': { lat: 47.5, lon: 14.6 },
+    'Poland': { lat: 51.9, lon: 19.1 },
+    'Sweden': { lat: 60.1, lon: 18.6 },
+    'Norway': { lat: 60.5, lon: 8.5 },
+    'Denmark': { lat: 56.3, lon: 9.5 },
+    'Finland': { lat: 61.9, lon: 25.7 },
+    'Greece': { lat: 39.1, lon: 21.8 },
+    'Czech Republic': { lat: 49.8, lon: 15.5 },
+    'Romania': { lat: 45.9, lon: 24.9 },
+    'Hungary': { lat: 47.2, lon: 19.5 },
+    'Ireland': { lat: 53.4, lon: -8.2 },
+    'Croatia': { lat: 45.1, lon: 15.2 },
+    'United States': { lat: 37.1, lon: -95.7 },
+    'Canada': { lat: 56.1, lon: -106.3 },
+    'Mexico': { lat: 23.6, lon: -102.5 },
+    'Brazil': { lat: -14.2, lon: -51.9 },
+    'Argentina': { lat: -38.4, lon: -63.6 },
+    'Chile': { lat: -35.7, lon: -71.5 },
+    'Colombia': { lat: 4.6, lon: -74.1 },
+    'Peru': { lat: -9.2, lon: -75.0 },
+    'China': { lat: 35.9, lon: 104.2 },
+    'Japan': { lat: 36.2, lon: 138.3 },
+    'India': { lat: 20.6, lon: 78.9 },
+    'South Korea': { lat: 35.9, lon: 127.8 },
+    'Australia': { lat: -25.3, lon: 133.8 },
+    'New Zealand': { lat: -40.9, lon: 174.9 },
+    'Russia': { lat: 61.5, lon: 105.3 },
+    'South Africa': { lat: -30.6, lon: 22.9 },
+    'Egypt': { lat: 26.8, lon: 30.8 },
+    'Morocco': { lat: 31.8, lon: -7.1 },
+    'Turkey': { lat: 38.9, lon: 35.2 },
+    'Saudi Arabia': { lat: 23.9, lon: 45.1 },
+    'UAE': { lat: 23.4, lon: 53.8 },
+    'Israel': { lat: 31.0, lon: 34.9 },
+    'Singapore': { lat: 1.4, lon: 103.8 },
+    'Thailand': { lat: 15.9, lon: 100.9 },
+    'Vietnam': { lat: 14.1, lon: 108.3 },
+    'Philippines': { lat: 12.9, lon: 121.8 },
+    'Indonesia': { lat: -0.8, lon: 113.9 },
+    'Malaysia': { lat: 4.2, lon: 101.9 },
+    'Unknown': { lat: 0, lon: 0 }
+};
 
 // Pixelated world map with visitor markers
 export async function drawWorldMap(canvas, visitors) {
@@ -103,13 +157,17 @@ function renderMap(canvas, ctx) {
             });
         }
 
-        // Draw visitor dots
+        // Draw visitor dots using country center coordinates
         ctx.fillStyle = '#ffd700';
         currentVisitors.forEach(visitor => {
-            const [x, y] = mercatorProjection(visitor.longitude, visitor.latitude);
+            const coords = COUNTRY_COORDS[visitor.country] || COUNTRY_COORDS['Unknown'];
+            const [x, y] = mercatorProjection(coords.lon, coords.lat);
             const dotX = Math.round(x);
             const dotY = Math.round(y);
-            ctx.fillRect(dotX, dotY, 4, 4);
+
+            // Draw larger dot based on visitor count
+            const size = Math.min(8, 4 + Math.log(visitor.count || 1));
+            ctx.fillRect(dotX - size/2, dotY - size/2, size, size);
         });
 
         ctx.restore();
@@ -129,7 +187,8 @@ function renderMap(canvas, ctx) {
     // Update visitor positions for hit detection (with wrapping)
     visitorPositions = [];
     currentVisitors.forEach(visitor => {
-        const [x, y] = mercatorProjection(visitor.longitude, visitor.latitude);
+        const coords = COUNTRY_COORDS[visitor.country] || COUNTRY_COORDS['Unknown'];
+        const [x, y] = mercatorProjection(coords.lon, coords.lat);
         const baseX = Math.round(x) * mapScale;
         const baseY = Math.round(y) * mapScale + mapOffsetY;
 
@@ -141,8 +200,8 @@ function renderMap(canvas, ctx) {
                 visitorPositions.push({
                     x: transformedX,
                     y: baseY,
-                    city: visitor.city,
-                    country: visitor.country
+                    country: visitor.country,
+                    count: visitor.count || 1
                 });
             }
         });
@@ -157,65 +216,36 @@ export function updateVisitorDisplay(data) {
         totalVisitsEl.textContent = data.totalVisits;
     }
     if (uniqueLocationsEl) {
-        const uniqueLocations = new Set(data.visitors.map(v => `${v.city}, ${v.country}`));
-        uniqueLocationsEl.textContent = uniqueLocations.size;
+        const uniqueCountries = new Set(data.visitors.map(v => v.country));
+        uniqueLocationsEl.textContent = uniqueCountries.size;
     }
 
-    // Show only 5 most recent visitors in the list, filtering duplicates within 1 hour
-    const listEl = document.getElementById('visitorsList');
-    if (listEl) {
-        listEl.innerHTML = '';
-
-        const ONE_HOUR_MS = 60 * 60 * 1000;
-        const filteredVisitors = [];
-        const seenLocations = new Map();
-
-        const sortedVisitors = [...data.visitors].reverse();
-
-        for (const visitor of sortedVisitors) {
-            const locationKey = `${visitor.city}, ${visitor.country}`;
-            const visitorTime = new Date(visitor.timestamp).getTime();
-            const lastSeenTime = seenLocations.get(locationKey);
-
-            if (!lastSeenTime || (visitorTime - lastSeenTime > ONE_HOUR_MS)) {
-                filteredVisitors.push(visitor);
-                seenLocations.set(locationKey, visitorTime);
-            }
-        }
-
-        const displayLimit = Math.min(filteredVisitors.length, 5);
-
-        for (let i = 0; i < displayLimit; i++) {
-            const visitor = filteredVisitors[i];
-
-            const entry = document.createElement('div');
-            entry.className = 'visitor-entry';
-
-            const locationSpan = document.createElement('span');
-            locationSpan.className = 'visitor-location';
-            locationSpan.textContent = `${visitor.city}, ${visitor.country}`;
-
-            const timeSpan = document.createElement('span');
-            timeSpan.className = 'visitor-time';
-            const date = new Date(visitor.timestamp);
-            timeSpan.textContent = date.toLocaleString();
-
-            entry.appendChild(locationSpan);
-            entry.appendChild(timeSpan);
-            listEl.appendChild(entry);
-        }
-    }
-
-    // Draw map with visitors
+    // Draw map with visitors (no recent visitors list for privacy)
     const canvas = document.getElementById('visitorCanvas');
     if (canvas) {
-        drawWorldMap(canvas, data.visitors).then(() => {
-            setupMapInteractions(canvas);
+        // Aggregate visitors by country
+        const countryData = new Map();
+        data.visitors.forEach(visitor => {
+            const count = countryData.get(visitor.country) || 0;
+            countryData.set(visitor.country, count + 1);
+        });
+
+        const aggregatedVisitors = Array.from(countryData.entries()).map(([country, count]) => {
+            const visitor = data.visitors.find(v => v.country === country);
+            return {
+                country: country,
+                countryCode: visitor.countryCode,
+                count: count
+            };
+        });
+
+        drawWorldMap(canvas, aggregatedVisitors).then(() => {
+            setupMapInteractions(canvas, aggregatedVisitors);
         });
     }
 }
 
-// Setup zoom, pan, and hover interactions
+// Setup zoom, pan interactions (no hover tooltips)
 function setupMapInteractions(canvas) {
     const isMobile = 'ontouchstart' in window;
 
@@ -228,28 +258,6 @@ function setupMapInteractions(canvas) {
     canvas._listeners = [];
 
     const ctx = canvas.getContext('2d');
-
-    // Create tooltip
-    let tooltip = document.getElementById('mapTooltip');
-    if (!tooltip) {
-        tooltip = document.createElement('div');
-        tooltip.id = 'mapTooltip';
-        tooltip.style.cssText = `
-            position: absolute;
-            background: rgba(0, 0, 0, 0.9);
-            color: #ffd700;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-family: 'Press Start 2P', monospace;
-            pointer-events: none;
-            z-index: 1000;
-            display: none;
-            white-space: nowrap;
-            border: 2px solid #ffd700;
-            transform-origin: bottom center;
-        `;
-        document.body.appendChild(tooltip);
-    }
 
     // Zoom with mouse wheel (desktop)
     const wheelHandler = (e) => {
@@ -296,9 +304,8 @@ function setupMapInteractions(canvas) {
             lastX = e.clientX;
             lastY = e.clientY;
             renderMap(canvas, ctx);
-            tooltip.style.display = 'none';
         } else {
-            // Check hover for tooltip
+            // Check hover for cursor change only
             let found = false;
             for (const visitor of visitorPositions) {
                 const distance = Math.sqrt(
@@ -307,22 +314,6 @@ function setupMapInteractions(canvas) {
                 );
 
                 if (distance < HOVER_RADIUS) {
-                    tooltip.textContent = `${visitor.city}, ${visitor.country}`;
-                    tooltip.style.display = 'block';
-
-                    // Position just above the dot, accounting for canvas CSS scaling
-                    const rect = canvas.getBoundingClientRect();
-                    const scaleX = rect.width / canvas.width;
-                    const scaleY = rect.height / canvas.height;
-
-                    const tooltipX = rect.left + (visitor.x * scaleX);
-                    const tooltipY = rect.top + (visitor.y * scaleY) - 35; // 35px above
-
-                    tooltip.style.fontSize = '10px';
-                    tooltip.style.left = tooltipX + 'px';
-                    tooltip.style.top = tooltipY + 'px';
-                    tooltip.style.transform = 'translateX(-50%)';
-
                     found = true;
                     canvas.style.cursor = 'pointer';
                     break;
@@ -330,7 +321,6 @@ function setupMapInteractions(canvas) {
             }
 
             if (!found) {
-                tooltip.style.display = 'none';
                 canvas.style.cursor = 'grab';
             }
         }
@@ -343,7 +333,6 @@ function setupMapInteractions(canvas) {
 
     const mouseLeaveHandler = () => {
         isPanning = false;
-        tooltip.style.display = 'none';
         canvas.style.cursor = 'default';
     };
 
@@ -369,44 +358,7 @@ function setupMapInteractions(canvas) {
 
         const touchStartHandler = (e) => {
             if (e.touches.length === 1) {
-                // Single touch - check for tap on visitor dot
-                const rect = canvas.getBoundingClientRect();
-                const touchX = e.touches[0].clientX - rect.left;
-                const touchY = e.touches[0].clientY - rect.top;
-
-                for (const visitor of visitorPositions) {
-                    const distance = Math.sqrt(
-                        Math.pow(touchX - visitor.x, 2) +
-                        Math.pow(touchY - visitor.y, 2)
-                    );
-
-                    if (distance < HOVER_RADIUS * 2) {
-                        // Show tooltip on tap
-                        tooltip.textContent = `${visitor.city}, ${visitor.country}`;
-                        tooltip.style.display = 'block';
-
-                        // Position just above the dot, accounting for canvas CSS scaling
-                        const rect = canvas.getBoundingClientRect();
-                        const scaleX = rect.width / canvas.width;
-                        const scaleY = rect.height / canvas.height;
-
-                        const tooltipX = rect.left + (visitor.x * scaleX);
-                        const tooltipY = rect.top + (visitor.y * scaleY) - 35; // 35px above
-
-                        tooltip.style.fontSize = '10px';
-                        tooltip.style.left = tooltipX + 'px';
-                        tooltip.style.top = tooltipY + 'px';
-                        tooltip.style.transform = 'translateX(-50%)';
-
-                        setTimeout(() => {
-                            tooltip.style.display = 'none';
-                        }, 3000);
-
-                        return;
-                    }
-                }
-
-                // Pan start
+                // Single touch - pan start
                 touchStartX = e.touches[0].clientX;
                 touchStartY = e.touches[0].clientY;
             } else if (e.touches.length === 2) {
