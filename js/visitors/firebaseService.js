@@ -8,15 +8,24 @@ const COLLECTION_NAME = 'visitors';
  */
 export async function addVisitor(location) {
     try {
+        console.log('🔥 Firebase addVisitor called with:', location);
+        console.log('🔥 Collection name:', COLLECTION_NAME);
+        console.log('🔥 Database object:', db);
+
         const docRef = await addDoc(collection(db, COLLECTION_NAME), {
             country: location.country,
             countryCode: location.countryCode,
             timestamp: new Date().toISOString()
         });
-        console.log('Visitor country added to Firestore:', location.country);
+
+        console.log('✅ Visitor country added to Firestore:', location.country);
+        console.log('✅ Document ID:', docRef.id);
         return docRef.id;
     } catch (error) {
-        console.error('Error adding visitor to Firestore:', error);
+        console.error('❌ Error adding visitor to Firestore:', error);
+        console.error('❌ Error name:', error.name);
+        console.error('❌ Error message:', error.message);
+        console.error('❌ Error stack:', error.stack);
         throw error;
     }
 }

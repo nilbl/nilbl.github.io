@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Consent</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #0a0a2e;
+            color: #fff;
+            text-align: center;
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            background: #ffd700;
+            border: none;
+            border-radius: 5px;
+        }
+        .log {
+            margin-top: 20px;
+            padding: 20px;
+            background: #1a1a3e;
+            border: 2px solid #ffd700;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧹 Clear Visitor Tracking Consent</h1>
+    <p>This will clear your cached consent so the popup shows again</p>
+
+    <button onclick="clearAndRedirect()">Clear Consent & Go to Site</button>
+
+    <div class="log" id="log"></div>
+
+    <script>
+        function clearAndRedirect() {
+            const before = localStorage.getItem('visitor-tracking-consent');
+            log('Before: visitor-tracking-consent = ' + before);
+
+            localStorage.removeItem('visitor-tracking-consent');
+
+            const after = localStorage.getItem('visitor-tracking-consent');
+            log('After: visitor-tracking-consent = ' + after);
+
+            log('✅ Consent cleared! Redirecting to main site in 2 seconds...');
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        }
+
+        function log(msg) {
+            const logEl = document.getElementById('log');
+            logEl.innerHTML += msg + '<br>';
+            console.log(msg);
+        }
+
+        // Show current status on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const current = localStorage.getItem('visitor-tracking-consent');
+            log('Current consent value: ' + current);
+
+            if (current === null) {
+                log('✅ No consent stored - popup will show on next visit');
+            } else {
+                log('⚠️ Consent is cached as: ' + current);
+            }
+        });
+    </script>
+</body>
+</html>

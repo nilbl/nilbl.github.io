@@ -37,17 +37,16 @@ export function showConsentPopup() {
 
         popup.innerHTML = `
             <h3 style="font-family: 'Press Start 2P', monospace; color: #ffd700; font-size: 0.9rem; margin-bottom: 1rem; text-shadow: 2px 2px 0 #000;">
-                🌍 Anonymous Visitor Stats
+                🌍 Hey Traveler!
             </h3>
-            <p style="font-family: 'Courier New', monospace; color: #fff; font-size: 0.8rem; line-height: 1.8; margin-bottom: 1rem; text-align: left;">
-                <strong style="color: #ffd700;">What we collect:</strong><br>
-                • Your country name only (e.g., "Spain")<br>
-                • No precise location, no IP address<br>
-                • No personal data<br><br>
-                <strong style="color: #ffd700;">Why?</strong><br>
-                To display an anonymous visitor map showing which countries visitors are from.<br><br>
-                <strong style="color: #ffd700;">GDPR Compliant:</strong><br>
-                You can decline with no impact on site functionality.
+            <p style="font-family: 'Courier New', monospace; color: #fff; font-size: 0.85rem; line-height: 1.9; margin-bottom: 1.2rem; text-align: left;">
+                <strong style="color: #ffd700;">Can I add your country to my visitor map?</strong><br><br>
+                I'd love to see where my visitors are from around the world! Here's the deal:<br><br>
+                ✨ <strong>Only your country</strong> (like "Spain" or "Canada")<br>
+                ✨ <strong>No precise location</strong> - I won't know your city<br>
+                ✨ <strong>No personal info</strong> - completely anonymous<br>
+                ✨ <strong>No tracking</strong> - just a cool map!<br><br>
+                <span style="color: #a0a0ff; font-size: 0.75rem;">You can decline and everything will work perfectly 😊</span>
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
                 <button id="consentYes" style="
@@ -60,7 +59,7 @@ export function showConsentPopup() {
                     cursor: pointer;
                     border-radius: 4px;
                     transition: all 0.3s ease;
-                ">ALLOW</button>
+                ">SURE!</button>
                 <button id="consentNo" style="
                     font-family: 'Press Start 2P', monospace;
                     background: rgba(0, 0, 0, 0.5);
@@ -71,7 +70,7 @@ export function showConsentPopup() {
                     cursor: pointer;
                     border-radius: 4px;
                     transition: all 0.3s ease;
-                ">DECLINE</button>
+                ">NO THANKS</button>
             </div>
         `;
 

@@ -158,16 +158,46 @@ function renderMap(canvas, ctx) {
         }
 
         // Draw visitor dots using country center coordinates
-        ctx.fillStyle = '#ffd700';
+        // Size grows based on visitor count for visual impact
         currentVisitors.forEach(visitor => {
             const coords = COUNTRY_COORDS[visitor.country] || COUNTRY_COORDS['Unknown'];
             const [x, y] = mercatorProjection(coords.lon, coords.lat);
             const dotX = Math.round(x);
             const dotY = Math.round(y);
 
-            // Draw larger dot based on visitor count
-            const size = Math.min(8, 4 + Math.log(visitor.count || 1));
+            // Calculate dot size based on visitor count
+            // 1 visitor = 4px, then grows logarithmically up to 16px max
+            const count = visitor.count || 1;
+            let size;
+            if (count === 1) {
+                size = 4; // Single visitor - small dot
+            } else if (count <= 5) {
+                size = 6; // 2-5 visitors - medium dot
+            } else if (count <= 10) {
+                size = 8; // 6-10 visitors - large dot
+            } else if (count <= 20) {
+                size = 11; // 11-20 visitors - very large dot
+            } else if (count <= 50) {
+                size = 14; // 21-50 visitors - huge dot
+            } else {
+                size = 16; // 50+ visitors - maximum size
+            }
+
+            // Color intensity based on visitor count (more visitors = brighter gold)
+            const intensity = Math.min(255, 180 + (count * 3));
+            ctx.fillStyle = `rgb(255, ${intensity}, 0)`;
+
+            // Draw the dot with a slight glow effect for larger dots
+            if (size >= 8) {
+                // Add glow for larger dots
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+                ctx.shadowBlur = size / 2;
+            }
+
             ctx.fillRect(dotX - size/2, dotY - size/2, size, size);
+
+            // Reset shadow
+            ctx.shadowBlur = 0;
         });
 
         ctx.restore();
