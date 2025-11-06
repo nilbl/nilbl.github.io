@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Consent Popup</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #0a0a2e;
+            color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        #log {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1a1a3e;
+            border: 1px solid #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <h1>Consent Popup Test</h1>
+
+    <button onclick="clearStorage()">Clear localStorage</button>
+    <button onclick="testPopup()">Test Popup</button>
+    <button onclick="checkStorage()">Check Storage</button>
+
+    <div id="log"></div>
+
+    <script type="module">
+        import { showConsentPopup } from './js/visitors/consentPopup.js';
+        import { captureVisitorLocation } from './js/visitors/visitorTracker.js';
+
+        window.clearStorage = function() {
+            localStorage.removeItem('visitor-tracking-consent');
+            log('✅ Cleared visitor-tracking-consent from localStorage');
+        };
+
+        window.testPopup = async function() {
+            log('🎯 Testing popup...');
+            try {
+                const result = await showConsentPopup();
+                log('✅ Popup result: ' + result);
+            } catch (error) {
+                log('❌ Error: ' + error.message);
+            }
+        };
+
+        window.checkStorage = function() {
+            const value = localStorage.getItem('visitor-tracking-consent');
+            log('🔍 localStorage value: ' + value);
+        };
+
+        window.testFull = async function() {
+            log('🎯 Testing full capture flow...');
+            try {
+                await captureVisitorLocation();
+                log('✅ Capture complete');
+            } catch (error) {
+                log('❌ Error: ' + error.message);
+            }
+        };
+
+        function log(msg) {
+            const logEl = document.getElementById('log');
+            logEl.innerHTML += msg + '<br>';
+            console.log(msg);
+        }
+
+        // Auto-check on load
+        checkStorage();
+    </script>
+
+    <button onclick="testFull()">Test Full Capture Flow</button>
+</body>
+</html>

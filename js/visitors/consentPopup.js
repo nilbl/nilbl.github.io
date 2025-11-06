@@ -5,6 +5,7 @@
  * @returns {Promise<boolean>} True if user consented, false otherwise
  */
 export function showConsentPopup() {
+    console.log('🎨 showConsentPopup() - Creating popup...');
     return new Promise((resolve) => {
         // Create popup overlay
         const overlay = document.createElement('div');
@@ -99,11 +100,13 @@ export function showConsentPopup() {
 
         // Handle button clicks
         yesBtn.addEventListener('click', () => {
+            console.log('✅ User clicked ALLOW');
             document.body.removeChild(overlay);
             resolve(true);
         });
 
         noBtn.addEventListener('click', () => {
+            console.log('❌ User clicked DECLINE');
             document.body.removeChild(overlay);
             resolve(false);
         });
